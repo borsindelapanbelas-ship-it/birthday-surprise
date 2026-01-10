@@ -1,69 +1,43 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Segoe UI", sans-serif;
-}
-
 body {
-  min-height: 100vh;
-  background: linear-gradient(
-    180deg,
-    #9fd3ff 0%,
-    #b7e4ff 100%
-  );
+  margin: 0;
+  font-family: 'Comic Sans MS', 'Poppins', sans-serif;
+  background: #7db9ff; /* biru lebih biru */
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: center;
-}
-
-.container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+  height: 100vh;
 }
 
 .card {
-  background-color: #ffe6dc;
-  border-radius: 24px;
+  background: #ffe6d8; /* peach light */
   padding: 32px 28px 36px;
-  max-width: 360px;
-  width: 100%;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  width: 320px;
 }
 
 .hachiware {
   width: 120px;
+  margin: 0 auto 18px; /* JARAK KE TEKS */
   display: block;
-  margin: 0 auto 12px;
 }
 
-h1 {
-  font-size: 26px;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 12px;
+.card h1 {
+  margin: 0 0 14px;
+  font-size: 24px;
 }
 
-.subtitle {
+.card p {
+  margin: 0 0 26px; /* JARAK KE TOMBOL */
   font-size: 14px;
-  color: #555;
-  margin-bottom: 28px;
 }
 
 .btn {
   display: inline-block;
-  background-color: #f48b9b;
+  background: #f26b7a;
   color: white;
   text-decoration: none;
   padding: 12px 26px;
   border-radius: 999px;
-  font-weight: 600;
-  transition: background 0.2s ease;
-}
-
-.btn:hover {
-  background-color: #ec7488;
+  font-weight: bold;
 }
