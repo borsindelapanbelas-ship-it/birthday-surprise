@@ -18,9 +18,14 @@ body {
 }
 
 .hachiware {
-  width: 120px;
-  margin: 0 auto 18px; /* JARAK KE TEKS */
-  display: block;
+  margin-bottom: 18px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
 }
 
 .card h1 {
