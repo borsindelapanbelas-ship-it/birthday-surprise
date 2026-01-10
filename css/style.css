@@ -42,19 +42,24 @@ body {
 
 /* HACHIWARE */
 .hachiware {
-  width: 120px;
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 160px;              /* BESARIN */
+  display: block;
+  margin: 0 auto 16px;       /* TENGAH & DI DALAM CARD */
+
   animation: float 3s ease-in-out infinite;
 }
 
-/* FLOATING ANIMATION */
+/* FLOATING HANYA Y AXIS */
 @keyframes float {
-  0% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -10px); }
-  100% { transform: translate(-50%, 0); }
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* TITLE */
@@ -94,9 +99,10 @@ h1 {
 
 /* MOBILE IMPROVEMENT */
 @media (max-width: 480px) {
-  .card {
-    padding: 72px 24px 40px;
+  .hachiware {
+    width: 140px;
   }
+}
 
   h1 {
     font-size: 24px;
