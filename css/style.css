@@ -4,12 +4,18 @@
 
 body {
   margin: 0;
-  height: 100vh;
-  background: #6faeff;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-family: 'Comic Sans MS', 'Poppins', sans-serif;
+  justify-content: center;
+  font-family: 'Comic Neue', 'Poppins', sans-serif;
+
+  background: linear-gradient(
+    180deg,
+    #5aa9ff 0%,
+    #bfe0ff 50%,
+    #ffffff 100%
+  );
 }
 
 .card {
