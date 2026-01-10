@@ -1,72 +1,61 @@
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", Arial, sans-serif;
+  font-family: "Comic Sans MS", "Poppins", sans-serif;
 }
 
-/* BACKGROUND */
 body {
+  margin: 0;
   min-height: 100vh;
-  background: #dfeff4;
+  background: linear-gradient(180deg, #cfe7f5, #eaf4fb);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* CENTER CONTAINER */
-.container {
+.wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-/* CARD */
 .card {
-  background: rgba(255, 255, 255, 0.65);
-  width: 320px;
-  padding: 28px 24px 32px;
+  background: #fde6d8;
+  width: 360px;
+  padding: 32px 24px 40px;
   border-radius: 24px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* STICKER */
 .sticker {
-  width: 110px;
-  height: auto;
-  margin-bottom: 18px;
+  width: 120px;
+  margin-bottom: 16px;
 }
 
-/* TITLE */
-.card h1 {
-  font-size: 22px;
-  font-weight: 600;
+h1 {
+  margin: 12px 0 8px;
+  font-size: 28px;
   color: #333;
-  margin-bottom: 10px;
 }
 
-/* SUBTEXT */
-.card p {
+.subtitle {
   font-size: 14px;
   color: #555;
-  margin-bottom: 26px;
+  margin-bottom: 28px;
 }
 
-/* BUTTON */
-.start-btn {
-  background: #f06277;
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: #f06b85;
   color: white;
-  border: none;
+  text-decoration: none;
   border-radius: 999px;
-  padding: 12px 26px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.start-btn:hover {
+.btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(240, 98, 119, 0.4);
+  box-shadow: 0 6px 14px rgba(240, 107, 133, 0.4);
 }
-
