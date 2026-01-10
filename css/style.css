@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Comic Sans MS', 'Poppins', sans-serif;
-  background: linear-gradient(180deg, #3498db, #ffffff); /* biru lebih biru */
+  background: linear-gradient(180deg, #3498db, #e6f7ff); /* biru lebih biru */
   display: flex;
   flex-direction: column;
   justify-content: center;
