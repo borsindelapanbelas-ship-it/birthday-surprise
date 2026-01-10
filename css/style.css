@@ -34,9 +34,10 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-.character {
-  width: 120px;
-  margin-bottom: 16px;
+.hachiware {
+  width: 200px;
+  display: block;
+  margin: 20px auto;
 }
 
 h1 {
