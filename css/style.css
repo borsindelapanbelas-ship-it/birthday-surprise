@@ -1,63 +1,48 @@
-body {
-  background: pink;
-}
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Fredoka', sans-serif;
 }
 
-/* PAGE 1 BACKGROUND */
-.page-one {
+body.home {
   min-height: 100vh;
-  background: linear-gradient(180deg, #7bb6ff, #4a90e2);
+  background: linear-gradient(180deg, #b3e5ff, #e6f7ff);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-/* CARD TENGAH */
-.card {
-  background: white;
-  padding: 32px;
-  border-radius: 20px;
   text-align: center;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 
-/* JUDUL */
-.card h1 {
-  margin-bottom: 12px;
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 
-/* PARAGRAF */
-.card p {
+p {
+  font-size: 1.1rem;
   margin-bottom: 20px;
-  color: #555;
 }
 
-/* GIF KUCING */
 .cat-gif {
-  width: 200px;
-  margin-bottom: 24px;
+  width: 250px;
+  margin: 20px 0;
 }
 
-/* TOMBOL START */
 .start-btn {
-  display: inline-block;
-  padding: 14px 28px;
-  background: #ff7aa2;
+  margin-top: 20px;
+  padding: 14px 30px;
+  background-color: #ff9ecb;
   color: white;
   text-decoration: none;
-  font-weight: bold;
   border-radius: 999px;
-  transition: 0.3s;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: 0.3s ease;
 }
 
 .start-btn:hover {
-  background: #ff5c8a;
+  background-color: #ff7eb6;
   transform: scale(1.05);
 }
