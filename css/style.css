@@ -20,13 +20,18 @@ body {
 .hachiware {
   width: 120px;
   display: block;
-  margin: 0 auto 20px auto;
+}
+
+.hachiware-float {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
   animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
   100% { transform: translateY(0); }
 }
 
