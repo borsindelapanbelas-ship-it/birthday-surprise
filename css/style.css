@@ -18,7 +18,9 @@ body {
 }
 
 .hachiware {
-  margin-bottom: 18px;
+  width: 120px;
+  display: block;
+  margin: 0 auto 20px auto;
   animation: float 3s ease-in-out infinite;
 }
 
