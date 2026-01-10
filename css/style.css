@@ -20,11 +20,16 @@ body {
 
 .card {
   background: #ffe6d8;
-  padding: 32px 28px 36px;
   border-radius: 20px;
-  width: 320px;
+  padding: 28px 24px;
+
+  width: 90%;
+  max-width: 360px;
+
   text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
+
 
 .hachiware-float {
   animation: float 3s ease-in-out infinite;
