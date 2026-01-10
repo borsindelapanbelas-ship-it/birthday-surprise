@@ -42,26 +42,20 @@ body {
 
 /* HACHIWARE */
 .hachiware {
-  width: 160px;              /* BESARIN */
+  width: 200px;              /* LEBIH BESAR */
+  max-width: 60%;            /* Biar ga kepotong */
   display: block;
-  margin: 0 auto 16px;       /* TENGAH & DI DALAM CARD */
+  margin: 0 auto 20px;
 
   animation: float 3s ease-in-out infinite;
 }
 
 /* FLOATING HANYA Y AXIS */
 @keyframes float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-16px); }
+  100% { transform: translateY(0); }
 }
-
 /* TITLE */
 h1 {
   font-size: 28px;
@@ -100,7 +94,7 @@ h1 {
 /* MOBILE IMPROVEMENT */
 @media (max-width: 480px) {
   .hachiware {
-    width: 140px;
+    width: 170px;
   }
 }
 
