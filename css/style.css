@@ -238,3 +238,11 @@ h1 {
   z-index: 2;
 }
 
+.sparkle {
+  animation: floatUp 7s linear infinite, blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
