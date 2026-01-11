@@ -381,6 +381,20 @@ canvas {
   canvas {
     width: 500px;
   }
+  /* ===== FORCE CANVAS SIZE ===== */
+#gameCanvas {
+  width: 95vw;
+  height: 95vw;
+  max-width: 520px;
+  max-height: 520px;
+}
+@media (min-width: 1024px) {
+  #gameCanvas {
+    width: 600px;
+    height: 600px;
+  }
+}
+
 
   .mobile-controls {
     display: none;
