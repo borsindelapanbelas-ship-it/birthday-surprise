@@ -24,13 +24,14 @@ playerImages.right.src = "assets/images/right.png";
 
 /* ===== PLAYER ===== */
 const player = {
-  x: 0,                      // mulai dari kiri
-  y: CANVAS_SIZE / 2 - 36,   // tengah vertikal
-  width: 48,
-  height: 72,
+  x: 0,
+  y: CANVAS_SIZE / 2 - 20,
+  width: 96,     // SESUAI RASIO ASLI
+  height: 40,    // JANGAN DIUBAH
   speed: 3,
   direction: "right"
 };
+
 
 /* ===== INPUT ===== */
 const keys = {
@@ -100,9 +101,15 @@ function draw() {
   ctx.drawImage(mazeImg, 0, 0, canvas.width, canvas.height);
 
   // player
-  const img = playerImages[player.direction];
-  ctx.drawImage(img, player.x, player.y, player.width, player.height);
+  ctx.drawImage(
+    playerImages[player.direction],
+    player.x,
+    player.y,
+    player.width,
+    player.height
+  );
 }
+
 
 /* ===== GAME LOOP ===== */
 function gameLoop() {
@@ -116,3 +123,9 @@ mazeImg.onload = () => {
   gameLoop();
 };
 
+playerImages.right.onload = () => {
+  console.log(
+    playerImages.right.naturalWidth,
+    playerImages.right.naturalHeight
+  );
+};
