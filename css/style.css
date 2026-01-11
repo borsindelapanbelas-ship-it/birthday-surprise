@@ -163,3 +163,78 @@ h1 {
     opacity: 0;
   }
 }
+/* FLOATING BACKGROUND */
+.floating-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* HEART BASE */
+.heart, .sparkle {
+  position: absolute;
+  bottom: -60px;
+  animation: floatUp linear infinite;
+  opacity: 0;
+}
+
+/* SIZE VARIATION */
+.heart.small { font-size: 20px; }
+.heart.medium { font-size: 28px; }
+.heart.large { font-size: 36px; }
+
+/* SPARKLE */
+.sparkle {
+  font-size: 18px;
+  opacity: 0.6;
+  animation-duration: 8s;
+}
+
+/* RANDOM POSITIONS & SPEED */
+.floating-bg span:nth-child(1) { left: 5%;  animation-duration: 9s; }
+.floating-bg span:nth-child(2) { left: 15%; animation-duration: 11s; }
+.floating-bg span:nth-child(3) { left: 25%; animation-duration: 13s; }
+.floating-bg span:nth-child(4) { left: 35%; animation-duration: 10s; }
+.floating-bg span:nth-child(5) { left: 45%; animation-duration: 12s; }
+.floating-bg span:nth-child(6) { left: 55%; animation-duration: 14s; }
+.floating-bg span:nth-child(7) { left: 65%; animation-duration: 10s; }
+.floating-bg span:nth-child(8) { left: 75%; animation-duration: 12s; }
+.floating-bg span:nth-child(9) { left: 20%; animation-duration: 7s; }
+.floating-bg span:nth-child(10){ left: 40%; animation-duration: 9s; }
+.floating-bg span:nth-child(11){ left: 60%; animation-duration: 8s; }
+.floating-bg span:nth-child(12){ left: 80%; animation-duration: 10s; }
+
+/* FLOAT ANIMATION */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* MOBILE BOOST (BIAR KELIATAN BANGET) */
+@media (max-width: 480px) {
+  .heart.small { font-size: 24px; }
+  .heart.medium { font-size: 32px; }
+  .heart.large { font-size: 42px; }
+
+  .sparkle {
+    font-size: 22px;
+  }
+}
+
+/* ENSURE CARD ON TOP */
+.container {
+  position: relative;
+  z-index: 2;
+}
+
