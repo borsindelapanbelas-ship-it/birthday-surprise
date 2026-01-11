@@ -24,6 +24,8 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24px;
+  position: relative;
+  z-index: 2;
 }
 
 /* CARD */
@@ -104,5 +106,60 @@ h1 {
 
   .hachiware {
     width: 110px;
+  }
+}
+/* FLOATING HEARTS */
+.hearts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hearts span {
+  position: absolute;
+  bottom: -50px;
+  font-size: 24px;
+  opacity: 0.5;
+  animation: floatUp 10s linear infinite;
+}
+
+/* RANDOM POSITION & SPEED */
+.hearts span:nth-child(1) {
+  left: 10%;
+  animation-duration: 12s;
+}
+.hearts span:nth-child(2) {
+  left: 30%;
+  animation-duration: 9s;
+}
+.hearts span:nth-child(3) {
+  left: 50%;
+  animation-duration: 11s;
+}
+.hearts span:nth-child(4) {
+  left: 70%;
+  animation-duration: 10s;
+}
+.hearts span:nth-child(5) {
+  left: 90%;
+  animation-duration: 13s;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-110vh) scale(1.3);
+    opacity: 0;
   }
 }
