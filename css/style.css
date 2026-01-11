@@ -384,3 +384,13 @@ body.page-home {
   align-items: center;
   justify-content: center;
 }
+body {
+  background: none !important;
+}
+body.page-home {
+  background: linear-gradient(
+    to bottom,
+    #4fa3ff,
+    #ffffff
+  ) !important;
+}
