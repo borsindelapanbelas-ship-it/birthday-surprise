@@ -246,3 +246,67 @@ h1 {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 0.9; }
 }
+
+/* ===== GAME PAGE ===== */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: #fff7fb;
+  text-align: center;
+}
+
+.game-page {
+  padding: 16px;
+}
+
+.game-title {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.game-subtitle {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+canvas {
+  background: #ffffff;
+  border: 3px solid #000;
+  image-rendering: pixelated;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== MOBILE CONTROLS ===== */
+.mobile-controls {
+  margin-top: 16px;
+}
+
+.mobile-controls .btn {
+  width: 56px;
+  height: 56px;
+  font-size: 20px;
+  border-radius: 50%;
+  border: none;
+  background: #ffb6d5;
+  color: #000;
+  margin: 4px;
+}
+
+.mobile-controls .middle {
+  display: flex;
+  justify-content: center;
+}
+
+/* Hide mobile buttons on desktop */
+@media (min-width: 768px) {
+  .mobile-controls {
+    display: none;
+  }
+}
