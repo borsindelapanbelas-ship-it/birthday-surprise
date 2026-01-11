@@ -310,3 +310,79 @@ canvas {
     display: none;
   }
 }
+/* ===== GAME PAGE ===== */
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background: #fff0f7;
+  text-align: center;
+}
+
+.game-page {
+  padding: 12px;
+}
+
+.game-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.game-subtitle {
+  font-size: 14px;
+  margin-bottom: 10px;
+  padding: 0 8px;
+}
+
+/* ===== GAME AREA ===== */
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  width: 96vw;          /* hampir full layar HP */
+  max-width: 420px;     /* biar gak kegedean di tablet */
+  aspect-ratio: 1 / 1;  /* maze tetap kotak */
+  background: #ffffff;
+  border: 3px solid #000;
+  border-radius: 12px;
+  image-rendering: pixelated;
+}
+
+/* ===== MOBILE CONTROLS ===== */
+.mobile-controls {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-controls .btn {
+  width: 64px;
+  height: 64px;
+  font-size: 22px;
+  border-radius: 50%;
+  border: none;
+  background: #ffb6d5;
+  color: #000;
+  box-shadow: 0 4px 0 #e89ab9;
+}
+
+.mobile-controls .middle {
+  display: flex;
+  gap: 28px; /* JARAK KIRI KANAN */
+}
+
+/* Hide mobile buttons on desktop */
+@media (min-width: 768px) {
+  canvas {
+    width: 500px;
+  }
+
+  .mobile-controls {
+    display: none;
+  }
+}
