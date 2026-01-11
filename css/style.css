@@ -6,7 +6,7 @@
 }
 
 /* BACKGROUND */
-body {
+.body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   background: linear-gradient(
@@ -248,12 +248,6 @@ h1 {
 }
 
 /* ===== GAME PAGE ===== */
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: #fff7fb;
-  text-align: center;
-}
 
 .game-page {
   padding: 16px;
