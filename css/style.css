@@ -346,10 +346,8 @@ h1 {
   }
   /* ===== FORCE CANVAS SIZE ===== */
 #gameCanvas {
-  width: 90vmin;        /* hampir full layar, HP & laptop */
-  height: 90vmin;
-  max-width: 520px;
-  max-height: 520px;
+  width: min(90vmin, 520px);
+  height: min(90vmin, 520px);
 
   border: 3px solid #000;
   border-radius: 14px;
