@@ -248,16 +248,7 @@ h1 {
 }
 
 /* ===== GAME PAGE ===== */
-.body {
-  min-height: 100vh;
-  font-family: 'Nunito', sans-serif;
-  background: linear-gradient(
-    to bottom,
-    #4fa3ff 0%,
-    #a9d3ff 45%,
-    #ffffff 100%
-  );
-}
+
 .game-page {
   padding: 16px;
 }
@@ -275,15 +266,16 @@ h1 {
 .game-wrapper {
   display: flex;
   justify-content: center;
-  margin: 0 auto;
+  margin-top: 20px;
 }
 
 canvas {
-  background: #ffffff;
+  width: 90vmin;        /* auto menyesuaikan layar */
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
   border: 3px solid #000;
+  border-radius: 14px;
   image-rendering: pixelated;
-  max-width: 100%;
-  height: auto;
 }
 
 /* ===== MOBILE CONTROLS ===== */
@@ -329,23 +321,6 @@ canvas {
   font-size: 14px;
   margin-bottom: 10px;
   padding: 0 8px;
-}
-
-/* ===== GAME AREA ===== */
-.game-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-canvas {
-  width: 96vw;          /* hampir full layar HP */
-  max-width: 420px;     /* biar gak kegedean di tablet */
-  aspect-ratio: 1 / 1;  /* maze tetap kotak */
-  background: #ffffff;
-  border: 3px solid #000;
-  border-radius: 12px;
-  image-rendering: pixelated;
 }
 
 /* ===== MOBILE CONTROLS ===== */
