@@ -361,3 +361,26 @@ h1 {
     display: none;
   }
 }
+
+/* =====================
+   PAGE 1 – HOME
+   ===================== */
+
+body.page-home {
+  min-height: 100vh;
+  margin: 0;
+
+  background: linear-gradient(
+    to bottom,
+    #4fa3ff 0%,
+    #a9d3ff 45%,
+    #ffffff 100%
+  );
+
+  font-family: 'Nunito', sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
