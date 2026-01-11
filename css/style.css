@@ -311,12 +311,6 @@ canvas {
   }
 }
 /* ===== GAME PAGE ===== */
-body {
-  margin: 0;
-  font-family: 'Quicksand', sans-serif;
-  background: #fff0f7;
-  text-align: center;
-}
 
 .game-page {
   padding: 12px;
