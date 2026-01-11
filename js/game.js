@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 /* ===== CANVAS SIZE (LOGIC SIZE) ===== */
-const CANVAS_SIZE = 500;
+const CANVAS_SIZE = 520;
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
