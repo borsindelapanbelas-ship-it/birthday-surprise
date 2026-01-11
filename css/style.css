@@ -248,7 +248,16 @@ h1 {
 }
 
 /* ===== GAME PAGE ===== */
-
+.body {
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(
+    to bottom,
+    #4fa3ff 0%,
+    #a9d3ff 45%,
+    #ffffff 100%
+  );
+}
 .game-page {
   padding: 16px;
 }
