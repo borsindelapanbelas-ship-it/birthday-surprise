@@ -21,7 +21,7 @@ body {
   position: relative;
 }
 
-/* FLOATING EMOJIS */
+/* FLOATING EMOJIS – FIX SPEED & DENSITY */
 .floating-emojis {
   position: fixed;
   inset: 0;
@@ -32,35 +32,46 @@ body {
 
 .floating-emojis span {
   position: absolute;
+  bottom: -60px;
   font-size: clamp(18px, 4vw, 30px);
   opacity: 0.85;
-  font-size: clamp(20px, 5vw, 34px); /* lebih keliatan */
-
-  left: calc(var(--x) * 1%);
-  top: calc(var(--y) * 1%);
-
-  animation:
-    floatUp var(--dur) linear infinite,
-    sway 3s ease-in-out infinite alternate;
+  animation-name: floatUp;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
+
+/* BANYAK + CEPAT */
+.floating-emojis span:nth-child(odd) {
+  animation-duration: 6s;
+}
+.floating-emojis span:nth-child(even) {
+  animation-duration: 8s;
+}
+
+/* POSISI ACAK */
+.floating-emojis span:nth-child(1)  { left: 5%;  animation-delay: 0s; }
+.floating-emojis span:nth-child(2)  { left: 15%; animation-delay: 1s; }
+.floating-emojis span:nth-child(3)  { left: 25%; animation-delay: 2s; }
+.floating-emojis span:nth-child(4)  { left: 35%; animation-delay: 3s; }
+.floating-emojis span:nth-child(5)  { left: 45%; animation-delay: 0.5s; }
+.floating-emojis span:nth-child(6)  { left: 55%; animation-delay: 1.5s; }
+.floating-emojis span:nth-child(7)  { left: 65%; animation-delay: 2.5s; }
+.floating-emojis span:nth-child(8)  { left: 75%; animation-delay: 3.5s; }
+.floating-emojis span:nth-child(9)  { left: 85%; animation-delay: 1s; }
+.floating-emojis span:nth-child(10) { left: 95%; animation-delay: 2s; }
 
 @keyframes floatUp {
   from {
     transform: translateY(0);
+    opacity: 0;
   }
+  10% { opacity: 0.85; }
   to {
     transform: translateY(-120vh);
+    opacity: 0;
   }
 }
 
-@keyframes sway {
-  from {
-    translate: -6px 0;
-  }
-  to {
-    translate: 6px 0;
-  }
-}
 
 /* CENTER CONTAINER */
 .container {
@@ -175,5 +186,33 @@ h1 {
 @media (max-width: 389px) {
   .card {
     transform: scale(1);
+  }
+}
+/* ===============================
+   MOBILE CARD SIZE FIX (REAL)
+   =============================== */
+
+@media (max-height: 720px) {
+  .card {
+    max-height: 85svh;
+    overflow: auto;
+    padding: 20px 18px 24px;
+  }
+
+  .character {
+    width: 100px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .quote-box {
+    font-size: 14px;
+    padding: 14px;
   }
 }
