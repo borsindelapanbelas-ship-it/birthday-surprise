@@ -2,24 +2,42 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
 }
 
 body {
   min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
 }
 
 .background {
-  position: relative;
   min-height: 100vh;
   background: linear-gradient(to bottom, #5fa8ff, #eef6ff);
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-/* CENTER CARD */
+/* FLOATING EMOJI */
+.floating-layer span {
+  position: absolute;
+  font-size: 20px;
+  animation: float 6s ease-in-out infinite;
+  opacity: .8;
+}
+
+.floating-layer span:nth-child(1) { top: 12%; left: 10%; }
+.floating-layer span:nth-child(2) { top: 20%; right: 12%; animation-delay: 1s; }
+.floating-layer span:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 2s; }
+.floating-layer span:nth-child(4) { bottom: 14%; right: 18%; animation-delay: 3s; }
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* CENTER */
 .container {
   width: 100%;
   display: flex;
@@ -27,50 +45,59 @@ body {
   padding: 24px;
 }
 
+/* CARD RESPONSIVE */
 .card {
-  width: 100%;
-  max-width: 420px;
+  width: min(92vw, 460px);
   background: #fde8d8;
-  border-radius: 24px;
-  padding: 24px 20px 32px;
+  border-radius: 26px;
+  padding: 26px 22px 32px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,.15);
+  box-shadow: 0 22px 45px rgba(0,0,0,.18);
 }
 
 /* QUOTE */
 .quote-box {
-  background: rgba(255,255,255,0.55);
-  padding: 16px;
-  border-radius: 16px;
-  font-size: 14px;
+  background: rgba(255,255,255,.6);
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
   line-height: 1.6;
-  margin-bottom: 16px;
 }
 
 .quote-box span {
   display: block;
   margin-top: 10px;
-  font-size: 12px;
+  font-size: 13px;
   opacity: .7;
 }
 
-/* CHARACTER */
+/* CHARACTER FLOAT */
 .character {
   width: 120px;
-  margin: 12px auto;
+  margin: 14px auto;
+  animation: float-soft 4s ease-in-out infinite;
+}
+
+@keyframes float-soft {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* TITLE */
 h1 {
-  font-size: 22px;
+  text-align: center;
+  font-size: 24px;
   font-weight: 700;
-  margin: 12px 0 6px;
+  margin: 12px 0 8px;
 }
 
+/* SUB */
 .subtitle {
   font-size: 14px;
   opacity: .75;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 /* BUTTON */
@@ -78,40 +105,24 @@ h1 {
   display: inline-block;
   background: #ff6f91;
   color: #fff;
-  padding: 12px 26px;
+  padding: 12px 28px;
   border-radius: 999px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 10px 20px rgba(255,111,145,.4);
+  box-shadow: 0 10px 22px rgba(255,111,145,.45);
 }
 
-/* FLOATING EMOJI */
-.floating-emoji {
-  position: absolute;
-  font-size: 20px;
-  animation: float 6s infinite ease-in-out;
-}
-
-.floating-emoji:nth-child(1) { top: 10%; left: 8%; }
-.floating-emoji:nth-child(2) { top: 18%; right: 10%; }
-.floating-emoji:nth-child(3) { bottom: 15%; left: 12%; }
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
-}
-
-/* OPPO / HP KECIL */
+/* OPPO KECIL */
 @media (max-width: 360px) {
   .card {
-    padding: 20px 16px 28px;
+    padding: 22px 18px 28px;
   }
 
   h1 {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .character {
-    width: 100px;
+    width: 110px;
   }
 }
