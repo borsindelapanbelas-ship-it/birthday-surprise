@@ -1,111 +1,142 @@
-/* RESET */
+/* =====================
+   RESET & GLOBAL
+===================== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html {
-  font-size: 18px;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  background: #5aa9ff;
 }
 
-body.page-home {
+/* =====================
+   BACKGROUND
+===================== */
+.background {
+  position: relative; /* PENTING untuk emoji */
   min-height: 100vh;
-  font-family: 'Nunito', sans-serif;
-  background: linear-gradient(to bottom, #4fa3ff, #ffffff);
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  background: linear-gradient(to bottom, #5aa9ff, #e9f3ff);
+  overflow: hidden;
 }
 
-/* BACKGROUND FLOAT */
-.floating-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* CONTAINER */
+/* =====================
+   CENTER CONTAINER
+===================== */
 .container {
-  width: 100%;
-  max-width: 430px;
-  padding: 24px 16px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  z-index: 2;
+  align-items: center;
+  padding: 20px;
 }
 
-/* MAIN CARD */
-.main-card {
-  width: 100%;
+/* =====================
+   CARD (RESPONSIVE)
+===================== */
+.card {
+  width: min(90vw, 380px);
+  max-height: 90vh;
   background: #ffe9dc;
-  border-radius: 28px;
-  padding: 28px 22px 32px;
+  border-radius: 26px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  overflow: auto; /* Aman jika layar kecil */
+}
+
+/* =====================
+   QUOTE BOX
+===================== */
+.quote-box {
+  background: #fff4ec;
+  border-radius: 16px;
+  padding: 14px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 
-/* VERSE */
-.verse-box {
-  background: #fff2e9;
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 20px;
+.quote-box p {
+  font-size: clamp(13px, 2.8vw, 15px);
+  line-height: 1.5;
+  color: #5a4a42;
 }
 
-.verse {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #2f3e55;
+.quote-box span {
+  font-size: clamp(12px, 2.6vw, 13px);
+  color: #8a7a72;
 }
 
-.verse-ref {
-  display: block;
-  margin-top: 8px;
-  font-size: 0.85rem;
-  opacity: 0.7;
+/* =====================
+   CHARACTER IMAGE
+===================== */
+.character {
+  width: clamp(80px, 22vw, 100px);
+  height: auto;
 }
 
-/* STICKER */
-.hachiware {
-  width: 140px;
-  margin: 10px auto 14px;
-  display: block;
-}
-
-/* TITLE */
-h1 {
-  font-size: 1.6rem;
-  font-weight: 900;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-/* SUBTITLE */
-.subtitle {
-  font-size: 1rem;
-  margin-bottom: 18px;
-  color: #555;
-}
-
-/* BUTTON */
-.btn {
-  display: inline-block;
-  background: #ff6f8d;
-  color: #fff;
-  padding: 14px 28px;
-  border-radius: 999px;
-  text-decoration: none;
+/* =====================
+   TITLE & SUBTITLE
+===================== */
+.title {
+  font-size: clamp(18px, 4.5vw, 22px);
   font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 8px 20px rgba(255,111,141,.5);
+  color: #333;
+  text-align: center;
 }
 
-/* EXTRA SMALL PHONE */
-@media (max-width: 360px) {
-  html { font-size: 17px; }
-  .hachiware { width: 120px; }
+.subtitle {
+  font-size: clamp(13px, 3vw, 15px);
+  color: #555;
+  text-align: center;
 }
+
+/* =====================
+   BUTTON
+===================== */
+.start-btn {
+  margin-top: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ff6f91, #ff8fab);
+  color: white;
+  font-size: clamp(14px, 3.5vw, 16px);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 111, 145, 0.45);
+  transition: transform 0.2s ease;
+}
+
+.start-btn:hover {
+  transform: scale(1.05);
+}
+
+/* =====================
+   FLOATING EMOJI
+===================== */
+.floating-emoji {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* =====================
+   MOBILE EXTRA SAFE
+===================== */
+@media (max-height: 650px) {
+  .card {
+    max-height: 85vh;
+    gap: 12px;
+    padding: 18px 14px;
+  }
+}
+
