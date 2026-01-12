@@ -394,7 +394,6 @@ body.page-home {
     #ffffff
   ) !important;
 }
-/* BIBLE VERSE BELOW CARD */
 .verse {
   margin-top: 32px;
   padding: 0 16px;
@@ -424,4 +423,42 @@ body.page-home {
   .verse {
     font-size: 13px;
   }
+}
+/* CONTAINER FIX */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* CARD FIX */
+.card {
+  position: relative; /* PENTING */
+  z-index: 2;
+}
+
+/* VERSE FIX */
+.verse {
+  max-width: 720px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #1f2d3d;
+  margin-top: 24px;
+  padding: 0 24px;
+  z-index: 2;
+}
+
+/* VERSE SOURCE */
+.verse span {
+  font-size: 14px;
+  opacity: 0.7;
+}
+.verse {
+  font-family: "Playfair Display", serif;
 }
