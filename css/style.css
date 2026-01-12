@@ -1,17 +1,20 @@
+/* ================= RESET ================= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ================= BODY ================= */
 body {
-  min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
+  min-height: 100svh;
+  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
 }
 
+/* ================= BACKGROUND ================= */
 .background {
-  min-height: 100vh;
+  min-height: 100svh;
   background: linear-gradient(to bottom, #5fa8ff, #eef6ff);
   display: flex;
   justify-content: center;
@@ -19,110 +22,137 @@ body {
   position: relative;
 }
 
-/* FLOATING EMOJI */
-.floating-layer span {
+/* ================= FLOATING EMOJIS ================= */
+.floating-emojis {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-emojis span {
   position: absolute;
-  font-size: 20px;
-  animation: float 6s ease-in-out infinite;
-  opacity: .8;
+  font-size: clamp(18px, 4vw, 26px);
+  opacity: 0.85;
+  animation: float-vertical 8s linear infinite;
 }
 
-.floating-layer span:nth-child(1) { top: 12%; left: 10%; }
-.floating-layer span:nth-child(2) { top: 20%; right: 12%; animation-delay: 1s; }
-.floating-layer span:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 2s; }
-.floating-layer span:nth-child(4) { bottom: 14%; right: 18%; animation-delay: 3s; }
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
+.floating-emojis span:nth-child(1) {
+  left: 12%;
+  animation-delay: 0s;
+}
+.floating-emojis span:nth-child(2) {
+  left: 48%;
+  animation-delay: 2s;
+}
+.floating-emojis span:nth-child(3) {
+  left: 78%;
+  animation-delay: 4s;
 }
 
-/* CENTER */
+@keyframes float-vertical {
+  from {
+    transform: translateY(110svh);
+  }
+  to {
+    transform: translateY(-120px);
+  }
+}
+
+/* ================= CONTAINER ================= */
 .container {
   width: 100%;
+  padding: 24px;
   display: flex;
   justify-content: center;
-  padding: 24px;
+  position: relative;
+  z-index: 1;
 }
 
-/* CARD RESPONSIVE */
+/* ================= CARD ================= */
 .card {
-  width: min(92vw, 460px);
+  width: min(94vw, 460px);
   background: #fde8d8;
-  border-radius: 26px;
-  padding: 26px 22px 32px;
+  border-radius: 28px;
+  padding: clamp(22px, 5vw, 32px);
   text-align: center;
-  box-shadow: 0 22px 45px rgba(0,0,0,.18);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.18);
 }
 
-/* QUOTE */
+/* ================= QUOTE ================= */
 .quote-box {
-  background: rgba(255,255,255,.6);
-  padding: 18px;
+  background: rgba(255, 255, 255, 0.65);
+  padding: clamp(16px, 4vw, 22px);
   border-radius: 18px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   font-family: 'Playfair Display', serif;
-  font-size: 15px;
+  font-size: clamp(15px, 4vw, 17px);
   line-height: 1.6;
+  text-align: center;
 }
 
 .quote-box span {
   display: block;
   margin-top: 10px;
-  font-size: 13px;
-  opacity: .7;
+  font-size: clamp(13px, 3.5vw, 14px);
+  opacity: 0.7;
 }
 
-/* CHARACTER FLOAT */
+/* ================= CHARACTER ================= */
 .character {
-  width: 120px;
-  margin: 14px auto;
+  width: clamp(110px, 35vw, 140px);
+  margin: 16px auto;
   animation: float-soft 4s ease-in-out infinite;
 }
 
 @keyframes float-soft {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
-/* TITLE */
+/* ================= TITLE ================= */
 h1 {
-  text-align: center;
-  font-size: 24px;
+  font-size: clamp(22px, 6vw, 30px);
   font-weight: 700;
-  margin: 12px 0 8px;
+  margin: 14px 0 10px;
+  text-align: center;
 }
 
-/* SUB */
+/* ================= SUBTITLE ================= */
 .subtitle {
-  font-size: 14px;
-  opacity: .75;
-  margin-bottom: 18px;
+  font-size: clamp(14px, 4vw, 16px);
+  opacity: 0.75;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-/* BUTTON */
+/* ================= BUTTON ================= */
 .start-btn {
   display: inline-block;
   background: #ff6f91;
-  color: #fff;
-  padding: 12px 28px;
+  color: #ffffff;
+  padding: clamp(12px, 4vw, 14px) clamp(26px, 8vw, 32px);
   border-radius: 999px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 10px 22px rgba(255,111,145,.45);
+  box-shadow: 0 10px 22px rgba(255, 111, 145, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* OPPO KECIL */
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(255, 111, 145, 0.55);
+}
+
+/* ================= EXTRA SMALL DEVICES (OPPO) ================= */
 @media (max-width: 360px) {
   .card {
-    padding: 22px 18px 28px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-
-  .character {
-    width: 110px;
+    border-radius: 24px;
   }
 }
+
