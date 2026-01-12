@@ -394,3 +394,34 @@ body.page-home {
     #ffffff
   ) !important;
 }
+/* BIBLE VERSE BELOW CARD */
+.verse {
+  margin-top: 32px;
+  padding: 0 16px;
+  max-width: 420px;
+  text-align: center;
+
+  font-size: 14px;
+  line-height: 1.7;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+
+  position: relative;
+  z-index: 2;
+}
+
+.verse span {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* MOBILE FRIENDLY */
+@media (max-width: 480px) {
+  .verse {
+    font-size: 13px;
+  }
+}
