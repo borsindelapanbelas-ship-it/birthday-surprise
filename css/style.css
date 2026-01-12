@@ -1,142 +1,117 @@
-/* =====================
-   RESET & GLOBAL
-===================== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-  background: #5aa9ff;
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* =====================
-   BACKGROUND
-===================== */
 .background {
-  position: relative; /* PENTING untuk emoji */
+  position: relative;
   min-height: 100vh;
-  width: 100%;
-  background: linear-gradient(to bottom, #5aa9ff, #e9f3ff);
-  overflow: hidden;
-}
-
-/* =====================
-   CENTER CONTAINER
-===================== */
-.container {
-  min-height: 100vh;
+  background: linear-gradient(to bottom, #5fa8ff, #eef6ff);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 
-/* =====================
-   CARD (RESPONSIVE)
-===================== */
-.card {
-  width: min(90vw, 380px);
-  max-height: 90vh;
-  background: #ffe9dc;
-  border-radius: 26px;
-  padding: 22px 18px;
+/* CENTER CARD */
+.container {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  overflow: auto; /* Aman jika layar kecil */
+  justify-content: center;
+  padding: 24px;
 }
 
-/* =====================
-   QUOTE BOX
-===================== */
-.quote-box {
-  background: #fff4ec;
-  border-radius: 16px;
-  padding: 14px;
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #fde8d8;
+  border-radius: 24px;
+  padding: 24px 20px 32px;
   text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,.15);
 }
 
-.quote-box p {
-  font-size: clamp(13px, 2.8vw, 15px);
-  line-height: 1.5;
-  color: #5a4a42;
+/* QUOTE */
+.quote-box {
+  background: rgba(255,255,255,0.55);
+  padding: 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
 
 .quote-box span {
-  font-size: clamp(12px, 2.6vw, 13px);
-  color: #8a7a72;
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: .7;
 }
 
-/* =====================
-   CHARACTER IMAGE
-===================== */
+/* CHARACTER */
 .character {
-  width: clamp(80px, 22vw, 100px);
-  height: auto;
+  width: 120px;
+  margin: 12px auto;
 }
 
-/* =====================
-   TITLE & SUBTITLE
-===================== */
-.title {
-  font-size: clamp(18px, 4.5vw, 22px);
+/* TITLE */
+h1 {
+  font-size: 22px;
   font-weight: 700;
-  color: #333;
-  text-align: center;
+  margin: 12px 0 6px;
 }
 
 .subtitle {
-  font-size: clamp(13px, 3vw, 15px);
-  color: #555;
-  text-align: center;
+  font-size: 14px;
+  opacity: .75;
+  margin-bottom: 16px;
 }
 
-/* =====================
-   BUTTON
-===================== */
+/* BUTTON */
 .start-btn {
-  margin-top: 8px;
-  padding: 12px 22px;
+  display: inline-block;
+  background: #ff6f91;
+  color: #fff;
+  padding: 12px 26px;
   border-radius: 999px;
-  border: none;
-  background: linear-gradient(135deg, #ff6f91, #ff8fab);
-  color: white;
-  font-size: clamp(14px, 3.5vw, 16px);
   font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(255, 111, 145, 0.45);
-  transition: transform 0.2s ease;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(255,111,145,.4);
 }
 
-.start-btn:hover {
-  transform: scale(1.05);
-}
-
-/* =====================
-   FLOATING EMOJI
-===================== */
+/* FLOATING EMOJI */
 .floating-emoji {
   position: absolute;
-  font-size: 18px;
-  opacity: 0.8;
-  pointer-events: none;
+  font-size: 20px;
+  animation: float 6s infinite ease-in-out;
 }
 
-/* =====================
-   MOBILE EXTRA SAFE
-===================== */
-@media (max-height: 650px) {
+.floating-emoji:nth-child(1) { top: 10%; left: 8%; }
+.floating-emoji:nth-child(2) { top: 18%; right: 10%; }
+.floating-emoji:nth-child(3) { bottom: 15%; left: 12%; }
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* OPPO / HP KECIL */
+@media (max-width: 360px) {
   .card {
-    max-height: 85vh;
-    gap: 12px;
-    padding: 18px 14px;
+    padding: 20px 16px 28px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .character {
+    width: 100px;
   }
 }
-
