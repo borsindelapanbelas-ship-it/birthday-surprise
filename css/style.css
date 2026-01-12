@@ -499,3 +499,26 @@ body.page-home {
     line-height: 1.5;
   }
 }
+.card {
+  padding: 32px 24px;
+}
+
+.verse {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.verse-ref {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+@media (max-width: 480px) {
+  .card {
+    padding: 24px 18px;
+  }
+
+  .verse {
+    font-size: 0.95rem;
+  }
+}
