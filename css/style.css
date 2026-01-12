@@ -1,8 +1,6 @@
-/* RESET */
-html {
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-}
+/* =====================
+   RESET & BASE
+   ===================== */
 
 * {
   box-sizing: border-box;
@@ -10,165 +8,36 @@ html {
   padding: 0;
 }
 
-/* BACKGROUND */
-.body {
-  min-height: 100vh;
+html {
+  font-size: 18px;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+body {
   font-family: 'Nunito', sans-serif;
+}
+
+/* =====================
+   PAGE HOME BACKGROUND
+   ===================== */
+
+body.page-home {
+  min-height: 100vh;
   background: linear-gradient(
     to bottom,
     #4fa3ff 0%,
     #a9d3ff 45%,
     #ffffff 100%
   );
-}
-
-/* CENTER CONTAINER */
-.container {
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 120px;
-  padding-bottom: 48px;
+  justify-content: center;
 }
 
+/* =====================
+   FLOATING EMOJI
+   ===================== */
 
-/* CARD */
-.card {
-  background: #ffe9dc; /* peach light */
-  width: 100%;
-  max-width: 420px;
-  padding: 64px 32px 40px;
-  border-radius: 28px;
-  text-align: center;
-  position: relative;
-
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* HACHIWARE */
-.hachiware {
-  width: 220px;              /* LEBIH BESAR */
-  max-width: 60%;            /* Biar ga kepotong */
-  display: block;
-  margin: 0 auto 20px;
-
-  animation: float 3s ease-in-out infinite;
-}
-
-/* FLOATING HANYA Y AXIS */
-@keyframes float {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-16px); }
-  100% { transform: translateY(0); }
-}
-/* TITLE */
-h1 {
-  font-size: 28px;
-  font-weight: 900;
-  color: #333;
-  margin-bottom: 16px;
-}
-
-/* SUBTITLE */
-.subtitle {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 28px;
-}
-
-/* BUTTON */
-.btn {
-  display: inline-block;
-  background: #ff6f8d;
-  color: white;
-  padding: 14px 28px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 16px;
-
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 8px 20px rgba(255, 111, 141, 0.5);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(255, 111, 141, 0.6);
-}
-
-/* MOBILE IMPROVEMENT */
-@media (max-width: 480px) {
-  .hachiware {
-    width: 170px;
-  }
-}
-
-  h1 {
-    font-size: 24px;
-  }
-
-  .hachiware {
-    width: 110px;
-  }
-}
-/* FLOATING HEARTS */
-.hearts {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.hearts span {
-  position: absolute;
-  bottom: -50px;
-  font-size: 24px;
-  opacity: 0.5;
-  animation: floatUp 10s linear infinite;
-}
-
-/* RANDOM POSITION & SPEED */
-.hearts span:nth-child(1) {
-  left: 10%;
-  animation-duration: 12s;
-}
-.hearts span:nth-child(2) {
-  left: 30%;
-  animation-duration: 9s;
-}
-.hearts span:nth-child(3) {
-  left: 50%;
-  animation-duration: 11s;
-}
-.hearts span:nth-child(4) {
-  left: 70%;
-  animation-duration: 10s;
-}
-.hearts span:nth-child(5) {
-  left: 90%;
-  animation-duration: 13s;
-}
-
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(-110vh) scale(1.3);
-    opacity: 0;
-  }
-}
-/* FLOATING BACKGROUND */
 .floating-bg {
   position: fixed;
   inset: 0;
@@ -177,48 +46,39 @@ h1 {
   z-index: 0;
 }
 
-/* HEART BASE */
-.heart, .sparkle {
+.heart,
+.sparkle {
   position: absolute;
   bottom: -60px;
-  animation: floatUp linear infinite;
   opacity: 0;
+  animation: floatUp linear infinite;
 }
 
-/* SIZE VARIATION */
-.heart.small { font-size: 20px; }
-.heart.medium { font-size: 28px; }
-.heart.large { font-size: 36px; }
+.heart.small { font-size: 22px; }
+.heart.medium { font-size: 30px; }
+.heart.large { font-size: 40px; }
 
-/* SPARKLE */
 .sparkle {
-  font-size: 18px;
-  opacity: 0.6;
-  animation-duration: 8s;
+  font-size: 22px;
+  animation-duration: 7s;
 }
 
-/* RANDOM POSITIONS & SPEED */
-.floating-bg span:nth-child(1) { left: 5%;  animation-duration: 9s; }
-.floating-bg span:nth-child(2) { left: 15%; animation-duration: 11s; }
-.floating-bg span:nth-child(3) { left: 25%; animation-duration: 13s; }
-.floating-bg span:nth-child(4) { left: 35%; animation-duration: 10s; }
-.floating-bg span:nth-child(5) { left: 45%; animation-duration: 12s; }
-.floating-bg span:nth-child(6) { left: 55%; animation-duration: 14s; }
-.floating-bg span:nth-child(7) { left: 65%; animation-duration: 10s; }
-.floating-bg span:nth-child(8) { left: 75%; animation-duration: 12s; }
-.floating-bg span:nth-child(9) { left: 20%; animation-duration: 7s; }
-.floating-bg span:nth-child(10){ left: 40%; animation-duration: 9s; }
-.floating-bg span:nth-child(11){ left: 60%; animation-duration: 8s; }
-.floating-bg span:nth-child(12){ left: 80%; animation-duration: 10s; }
+.floating-bg span:nth-child(1) { left: 10%; animation-duration: 9s; }
+.floating-bg span:nth-child(2) { left: 30%; animation-duration: 11s; }
+.floating-bg span:nth-child(3) { left: 50%; animation-duration: 13s; }
+.floating-bg span:nth-child(4) { left: 70%; animation-duration: 10s; }
+.floating-bg span:nth-child(5) { left: 90%; animation-duration: 12s; }
+.floating-bg span:nth-child(6) { left: 20%; animation-duration: 8s; }
+.floating-bg span:nth-child(7) { left: 40%; animation-duration: 10s; }
+.floating-bg span:nth-child(8) { left: 60%; animation-duration: 9s; }
 
-/* FLOAT ANIMATION */
 @keyframes floatUp {
   0% {
     transform: translateY(0) scale(1);
     opacity: 0;
   }
-  10% {
-    opacity: 0.8;
+  15% {
+    opacity: 0.9;
   }
   100% {
     transform: translateY(-120vh) scale(1.4);
@@ -226,411 +86,105 @@ h1 {
   }
 }
 
-/* MOBILE BOOST (BIAR KELIATAN BANGET) */
-@media (max-width: 480px) {
-  .heart.small { font-size: 24px; }
-  .heart.medium { font-size: 32px; }
-  .heart.large { font-size: 42px; }
-
-  .sparkle {
-    font-size: 22px;
-  }
-}
-
-/* ENSURE CARD ON TOP */
-.container {
-  position: relative;
-  z-index: 2;
-}
-
-.sparkle {
-  animation: floatUp 7s linear infinite, blink 1.5s ease-in-out infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.9; }
-}
-
-/* ===== GAME PAGE ===== */
-
-.game-page {
-  padding: 16px;
-}
-
-.game-title {
-  font-size: 20px;
-  margin-bottom: 6px;
-}
-
-.game-subtitle {
-  font-size: 14px;
-  margin-bottom: 12px;
-}
-
-.game-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-/* ===== MOBILE CONTROLS ===== */
-.mobile-controls {
-  margin-top: 16px;
-}
-
-.mobile-controls .btn {
-  width: 56px;
-  height: 56px;
-  font-size: 20px;
-  border-radius: 50%;
-  border: none;
-  background: #ffb6d5;
-  color: #000;
-  margin: 4px;
-}
-
-.mobile-controls .middle {
-  display: flex;
-  justify-content: center;
-}
-
-/* Hide mobile buttons on desktop */
-@media (min-width: 768px) {
-  .mobile-controls {
-    display: none;
-  }
-}
-/* ===== GAME PAGE ===== */
-
-.game-page {
-  padding: 12px;
-}
-
-.game-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.game-subtitle {
-  font-size: 14px;
-  margin-bottom: 10px;
-  padding: 0 8px;
-}
-
-/* ===== MOBILE CONTROLS ===== */
-.mobile-controls {
-  margin-top: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.mobile-controls .btn {
-  width: 64px;
-  height: 64px;
-  font-size: 22px;
-  border-radius: 50%;
-  border: none;
-  background: #ffb6d5;
-  color: #000;
-  box-shadow: 0 4px 0 #e89ab9;
-}
-
-.mobile-controls .middle {
-  display: flex;
-  gap: 28px; /* JARAK KIRI KANAN */
-}
-
-/* Hide mobile buttons on desktop */
-@media (min-width: 768px) {
-  canvas {
-    width: 500px;
-  }
-  /* ===== FORCE CANVAS SIZE ===== */
-#gameCanvas {
-  width: min(90vmin, 520px);
-  height: min(90vmin, 520px);
-
-  border: 3px solid #000;
-  border-radius: 14px;
-
-  background: transparent;
-  image-rendering: pixelated;
-}
-
-
-  .mobile-controls {
-    display: none;
-  }
-}
-
 /* =====================
-   PAGE 1 – HOME
+   LAYOUT
    ===================== */
 
-body.page-home {
-  min-height: 100vh;
-  margin: 0;
-
-  background: linear-gradient(
-    to bottom,
-    #4fa3ff 0%,
-    #a9d3ff 45%,
-    #ffffff 100%
-  );
-
-  font-family: 'Nunito', sans-serif;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-body {
-  background: none !important;
-}
-body.page-home {
-  background: linear-gradient(
-    to bottom,
-    #4fa3ff,
-    #ffffff
-  ) !important;
-}
-.verse {
-  margin-top: 32px;
-  padding: 0 16px;
+.container {
+  width: 100%;
   max-width: 420px;
-  text-align: center;
-
-  font-size: 14px;
-  line-height: 1.7;
-  font-style: italic;
-  color: rgba(0, 0, 0, 0.6);
-
-  position: relative;
-  z-index: 2;
-}
-
-.verse span {
-  display: block;
-  margin-top: 8px;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.7);
-}
-
-/* MOBILE FRIENDLY */
-@media (max-width: 480px) {
-  .verse {
-    font-size: 13px;
-  }
-}
-/* CONTAINER FIX */
-.container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* CARD FIX */
-.card {
-  position: relative; /* PENTING */
-  z-index: 2;
-}
-
-/* VERSE FIX */
-.verse {
-  max-width: 720px;
-  text-align: center;
-  font-size: 18px;
-  line-height: 1.8;
-  color: #1f2d3d;
-  margin-top: 24px;
-  padding: 0 24px;
-  z-index: 2;
-}
-
-/* VERSE SOURCE */
-.verse span {
-  font-size: 14px;
-  opacity: 0.7;
-}
-.verse {
-  font-family: "Playfair Display", serif;
-}
-.container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 32px; /* JARAK CARD ↔ VERSE */
   padding: 24px 16px 48px;
+  position: relative;
+  z-index: 2;
 }
 
-/* VERSE */
-.verse {
-  max-width: 600px;
-  text-align: center;
-  font-family: 'Playfair Display', serif; /* lebih elegan & lembut */
-  font-size: 16px;
-  line-height: 1.6;
-  color: #2f3e55;
-  opacity: 0.9;
-  margin: 0;
-}
-
-/* AYAT BAGIAN BAWAH */
-.verse span {
-  display: block;
-  margin-top: 8px;
-  font-size: 14px;
-  opacity: 0.75;
-}
-
-/* MOBILE */
-@media (max-width: 480px) {
-  .verse {
-    font-size: 14px;
-    line-height: 1.5;
-  }
-}
-.card {
-  padding: 32px 24px;
-}
-
-.verse {
-  margin-bottom: 16px;
-  line-height: 1.6;
-}
-
-.verse-ref {
-  margin-top: 12px;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-@media (max-width: 480px) {
-  .card {
-    padding: 24px 18px;
-  }
-
-  .verse {
-    font-size: 0.95rem;
-  }
-}
 .home-stack {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px; /* ← INI YANG NGURANGIN SPACE */
-}
-@media (max-width: 480px) {
-  .home-stack {
-    gap: 20px;
-  }
-}
-@media (max-width: 480px) {
-  .container {
-    padding: 24px;
-  }
-
-  .card {
-    width: 100%;
-    max-width: 360px;
-    padding: 24px;
-  }
-
-  h1 {
-    font-size: 1.6rem;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-  }
-
-  .verse {
-    font-size: 1rem;
-  }
-
-  .hachiware {
-    width: 140px;
-  }
-}
-/* ===== ANDROID SCALE FIX ===== */
-html {
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  gap: 24px;
 }
 
-body {
-  zoom: 1;
-}
+/* =====================
+   CARD
+   ===================== */
 
-/* Container lebih lebar & responsif */
-.container {
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 24px 16px;
-}
-
-/* Card diperbesar */
 .card {
   width: 100%;
-  padding: 24px 20px;
+  background: #ffe9dc;
+  border-radius: 26px;
+  padding: 28px 22px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+  text-align: center;
 }
 
-/* Ayat */
+/* =====================
+   VERSE
+   ===================== */
+
 .verse {
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(16px, 4.5vw, 20px);
+  line-height: 1.65;
+  color: #2f3e55;
 }
 
 .verse-ref {
-  font-size: 0.8rem;
+  margin-top: 10px;
+  font-size: clamp(13px, 3.5vw, 16px);
+  opacity: 0.75;
 }
 
-/* Judul */
-h1 {
-  font-size: 1.6rem;
-}
+/* =====================
+   CHARACTER
+   ===================== */
 
-/* Subtitle */
-.subtitle {
-  font-size: 0.95rem;
-}
-
-/* Tombol */
-.btn {
-  font-size: 1rem;
-  padding: 14px 24px;
-}
-
-/* Hachiware */
 .hachiware {
-  width: 120px;
-  max-width: 40vw;
+  width: clamp(120px, 35vw, 170px);
+  animation: float 3s ease-in-out infinite;
 }
-@media (max-width: 360px) {
-  h1 {
-    font-size: 1.4rem;
-  }
 
-  .verse {
-    font-size: 0.9rem;
-  }
-
-  .hachiware {
-    width: 100px;
-  }
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+  100% { transform: translateY(0); }
 }
+
+/* =====================
+   TEXT
+   ===================== */
+
+h1 {
+  font-size: clamp(22px, 6vw, 30px);
+  font-weight: 900;
+  text-align: center;
+  color: #333;
+}
+
+.subtitle {
+  font-size: clamp(15px, 4vw, 18px);
+  text-align: center;
+  color: #555;
+}
+
+/* =====================
+   BUTTON
+   ===================== */
+
+.btn {
+  display: inline-block;
+  background: #ff6f8d;
+  color: white;
+  font-size: clamp(16px, 4.5vw, 20px);
+  font-weight: 700;
+  padding: 16px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(255,111,141,0.5);
+  transition: transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
