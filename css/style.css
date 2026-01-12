@@ -1,4 +1,9 @@
 /* RESET */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -531,5 +536,32 @@ body.page-home {
 @media (max-width: 480px) {
   .home-stack {
     gap: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .container {
+    padding: 24px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 360px;
+    padding: 24px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .verse {
+    font-size: 1rem;
+  }
+
+  .hachiware {
+    width: 140px;
   }
 }
