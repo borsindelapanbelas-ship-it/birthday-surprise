@@ -565,3 +565,72 @@ body.page-home {
     width: 140px;
   }
 }
+/* ===== ANDROID SCALE FIX ===== */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  zoom: 1;
+}
+
+/* Container lebih lebar & responsif */
+.container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* Card diperbesar */
+.card {
+  width: 100%;
+  padding: 24px 20px;
+}
+
+/* Ayat */
+.verse {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.verse-ref {
+  font-size: 0.8rem;
+}
+
+/* Judul */
+h1 {
+  font-size: 1.6rem;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 0.95rem;
+}
+
+/* Tombol */
+.btn {
+  font-size: 1rem;
+  padding: 14px 24px;
+}
+
+/* Hachiware */
+.hachiware {
+  width: 120px;
+  max-width: 40vw;
+}
+@media (max-width: 360px) {
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  .verse {
+    font-size: 0.9rem;
+  }
+
+  .hachiware {
+    width: 100px;
+  }
+}
