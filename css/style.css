@@ -34,6 +34,7 @@ body {
   position: absolute;
   font-size: clamp(18px, 4vw, 30px);
   opacity: 0.85;
+  font-size: clamp(20px, 5vw, 34px); /* lebih keliatan */
 
   left: calc(var(--x) * 1%);
   top: calc(var(--y) * 1%);
@@ -151,5 +152,28 @@ h1 {
 
   .character {
     width: 110px;
+  }
+}
+/* ===============================
+   CARD SCALE (GLOBAL SAFE)
+   =============================== */
+
+/* Default: normal */
+.card {
+  transform: scale(1);
+  transform-origin: center top;
+}
+
+/* Laptop & iPhone: card sedikit diperkecil */
+@media (min-width: 390px) and (max-width: 900px) {
+  .card {
+    transform: scale(0.94);
+  }
+}
+
+/* HP kecil (Android / Oppo): JANGAN DISCALE */
+@media (max-width: 389px) {
+  .card {
+    transform: scale(1);
   }
 }
