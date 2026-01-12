@@ -188,3 +188,37 @@ h1 {
   transform: translateY(-2px);
 }
 
+/* =====================
+   MAIN CARD FIX (ANDROID SAFE)
+   ===================== */
+
+.main-card {
+  width: 100%;
+  background: #ffe9dc;
+  border-radius: 32px;
+  padding: 28px 20px 32px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+/* ayat card di dalam */
+.main-card .verse-card {
+  background: #fff3ea;
+  box-shadow: none;
+  padding: 22px 18px;
+}
+
+/* force scale di android tinggi */
+@media (max-height: 740px) {
+  .container {
+    padding-top: 16px;
+  }
+
+  .main-card {
+    padding: 22px 18px 26px;
+  }
+}
