@@ -244,3 +244,11 @@ body.game-page {
     display: none;
   }
 }
+/*MOBILE CARD SCALE (HALUS)*/
+
+@media (max-width: 430px) {
+  .card {
+    transform: scale(0.92);
+    transform-origin: center center;
+  }
+}
