@@ -1,16 +1,12 @@
-/* ===============================
-   CANVAS SETUP
-================================ */
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+/* ===== CANVAS LOGIC SIZE ===== */
 const CANVAS_SIZE = 520;
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
-/* ===============================
-   LOAD IMAGES
-================================ */
+/* ===== IMAGES ===== */
 const mazeImg = new Image();
 mazeImg.src = "assets/images/maze.game.png";
 
@@ -26,127 +22,71 @@ playerImages.back.src = "assets/images/back.png";
 playerImages.left.src = "assets/images/left.png";
 playerImages.right.src = "assets/images/right.png";
 
-/* ===============================
-   PLAYER CONFIG
-   (ANTI GEPENG SYSTEM)
-================================ */
-const PLAYER_SCALE = 0.12; // 👉 BESAR-KECIL PLAYER (AMAN)
+/* ===== PLAYER (ANTI GEPENG) ===== */
+const PLAYER_SCALE = 0.15; // <- KUNCI DI SINI
 
 const player = {
-  x: 0,
+  x: 10,
   y: CANVAS_SIZE / 2,
   speed: 3,
-  direction: "right"
+  direction: "right",
+  width: 0,
+  height: 0
 };
 
-/* ===============================
-   INPUT STATE
-================================ */
-const keys = {
-  up: false,
-  down: false,
-  left: false,
-  right: false
-};
+/* ===== INPUT ===== */
+const keys = { up:false, down:false, left:false, right:false };
 
-/* ===============================
-   KEYBOARD CONTROLS (LAPTOP)
-================================ */
-window.addEventListener("keydown", (e) => {
+window.addEventListener("keydown", e => {
   if (e.key === "ArrowUp") keys.up = true;
   if (e.key === "ArrowDown") keys.down = true;
   if (e.key === "ArrowLeft") keys.left = true;
   if (e.key === "ArrowRight") keys.right = true;
 });
 
-window.addEventListener("keyup", (e) => {
+window.addEventListener("keyup", e => {
   if (e.key === "ArrowUp") keys.up = false;
   if (e.key === "ArrowDown") keys.down = false;
   if (e.key === "ArrowLeft") keys.left = false;
   if (e.key === "ArrowRight") keys.right = false;
 });
 
-/* ===============================
-   MOBILE BUTTON CONTROLS
-================================ */
-function bindMobileButton(selector, key) {
-  const btn = document.querySelector(selector);
-  if (!btn) return;
-
-  btn.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    keys[key] = true;
-  });
-
-  btn.addEventListener("touchend", () => {
-    keys[key] = false;
-  });
-}
-
-bindMobileButton(".btn.up", "up");
-bindMobileButton(".btn.down", "down");
-bindMobileButton(".btn.left", "left");
-bindMobileButton(".btn.right", "right");
-
-/* ===============================
-   UPDATE PLAYER
-================================ */
+/* ===== UPDATE ===== */
 function update() {
-  if (keys.up) {
-    player.y -= player.speed;
-    player.direction = "back";
-  }
-  if (keys.down) {
-    player.y += player.speed;
-    player.direction = "front";
-  }
-  if (keys.left) {
-    player.x -= player.speed;
-    player.direction = "left";
-  }
-  if (keys.right) {
-    player.x += player.speed;
-    player.direction = "right";
-  }
+  if (keys.up)    { player.y -= player.speed; player.direction = "back"; }
+  if (keys.down)  { player.y += player.speed; player.direction = "front"; }
+  if (keys.left)  { player.x -= player.speed; player.direction = "left"; }
+  if (keys.right) { player.x += player.speed; player.direction = "right"; }
 
-  // boundary (ANTI KELUAR CANVAS)
-  const img = playerImages[player.direction];
-  const w = img.naturalWidth * PLAYER_SCALE;
-  const h = img.naturalHeight * PLAYER_SCALE;
-
-  player.x = Math.max(0, Math.min(canvas.width - w, player.x));
-  player.y = Math.max(0, Math.min(canvas.height - h, player.y));
+  player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
+  player.y = Math.max(0, Math.min(canvas.height - player.height, player.y));
 }
 
-/* ===============================
-   DRAW SCENE
-================================ */
+/* ===== DRAW ===== */
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // maze
   ctx.drawImage(mazeImg, 0, 0, canvas.width, canvas.height);
 
-  // player (RASIO ASLI, NO GEPENG)
   const img = playerImages[player.direction];
-  const w = img.naturalWidth * PLAYER_SCALE;
-  const h = img.naturalHeight * PLAYER_SCALE;
-
-  ctx.drawImage(img, player.x, player.y, w, h);
+  ctx.drawImage(img, player.x, player.y, player.width, player.height);
 }
 
-/* ===============================
-   GAME LOOP
-================================ */
+/* ===== LOOP ===== */
 function gameLoop() {
   update();
   draw();
   requestAnimationFrame(gameLoop);
 }
 
-/* ===============================
-   START GAME
-================================ */
+/* ===== START ===== */
+playerImages.right.onload = () => {
+  player.width  = playerImages.right.naturalWidth  * PLAYER_SCALE;
+  player.height = playerImages.right.naturalHeight * PLAYER_SCALE;
+};
+
 mazeImg.onload = () => {
+  console.log("GAME START");
   gameLoop();
 };
+
