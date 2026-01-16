@@ -26,25 +26,27 @@ body {
 
 .floating-emojis span {
   position: absolute;
-  bottom: -10vh;
-  opacity: 0.8;
-  animation-name: emojiFloat;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  bottom: -15vh;
+  opacity: 0.85;
+
+  /* ukuran & speed BENAR-BENAR beda */
+  font-size: var(--size);
+  animation: emojiFloat var(--speed) linear infinite;
 }
 
-/* RANDOM VIA CSS VARIABLES */
+/* GERAK LEBIH CEPAT */
 @keyframes emojiFloat {
   from {
     transform: translateY(0);
     opacity: 0;
   }
-  15% { opacity: 0.8; }
+  15% { opacity: 0.85; }
   to {
-    transform: translateY(-120vh);
+    transform: translateY(-130vh);
     opacity: 0;
   }
 }
+
 
 /*LAYOUT*/
 .background {
