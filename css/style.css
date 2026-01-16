@@ -1,27 +1,23 @@
-/* RESET */
-* {
+{
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   min-height: 100svh;
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
-}
-
-/* BACKGROUND */
-.background {
-  min-height: 100svh;
   background: linear-gradient(to bottom, #5fa8ff, #eef6ff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
-/* FLOATING EMOJIS – FIX SPEED & DENSITY */
+/* =========================
+   FLOATING EMOJIS (REAL FIX)
+========================= */
 .floating-emojis {
   position: fixed;
   inset: 0;
@@ -32,187 +28,143 @@ body {
 
 .floating-emojis span {
   position: absolute;
-  bottom: -60px;
-  font-size: clamp(18px, 4vw, 30px);
-  opacity: 0.85;
-  animation-name: floatUp;
+  bottom: -10vh;
+  opacity: 0.8;
+  animation-name: emojiFloat;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
-/* BANYAK + CEPAT */
-.floating-emojis span:nth-child(odd) {
-  animation-duration: 6s;
-}
-.floating-emojis span:nth-child(even) {
-  animation-duration: 8s;
-}
-
-/* POSISI ACAK */
-.floating-emojis span:nth-child(1)  { left: 5%;  animation-delay: 0s; }
-.floating-emojis span:nth-child(2)  { left: 15%; animation-delay: 1s; }
-.floating-emojis span:nth-child(3)  { left: 25%; animation-delay: 2s; }
-.floating-emojis span:nth-child(4)  { left: 35%; animation-delay: 3s; }
-.floating-emojis span:nth-child(5)  { left: 45%; animation-delay: 0.5s; }
-.floating-emojis span:nth-child(6)  { left: 55%; animation-delay: 1.5s; }
-.floating-emojis span:nth-child(7)  { left: 65%; animation-delay: 2.5s; }
-.floating-emojis span:nth-child(8)  { left: 75%; animation-delay: 3.5s; }
-.floating-emojis span:nth-child(9)  { left: 85%; animation-delay: 1s; }
-.floating-emojis span:nth-child(10) { left: 95%; animation-delay: 2s; }
-
-@keyframes floatUp {
+/* RANDOM VIA CSS VARIABLES */
+@keyframes emojiFloat {
   from {
     transform: translateY(0);
     opacity: 0;
   }
-  10% { opacity: 0.85; }
+  15% { opacity: 0.8; }
   to {
     transform: translateY(-120vh);
     opacity: 0;
   }
 }
 
-
-/* CENTER CONTAINER */
-.container {
-  width: 100%;
+/* =========================
+   LAYOUT
+========================= */
+.background {
+  min-height: 100svh;
   display: flex;
   justify-content: center;
-  padding: 24px;
+  align-items: center;
+  position: relative;
+}
+
+.container {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
   position: relative;
   z-index: 1;
 }
 
-/* CARD */
+/* =========================
+   CARD (NO SCALE!)
+========================= */
 .card {
-  width: min(92vw, 460px);
+  width: 100%;
+  max-width: 420px;
   background: #fde8d8;
-  border-radius: 26px;
-  padding: 26px 22px 32px;
+  border-radius: 24px;
+  padding: 22px 20px 26px;
   text-align: center;
-  box-shadow: 0 22px 45px rgba(0,0,0,.18);
+  box-shadow: 0 20px 40px rgba(0,0,0,.18);
 }
 
-/* QUOTE */
+/* =========================
+   QUOTE
+========================= */
 .quote-box {
   background: rgba(255,255,255,.65);
-  padding: 18px;
-  border-radius: 18px;
-  margin-bottom: 18px;
+  padding: 14px;
+  border-radius: 16px;
+  margin-bottom: 16px;
   font-family: 'Playfair Display', serif;
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .quote-box span {
   display: block;
-  margin-top: 10px;
-  font-size: 13px;
-  opacity: .7;
+  margin-top: 8px;
+  font-size: 12px;
+  opacity: 0.7;
 }
 
-/* CHARACTER */
+/* =========================
+   CHARACTER
+========================= */
 .character {
-  width: 120px;
-  margin: 14px auto;
+  width: 110px;
+  margin: 12px auto;
   display: block;
-  animation: float-soft 4s ease-in-out infinite;
+  animation: floatSoft 4s ease-in-out infinite;
 }
 
-@keyframes float-soft {
+@keyframes floatSoft {
   0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
 }
 
-/* TITLE */
+/* =========================
+   TEXT
+========================= */
 h1 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  margin: 12px 0 8px;
+  margin: 10px 0 6px;
   text-align: center;
 }
 
-/* SUBTITLE */
 .subtitle {
-  font-size: 14px;
-  opacity: .75;
-  margin-bottom: 18px;
+  font-size: 13px;
+  opacity: 0.75;
+  margin-bottom: 16px;
 }
 
-/* BUTTON */
+/* =========================
+   BUTTON
+========================= */
 .start-btn {
   display: inline-block;
   background: #ff6f91;
   color: #fff;
-  padding: 12px 28px;
+  padding: 12px 26px;
   border-radius: 999px;
   font-weight: 600;
+  font-size: 14px;
   text-decoration: none;
-  box-shadow: 0 10px 22px rgba(255,111,145,.45);
+  box-shadow: 0 8px 20px rgba(255,111,145,.45);
 }
 
-/* EXTRA SMALL (OPPO KECIL – MINIMAL, TIDAK MAKSA) */
+/* =========================
+   VERY SMALL ANDROID (OPPO)
+========================= */
 @media (max-width: 360px) {
   .card {
-    padding: 22px 18px 28px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-
-  .character {
-    width: 110px;
-  }
-}
-/* ===============================
-   CARD SCALE (GLOBAL SAFE)
-   =============================== */
-
-/* Default: normal */
-.card {
-  transform: scale(1);
-  transform-origin: center top;
-}
-
-/* Laptop & iPhone: card sedikit diperkecil */
-@media (min-width: 390px) and (max-width: 900px) {
-  .card {
-    transform: scale(0.94);
-  }
-}
-
-/* HP kecil (Android / Oppo): JANGAN DISCALE */
-@media (max-width: 389px) {
-  .card {
-    transform: scale(1);
-  }
-}
-/* ===============================
-   MOBILE CARD SIZE FIX (REAL)
-   =============================== */
-
-@media (max-height: 720px) {
-  .card {
-    max-height: 85svh;
-    overflow: auto;
-    padding: 20px 18px 24px;
-  }
-
-  .character {
-    width: 100px;
+    padding: 18px 16px 22px;
   }
 
   h1 {
     font-size: 20px;
   }
 
-  .subtitle {
-    font-size: 13px;
+  .character {
+    width: 96px;
   }
 
   .quote-box {
-    font-size: 14px;
-    padding: 14px;
+    font-size: 13px;
   }
 }
+
