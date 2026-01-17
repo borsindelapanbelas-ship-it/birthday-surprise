@@ -199,14 +199,14 @@ body.game-page {
 }
 
 #gameCanvas {
-  width: min(90vw, 520px);
-  height: min(90vw, 520px);
-  max-width: 520px;
-  max-height: 520px;
+  width: 520px;
+  height: 520px;
   display: block;
-  margin: auto;
-  image-rendering: pixelated;
+  margin: 0 auto;
+  background: white;
+  border-radius: 24px;
 }
+
 
 /* ===== MOBILE CONTROLS ===== */
 .mobile-controls {
