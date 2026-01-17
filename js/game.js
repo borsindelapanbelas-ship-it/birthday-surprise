@@ -26,13 +26,14 @@ playerImages.right.src = "assets/images/right.png";
 const PLAYER_SCALE = 0.15;
 
 const player = {
-  x: 20,
-  y: CANVAS_SIZE / 2,
+  x: CANVAS_SIZE / 2,
+  y: CANVAS_SIZE - 80,
   speed: 3,
-  direction: "right",
+  direction: "back",
   width: 0,
   height: 0
 };
+
 
 /*INPUT*/
 const keys = { up:false, down:false, left:false, right:false };
