@@ -247,3 +247,19 @@ body.game-page {
     transform-origin: center center;
   }
 }
+.game-wrapper {
+  width: 520px;
+  height: 520px;
+  margin: 24px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameCanvas {
+  width: 520px;
+  height: 520px;
+  background: #fff;
+  border-radius: 16px;
+  display: block;
+}
