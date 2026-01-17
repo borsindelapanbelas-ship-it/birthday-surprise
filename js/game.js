@@ -1,12 +1,12 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-/* ===== CANVAS LOGIC SIZE ===== */
+/*CANVAS SIZE*/
 const CANVAS_SIZE = 520;
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
-/* ===== IMAGES ===== */
+/*IMAGES*/
 const mazeImg = new Image();
 mazeImg.src = "assets/images/maze.game.png";
 
@@ -18,15 +18,15 @@ const playerImages = {
 };
 
 playerImages.front.src = "assets/images/front.png";
-playerImages.back.src = "assets/images/back.png";
-playerImages.left.src = "assets/images/left.png";
+playerImages.back.src  = "assets/images/back.png";
+playerImages.left.src  = "assets/images/left.png";
 playerImages.right.src = "assets/images/right.png";
 
-/* ===== PLAYER (ANTI GEPENG) ===== */
-const PLAYER_SCALE = 0.15; // <- KUNCI DI SINI
+/*PLAYER (ANTI GEPENG)*/
+const PLAYER_SCALE = 0.15;
 
 const player = {
-  x: 10,
+  x: 20,
   y: CANVAS_SIZE / 2,
   speed: 3,
   direction: "right",
@@ -34,7 +34,7 @@ const player = {
   height: 0
 };
 
-/* ===== INPUT ===== */
+/*INPUT*/
 const keys = { up:false, down:false, left:false, right:false };
 
 window.addEventListener("keydown", e => {
@@ -51,42 +51,69 @@ window.addEventListener("keyup", e => {
   if (e.key === "ArrowRight") keys.right = false;
 });
 
-/* ===== UPDATE ===== */
+/*UPDATE*/
 function update() {
-  if (keys.up)    { player.y -= player.speed; player.direction = "back"; }
-  if (keys.down)  { player.y += player.speed; player.direction = "front"; }
-  if (keys.left)  { player.x -= player.speed; player.direction = "left"; }
-  if (keys.right) { player.x += player.speed; player.direction = "right"; }
+  if (keys.up) {
+    player.y -= player.speed;
+    player.direction = "back";
+  }
+  if (keys.down) {
+    player.y += player.speed;
+    player.direction = "front";
+  }
+  if (keys.left) {
+    player.x -= player.speed;
+    player.direction = "left";
+  }
+  if (keys.right) {
+    player.x += player.speed;
+    player.direction = "right";
+  }
 
+  // batas canvas
   player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
   player.y = Math.max(0, Math.min(canvas.height - player.height, player.y));
 }
 
-/* ===== DRAW ===== */
+/*DRAW*/
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // maze
   ctx.drawImage(mazeImg, 0, 0, canvas.width, canvas.height);
 
+  // player
   const img = playerImages[player.direction];
   ctx.drawImage(img, player.x, player.y, player.width, player.height);
 }
 
-/* ===== LOOP ===== */
+/*GAME LOOP*/
 function gameLoop() {
   update();
   draw();
   requestAnimationFrame(gameLoop);
 }
 
-/* ===== START ===== */
-playerImages.right.onload = () => {
-  player.width  = playerImages.right.naturalWidth  * PLAYER_SCALE;
-  player.height = playerImages.right.naturalHeight * PLAYER_SCALE;
-};
+/*IMAGE LOADER (WAJIB)*/
+let imagesLoaded = 0;
+const TOTAL_IMAGES = 5;
 
-mazeImg.onload = () => {
-  console.log("GAME START");
-  gameLoop();
-};
+function onImageLoaded() {
+  imagesLoaded++;
+
+  if (imagesLoaded === TOTAL_IMAGES) {
+    // set ukuran player setelah image siap
+    player.width  = playerImages.right.naturalWidth  * PLAYER_SCALE;
+    player.height = playerImages.right.naturalHeight * PLAYER_SCALE;
+
+    console.log("GAME READY");
+    gameLoop();
+  }
+}
+
+mazeImg.onload = onImageLoaded;
+playerImages.front.onload = onImageLoaded;
+playerImages.back.onload  = onImageLoaded;
+playerImages.left.onload  = onImageLoaded;
+playerImages.right.onload = onImageLoaded;
 
