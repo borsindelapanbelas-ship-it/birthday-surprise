@@ -24,10 +24,10 @@ playerImgs.right.src = "assets/images/right.png";
 /* ===== PLAYER ===== */
 const SCALE = 0.15;
 const player = {
-  x: 85,          // PAS DI TENGAH JALUR MASUK
-  y: 435,         // MASUK KE DALAM MAZE
+  x: 65,      // MASUK KE LUBANG ATAS KIRI
+  y: 55,      // PAS DI JALURNYA
   speed: 3,
-  dir: "back",
+  dir: "right",
   w: 0,
   h: 0
 };
