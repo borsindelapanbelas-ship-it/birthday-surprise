@@ -25,7 +25,7 @@ playerImgs.right.src = "assets/images/right.png";
 const SCALE = 0.10;
 const player = {
   x: 50,      // MASUK KE LUBANG ATAS KIRI
-  y: 55,      // PAS DI JALURNYA
+  y: 60,      // PAS DI JALURNYA
   speed: 3,
   dir: "right",
   w: 0,
@@ -106,7 +106,7 @@ const group = document.getElementById("group");
 
 // KOORDINAT JALAN KELUAR (sesuaikan dikit kalo mau)
 const groupPos = {
-  x: 420,
+  x: 410,
   y: 430,
 };
 
