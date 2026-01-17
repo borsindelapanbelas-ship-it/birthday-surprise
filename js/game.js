@@ -106,8 +106,8 @@ const group = document.getElementById("group");
 
 // KOORDINAT JALAN KELUAR (sesuaikan dikit kalo mau)
 const groupPos = {
-  x: 410,
-  y: 430
+  x: 520,
+  y: 520,
 };
 
 group.style.left = groupPos.x + "px";
