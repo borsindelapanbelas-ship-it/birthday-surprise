@@ -1,120 +1,79 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-/*CANVAS SIZE*/
-const CANVAS_SIZE = 520;
-canvas.width = CANVAS_SIZE;
-canvas.height = CANVAS_SIZE;
+const SIZE = 520;
+canvas.width = SIZE;
+canvas.height = SIZE;
 
-/*IMAGES*/
+/* IMAGES */
 const mazeImg = new Image();
-mazeImg.src = "assets/images/maze.game.png";
+mazeImg.src = "./assets/images/maze.game.png";
 
-const playerImages = {
+const playerImgs = {
   front: new Image(),
   back: new Image(),
   left: new Image(),
   right: new Image()
 };
 
-playerImages.front.src = "assets/images/front.png";
-playerImages.back.src  = "assets/images/back.png";
-playerImages.left.src  = "assets/images/left.png";
-playerImages.right.src = "assets/images/right.png";
+playerImgs.front.src = "./assets/images/front.png";
+playerImgs.back.src  = "./assets/images/back.png";
+playerImgs.left.src  = "./assets/images/left.png";
+playerImgs.right.src = "./assets/images/right.png";
 
-/*PLAYER (ANTI GEPENG)*/
-const PLAYER_SCALE = 0.15;
-
+/* PLAYER */
+const SCALE = 0.15;
 const player = {
-  x: CANVAS_SIZE / 2,
-  y: CANVAS_SIZE - 80,
+  x: SIZE / 2,
+  y: SIZE - 100,
   speed: 3,
-  direction: "back",
-  width: 0,
-  height: 0
+  dir: "back",
+  w: 0,
+  h: 0
 };
 
+/* INPUT */
+const key = { up:0, down:0, left:0, right:0 };
 
-/*INPUT*/
-const keys = { up:false, down:false, left:false, right:false };
-
-window.addEventListener("keydown", e => {
-  if (e.key === "ArrowUp") keys.up = true;
-  if (e.key === "ArrowDown") keys.down = true;
-  if (e.key === "ArrowLeft") keys.left = true;
-  if (e.key === "ArrowRight") keys.right = true;
+addEventListener("keydown", e => {
+  if (e.key === "ArrowUp") key.up = 1;
+  if (e.key === "ArrowDown") key.down = 1;
+  if (e.key === "ArrowLeft") key.left = 1;
+  if (e.key === "ArrowRight") key.right = 1;
 });
 
-window.addEventListener("keyup", e => {
-  if (e.key === "ArrowUp") keys.up = false;
-  if (e.key === "ArrowDown") keys.down = false;
-  if (e.key === "ArrowLeft") keys.left = false;
-  if (e.key === "ArrowRight") keys.right = false;
+addEventListener("keyup", e => {
+  if (e.key === "ArrowUp") key.up = 0;
+  if (e.key === "ArrowDown") key.down = 0;
+  if (e.key === "ArrowLeft") key.left = 0;
+  if (e.key === "ArrowRight") key.right = 0;
 });
 
-/*UPDATE*/
+/* LOOP */
 function update() {
-  if (keys.up) {
-    player.y -= player.speed;
-    player.direction = "back";
-  }
-  if (keys.down) {
-    player.y += player.speed;
-    player.direction = "front";
-  }
-  if (keys.left) {
-    player.x -= player.speed;
-    player.direction = "left";
-  }
-  if (keys.right) {
-    player.x += player.speed;
-    player.direction = "right";
-  }
+  if (key.up)    { player.y -= player.speed; player.dir = "back"; }
+  if (key.down)  { player.y += player.speed; player.dir = "front"; }
+  if (key.left)  { player.x -= player.speed; player.dir = "left"; }
+  if (key.right) { player.x += player.speed; player.dir = "right"; }
 
-  // batas canvas
-  player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
-  player.y = Math.max(0, Math.min(canvas.height - player.height, player.y));
+  player.x = Math.max(0, Math.min(SIZE - player.w, player.x));
+  player.y = Math.max(0, Math.min(SIZE - player.h, player.y));
 }
 
-/*DRAW*/
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // maze
-  ctx.drawImage(mazeImg, 0, 0, canvas.width, canvas.height);
-
-  // player
-  const img = playerImages[player.direction];
-  ctx.drawImage(img, player.x, player.y, player.width, player.height);
+  ctx.clearRect(0,0,SIZE,SIZE);
+  ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
+  ctx.drawImage(playerImgs[player.dir], player.x, player.y, player.w, player.h);
 }
 
-/*GAME LOOP*/
-function gameLoop() {
+function loop() {
   update();
   draw();
-  requestAnimationFrame(gameLoop);
+  requestAnimationFrame(loop);
 }
 
-/*IMAGE LOADER (WAJIB)*/
-let imagesLoaded = 0;
-const TOTAL_IMAGES = 5;
-
-function onImageLoaded() {
-  imagesLoaded++;
-
-  if (imagesLoaded === TOTAL_IMAGES) {
-    // set ukuran player setelah image siap
-    player.width  = playerImages.right.naturalWidth  * PLAYER_SCALE;
-    player.height = playerImages.right.naturalHeight * PLAYER_SCALE;
-
-    console.log("GAME READY");
-    gameLoop();
-  }
-}
-
-mazeImg.onload = onImageLoaded;
-playerImages.front.onload = onImageLoaded;
-playerImages.back.onload  = onImageLoaded;
-playerImages.left.onload  = onImageLoaded;
-playerImages.right.onload = onImageLoaded;
-
+playerImgs.right.onload = () => {
+  player.w = playerImgs.right.naturalWidth * SCALE;
+  player.h = playerImgs.right.naturalHeight * SCALE;
+  loop();
+};
