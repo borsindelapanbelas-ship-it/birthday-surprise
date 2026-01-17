@@ -101,3 +101,36 @@ playerImgs.right.onload = () => {
 mazeImg.onload = () => {
   loop();
 };
+
+const group = document.getElementById("group");
+
+// KOORDINAT JALAN KELUAR (sesuaikan dikit kalo mau)
+const groupPos = {
+  x: 410,
+  y: 430
+};
+
+group.style.left = groupPos.x + "px";
+group.style.top = groupPos.y + "px";
+group.style.display = "block";
+function isColliding(a, b, size = 40) {
+  return (
+    a.x < b.x + size &&
+    a.x + size > b.x &&
+    a.y < b.y + size &&
+    a.y + size > b.y
+  );
+}
+if (isColliding(player, groupPos)) {
+  showMeetScene();
+}
+let finished = false;
+
+function showMeetScene() {
+  if (finished) return;
+  finished = true;
+
+  setTimeout(() => {
+    window.location.href = "gift.html";
+  }, 1200);
+}
