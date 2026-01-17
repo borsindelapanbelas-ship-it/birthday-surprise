@@ -237,3 +237,12 @@ body.game-page {
     display: none;
   }
 }
+
+#group {
+  position: absolute;
+  width: 80px;
+  pointer-events: none; /* PENTING: gak bisa diklik / digerakin */
+  image-rendering: pixelated;
+  z-index: 5;
+  display: none; /* muncul pas game ready */
+}
