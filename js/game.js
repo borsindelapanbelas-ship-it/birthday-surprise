@@ -22,7 +22,7 @@ playerImgs.left.src  = "assets/images/left.png";
 playerImgs.right.src = "assets/images/right.png";
 
 /* ===== PLAYER ===== */
-const SCALE = 0.15;
+const SCALE = 0.10;
 const player = {
   x: 50,      // MASUK KE LUBANG ATAS KIRI
   y: 55,      // PAS DI JALURNYA
