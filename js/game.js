@@ -24,13 +24,14 @@ playerImgs.right.src = "assets/images/right.png";
 /* ===== PLAYER ===== */
 const SCALE = 0.15;
 const player = {
-  x: SIZE / 2,
-  y: SIZE - 90,
-  w: 48,
-  h: 64,
+  x: 80,                 // ← geser ke kanan / kiri
+  y: SIZE - 80,          // ← DI DALAM JALAN MASUK
   speed: 3,
-  dir: "back"
+  dir: "back",
+  w: 0,
+  h: 0
 };
+
 
 /* ===== INPUT ===== */
 const key = { up:0, down:0, left:0, right:0 };
