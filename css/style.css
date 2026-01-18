@@ -246,3 +246,32 @@ body.game-page {
   z-index: 5;
   display: none; /* muncul pas game ready */
 }
+
+/* ===== GAME WRAPPER FIX ===== */
+.game-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ===== CANVAS RESPONSIVE ===== */
+#gameCanvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ===== GROUP IMAGE ===== */
+#group {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* ===== MOBILE ONLY ===== */
+@media (max-width: 600px) {
+  .game-page-container {
+    padding: 16px;
+  }
+}
