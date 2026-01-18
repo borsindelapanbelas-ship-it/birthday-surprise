@@ -174,7 +174,7 @@ body.game-page {
   background: linear-gradient(to bottom, #5fa8ff, #eef6ff);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .game-page-container {
