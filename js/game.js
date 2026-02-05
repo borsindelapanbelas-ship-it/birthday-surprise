@@ -86,16 +86,16 @@ const starImg = new Image();
 starImg.src = "assets/images/star.png";
 
 const coin = {
-  x: 120,
-  y: 100,
+  x: 250,
+  y: 70,
   w: 24,
   h: 24,
   taken: false
 };
 
 const star = {
-  x: 360,
-  y: 420,
+  x: 180,
+  y: 380,
   w: 24,
   h: 24,
   taken: false
