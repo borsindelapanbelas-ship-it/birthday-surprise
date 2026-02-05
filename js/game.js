@@ -7,7 +7,8 @@ canvas.width = SIZE;
 canvas.height = SIZE;
 
 /* ===== SCALE ===== */
-const SCALE = 0.1;
+const PLAYER_SCALE = 0.13;
+const GROUP_SCALE  = 0.08;
 
 /* ===== REMOVE WHITE BG ===== */
 function removeWhiteBg(img) {
