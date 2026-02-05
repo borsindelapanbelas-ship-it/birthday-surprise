@@ -6,13 +6,41 @@ const SIZE = 520;
 canvas.width = SIZE;
 canvas.height = SIZE;
 
-/* ===== IMAGES ===== */
+/* ===== SCALE ===== */
+const SCALE = 0.15;
+
+/* ===== REMOVE WHITE BG ===== */
+function removeWhiteBg(img) {
+  const c = document.createElement("canvas");
+  const cx = c.getContext("2d");
+
+  c.width = img.naturalWidth;
+  c.height = img.naturalHeight;
+
+  cx.drawImage(img, 0, 0);
+
+  const imgData = cx.getImageData(0, 0, c.width, c.height);
+  const data = imgData.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+
+    if (r > 240 && g > 240 && b > 240) {
+      data[i + 3] = 0;
+    }
+  }
+
+  cx.putImageData(imgData, 0, 0);
+  return c;
+}
+
+/* ===== MAZE ===== */
 const mazeImg = new Image();
 mazeImg.src = "assets/images/maze.game.png";
 
-const groupImg = new Image();
-groupImg.src = "assets/images/group.png";
-
+/* ===== PLAYER IMAGES ===== */
 const playerImgs = {
   front: new Image(),
   back: new Image(),
@@ -25,9 +53,9 @@ playerImgs.back.src  = "assets/images/back.png";
 playerImgs.left.src  = "assets/images/left.png";
 playerImgs.right.src = "assets/images/right.png";
 
-/* ===== PLAYER ===== */
-const SCALE = 0.15;
+const playerCanvas = {};
 
+/* ===== PLAYER ===== */
 const player = {
   x: 50,
   y: 65,
@@ -37,12 +65,33 @@ const player = {
   h: 0
 };
 
-/* ===== GROUP (FINISH POINT) ===== */
+/* ===== GROUP ===== */
+const groupImg = new Image();
+groupImg.src = "assets/images/group.png";
+
+let groupCanvas;
+
 const group = {
   x: 430,
   y: 300,
   w: 0,
   h: 0
+};
+
+/* ===== PREPROCESS IMAGES ===== */
+playerImgs.right.onload = () => {
+  for (let dir in playerImgs) {
+    playerCanvas[dir] = removeWhiteBg(playerImgs[dir]);
+  }
+
+  player.w = playerCanvas.right.width * SCALE;
+  player.h = playerCanvas.right.height * SCALE;
+};
+
+groupImg.onload = () => {
+  groupCanvas = removeWhiteBg(groupImg);
+  group.w = groupCanvas.width * SCALE;
+  group.h = groupCanvas.height * SCALE;
 };
 
 /* ===== INPUT ===== */
@@ -110,12 +159,12 @@ function draw() {
     ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
   }
 
-  if (groupImg.complete) {
-    ctx.drawImage(groupImg, group.x, group.y, group.w, group.h);
+  if (groupCanvas) {
+    ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
   }
 
-  const img = playerImgs[player.dir];
-  if (img.complete) {
+  const img = playerCanvas[player.dir];
+  if (img) {
     ctx.drawImage(img, player.x, player.y, player.w, player.h);
   }
 }
@@ -126,17 +175,6 @@ function loop() {
   draw();
   requestAnimationFrame(loop);
 }
-
-/* ===== INIT SIZES ===== */
-playerImgs.right.onload = () => {
-  player.w = playerImgs.right.naturalWidth * SCALE;
-  player.h = playerImgs.right.naturalHeight * SCALE;
-};
-
-groupImg.onload = () => {
-  group.w = groupImg.naturalWidth * SCALE;
-  group.h = groupImg.naturalHeight * SCALE;
-};
 
 mazeImg.onload = () => {
   loop();
