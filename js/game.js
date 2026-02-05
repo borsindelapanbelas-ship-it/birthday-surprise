@@ -85,14 +85,14 @@ playerImgs.right.onload = () => {
     playerCanvas[dir] = removeWhiteBg(playerImgs[dir]);
   }
 
-  player.w = playerCanvas.right.width * SCALE;
-  player.h = playerCanvas.right.height * SCALE;
+  player.w = playerCanvas.right.width * PLAYER_SCALE;
+player.h = playerCanvas.right.height * PLAYER_SCALE;
 };
 
 groupImg.onload = () => {
   groupCanvas = removeWhiteBg(groupImg);
-  group.w = groupCanvas.width * SCALE;
-  group.h = groupCanvas.height * SCALE;
+  group.w = groupCanvas.width * GROUP_SCALE;
+group.h = groupCanvas.height * GROUP_SCALE;
 };
 
 /* ===== INPUT ===== */
