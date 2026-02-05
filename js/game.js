@@ -39,8 +39,8 @@ const player = {
 
 /* ===== GROUP (FINISH POINT) ===== */
 const group = {
-  x: 410,
-  y: 430,
+  x: 430,
+  y: 350,
   w: 0,
   h: 0
 };
