@@ -79,6 +79,28 @@ const group = {
   h: 0
 };
 
+const coinImg = new Image();
+coinImg.src = "assets/images/coin.png";
+
+const starImg = new Image();
+starImg.src = "assets/images/star.png";
+
+const coin = {
+  x: 120,
+  y: 100,
+  w: 24,
+  h: 24,
+  taken: false
+};
+
+const star = {
+  x: 360,
+  y: 420,
+  w: 24,
+  h: 24,
+  taken: false
+};
+
 /* ===== PREPROCESS IMAGES ===== */
 playerImgs.right.onload = () => {
   for (let dir in playerImgs) {
@@ -150,6 +172,13 @@ function update() {
       window.location.href = "gift.html";
     }, 1200);
   }
+  if (!coin.taken && isColliding(player, coin)) {
+  coin.taken = true;
+}
+
+if (!star.taken && isColliding(player, star)) {
+  star.taken = true;
+}
 }
 
 /* ===== DRAW ===== */
@@ -159,6 +188,13 @@ function draw() {
   if (mazeImg.complete) {
     ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
   }
+if (!coin.taken && coinImg.complete) {
+  ctx.drawImage(coinImg, coin.x, coin.y, coin.w, coin.h);
+}
+
+if (!star.taken && starImg.complete) {
+  ctx.drawImage(starImg, star.x, star.y, star.w, star.h);
+}
 
   if (groupCanvas) {
     ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
