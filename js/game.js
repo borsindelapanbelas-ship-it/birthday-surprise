@@ -80,9 +80,20 @@ const group = {
 };
 
 const coinImg = new Image();
-coinImg.src = "assets/images/coin.png";
-
 const starImg = new Image();
+
+let coinCanvas;
+let starCanvas;
+
+coinImg.onload = () => {
+  coinCanvas = removeWhiteBg(coinImg);
+};
+
+starImg.onload = () => {
+  starCanvas = removeWhiteBg(starImg);
+};
+
+coinImg.src = "assets/images/coin.png";
 starImg.src = "assets/images/star.png";
 
 const coin = {
@@ -188,12 +199,12 @@ function draw() {
   if (mazeImg.complete) {
     ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
   }
-if (!coin.taken && coinImg.complete) {
-  ctx.drawImage(coinImg, coin.x, coin.y, coin.w, coin.h);
+if (!coin.taken && coinCanvas) {
+  ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
 }
 
-if (!star.taken && starImg.complete) {
-  ctx.drawImage(starImg, star.x, star.y, star.w, star.h);
+if (!star.taken && starCanvas) {
+  ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
 }
 
   if (groupCanvas) {
