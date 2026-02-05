@@ -284,6 +284,31 @@ body.game-page {
     align-items: center;
   }
 
+  .game-wrapper {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+#gameCanvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: white;
+  border-radius: 20px;
+}
+
+/* HP */
+@media (max-width: 768px) {
+  .game-page-container {
+    align-items: flex-start;
+  }
+
+  .mobile-controls {
+    margin-top: 14px;
+  }
+}
+
   .controls {
     margin-top: 16px;
   }
