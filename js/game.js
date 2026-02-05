@@ -26,7 +26,7 @@ playerImgs.left.src  = "assets/images/left.png";
 playerImgs.right.src = "assets/images/right.png";
 
 /* ===== PLAYER ===== */
-const SCALE = 0.10;
+const SCALE = 0.15;
 
 const player = {
   x: 50,
