@@ -184,7 +184,7 @@ function update() {
 
   if (!finished && coin.taken && star.taken && isColliding(player, group)) {
     finished = true;
-    alert("YAY 🎉 You found us!");
+   alert("YAY 🎉 You found us!\n\nNow, let's open the present! 🎁");
     setTimeout(() => {
       window.location.href = "choose.html";
     }, 800);
