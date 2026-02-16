@@ -1,4 +1,4 @@
-/* ===== CANVAS ===== */
+/* ================= CANVAS ================= */
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -6,11 +6,11 @@ const SIZE = 520;
 canvas.width = SIZE;
 canvas.height = SIZE;
 
-/* ===== SCALE ===== */
+/* ================= SCALE ================= */
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
 
-/* ===== REMOVE LIGHT BG ===== */
+/* ================= REMOVE LIGHT BG ================= */
 function removeLightBg(img) {
   const c = document.createElement("canvas");
   const cx = c.getContext("2d");
@@ -24,25 +24,18 @@ function removeLightBg(img) {
   const data = imgData.data;
 
   for (let i = 0; i < data.length; i += 4) {
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
-    const brightness = (r + g + b) / 3;
-
-    if (brightness > 235) {
-      data[i + 3] = 0;
-    }
+    const brightness = (data[i] + data[i+1] + data[i+2]) / 3;
+    if (brightness > 235) data[i+3] = 0;
   }
 
   cx.putImageData(imgData, 0, 0);
   return c;
 }
 
-/* ===== MAZE ===== */
+/* ================= LOAD IMAGES ================= */
 const mazeImg = new Image();
 mazeImg.src = "../assets/images/maze.game.png";
 
-/* ===== PLAYER IMAGES ===== */
 const playerImgs = {
   front: new Image(),
   back: new Image(),
@@ -50,14 +43,24 @@ const playerImgs = {
   right: new Image()
 };
 
-playerImgs.front.src = "assets/images/front.png";
-playerImgs.back.src  = "assets/images/back.png";
-playerImgs.left.src  = "assets/images/left.png";
-playerImgs.right.src = "assets/images/right.png";
+playerImgs.front.src = "../assets/images/front.png";
+playerImgs.back.src  = "../assets/images/back.png";
+playerImgs.left.src  = "../assets/images/left.png";
+playerImgs.right.src = "../assets/images/right.png";
 
-const playerCanvas = {};
+const groupImg = new Image();
+groupImg.src = "../assets/images/group.png";
 
-/* ===== PLAYER ===== */
+const coinImg = new Image();
+coinImg.src = "../assets/images/coin.png";
+
+const starImg = new Image();
+starImg.src = "../assets/images/star.png";
+
+/* ================= GAME OBJECTS ================= */
+let playerCanvas = {};
+let groupCanvas, coinCanvas, starCanvas;
+
 const player = {
   x: 50,
   y: 65,
@@ -67,59 +70,17 @@ const player = {
   h: 0
 };
 
-/* ===== GROUP ===== */
-const groupImg = new Image();
-groupImg.src = "assets/images/group.png";
+const group = { x: 430, y: 300, w: 0, h: 0 };
+const coin  = { x: 300, y: 90, w: 24, h: 24, taken: false };
+const star  = { x: 200, y: 405, w: 24, h: 24, taken: false };
 
-let groupCanvas;
+let finished = false;
 
-const group = {
-  x: 430,
-  y: 300,
-  w: 0,
-  h: 0
-};
-
-/* ===== COIN & STAR ===== */
-const coinImg = new Image();
-const starImg = new Image();
-
-let coinCanvas;
-let starCanvas;
-
-coinImg.onload = () => {
-  coinCanvas = removeLightBg(coinImg);
-};
-
-starImg.onload = () => {
-  starCanvas = removeLightBg(starImg);
-};
-
-coinImg.src = "assets/images/coin.png";
-starImg.src = "assets/images/star.png";
-
-const coin = {
-  x: 300,
-  y: 90,
-  w: 24,
-  h: 24,
-  taken: false
-};
-
-const star = {
-  x: 200,
-  y: 405,
-  w: 24,
-  h: 24,
-  taken: false
-};
-
-/* ===== PREPROCESS IMAGES ===== */
+/* ================= IMAGE PREPROCESS ================= */
 playerImgs.right.onload = () => {
   for (let dir in playerImgs) {
     playerCanvas[dir] = removeLightBg(playerImgs[dir]);
   }
-
   player.w = playerCanvas.right.width * PLAYER_SCALE;
   player.h = playerCanvas.right.height * PLAYER_SCALE;
 };
@@ -130,7 +91,10 @@ groupImg.onload = () => {
   group.h = groupCanvas.height * GROUP_SCALE;
 };
 
-/* ===== INPUT ===== */
+coinImg.onload = () => coinCanvas = removeLightBg(coinImg);
+starImg.onload = () => starCanvas = removeLightBg(starImg);
+
+/* ================= INPUT ================= */
 const key = { up:0, down:0, left:0, right:0 };
 
 window.addEventListener("keydown", e => {
@@ -144,19 +108,7 @@ window.addEventListener("keyup", () => {
   key.up = key.down = key.left = key.right = 0;
 });
 
-/* ===== MOBILE BUTTONS ===== */
-document.querySelector(".up").onclick    = () => key.up = 1;
-document.querySelector(".down").onclick  = () => key.down = 1;
-document.querySelector(".left").onclick  = () => key.left = 1;
-document.querySelector(".right").onclick = () => key.right = 1;
-
-document.querySelectorAll(".btn").forEach(btn => {
-  btn.onmouseup = btn.ontouchend = () => {
-    key.up = key.down = key.left = key.right = 0;
-  };
-});
-
-/* ===== COLLISION BOX ===== */
+/* ================= COLLISION ================= */
 function isColliding(a, b) {
   return (
     a.x < b.x + b.w &&
@@ -166,28 +118,19 @@ function isColliding(a, b) {
   );
 }
 
-/* ===== WALL CHECK (SLIDE) ===== */
 function isWall(x, y, w, h) {
   const imgData = ctx.getImageData(x, y, w, h).data;
 
   for (let i = 0; i < imgData.length; i += 4) {
-    const r = imgData[i];
-    const g = imgData[i + 1];
-    const b = imgData[i + 2];
-
-    if (r < 40 && g < 40 && b < 40) {
+    if (imgData[i] < 40 && imgData[i+1] < 40 && imgData[i+2] < 40) {
       return true;
     }
   }
   return false;
 }
 
-/* ===== GAME STATE ===== */
-let finished = false;
-
-/* ===== UPDATE ===== */
+/* ================= UPDATE ================= */
 function update() {
-
   let nextX = player.x;
   let nextY = player.y;
 
@@ -196,65 +139,37 @@ function update() {
   if (key.up)    { nextY -= player.speed; player.dir = "back"; }
   if (key.down)  { nextY += player.speed; player.dir = "front"; }
 
-  // SLIDE COLLISION
-  if (!isWall(nextX, player.y, player.w, player.h)) {
-    player.x = nextX;
-  }
+  if (!isWall(nextX, player.y, player.w, player.h)) player.x = nextX;
+  if (!isWall(player.x, nextY, player.w, player.h)) player.y = nextY;
 
-  if (!isWall(player.x, nextY, player.w, player.h)) {
-    player.y = nextY;
-  }
-
-  // batas canvas
   player.x = Math.max(0, Math.min(SIZE - player.w, player.x));
   player.y = Math.max(0, Math.min(SIZE - player.h, player.y));
 
-  // coin
-  if (!coin.taken && isColliding(player, coin)) {
-    coin.taken = true;
-  }
+  if (!coin.taken && isColliding(player, coin)) coin.taken = true;
+  if (!star.taken && isColliding(player, star)) star.taken = true;
 
-  // star
-  if (!star.taken && isColliding(player, star)) {
-    star.taken = true;
-  }
-
-  // finish
   if (!finished && coin.taken && star.taken && isColliding(player, group)) {
     finished = true;
     setTimeout(() => {
-      window.location.href = "gift.html";
-    }, 1200);
+      window.location.href = "choose.html";
+    }, 1000);
   }
 }
 
-/* ===== DRAW ===== */
+/* ================= DRAW ================= */
 function draw() {
   ctx.clearRect(0, 0, SIZE, SIZE);
 
-  if (mazeImg.complete) {
-    ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
-  }
-
-  if (!coin.taken && coinCanvas) {
-    ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
-  }
-
-  if (!star.taken && starCanvas) {
-    ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
-  }
-
-  if (groupCanvas) {
-    ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
-  }
+  if (mazeImg.complete) ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
+  if (!coin.taken && coinCanvas) ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
+  if (!star.taken && starCanvas) ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
+  if (groupCanvas) ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
 
   const img = playerCanvas[player.dir];
-  if (img) {
-    ctx.drawImage(img, player.x, player.y, player.w, player.h);
-  }
+  if (img) ctx.drawImage(img, player.x, player.y, player.w, player.h);
 }
 
-/* ===== LOOP ===== */
+/* ================= LOOP ================= */
 function loop() {
   update();
   draw();
