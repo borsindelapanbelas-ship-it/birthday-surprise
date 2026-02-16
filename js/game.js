@@ -106,7 +106,7 @@ const coin = {
 
 const star = {
   x: 200,
-  y: 410,
+  y: 400,
   w: 24,
   h: 24,
   taken: false
