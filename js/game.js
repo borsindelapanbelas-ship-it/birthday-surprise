@@ -107,13 +107,20 @@ mazeImg.onload = () => {
 function isWall(x, y, w, h) {
   if (!mazeData) return false;
 
+  // ===== HITBOX KAKI =====
+  const footWidth  = w * 0.6;
+  const footHeight = h * 0.25;
+
+  const footX = x + (w - footWidth) / 2;
+  const footY = y + h - footHeight;
+
   const data = mazeData.data;
 
-  for (let i = 0; i < w; i++) {
-    for (let j = 0; j < h; j++) {
+  for (let i = 0; i < footWidth; i++) {
+    for (let j = 0; j < footHeight; j++) {
 
-      const px = Math.floor(x + i);
-      const py = Math.floor(y + j);
+      const px = Math.floor(footX + i);
+      const py = Math.floor(footY + j);
 
       if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
 
