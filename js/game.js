@@ -34,7 +34,7 @@ function removeLightBg(img) {
 
 /* ================= LOAD IMAGES ================= */
 const mazeImg = new Image();
-mazeImg.src = "../assets/images/maze.game.png";
+mazeImg.src = "assets/images/maze.game.png";
 
 const playerImgs = {
   front: new Image(),
@@ -43,19 +43,19 @@ const playerImgs = {
   right: new Image()
 };
 
-playerImgs.front.src = "../assets/images/front.png";
-playerImgs.back.src  = "../assets/images/back.png";
-playerImgs.left.src  = "../assets/images/left.png";
-playerImgs.right.src = "../assets/images/right.png";
+playerImgs.front.src = "assets/images/front.png";
+playerImgs.back.src  = "assets/images/back.png";
+playerImgs.left.src  = "assets/images/left.png";
+playerImgs.right.src = "assets/images/right.png";
 
 const groupImg = new Image();
-groupImg.src = "../assets/images/group.png";
+groupImg.src = "assets/images/group.png";
 
 const coinImg = new Image();
-coinImg.src = "../assets/images/coin.png";
+coinImg.src = "assets/images/coin.png";
 
 const starImg = new Image();
-starImg.src = "../assets/images/star.png";
+starImg.src = "assets/images/star.png";
 
 /* ================= GAME OBJECTS ================= */
 let playerCanvas = {};
