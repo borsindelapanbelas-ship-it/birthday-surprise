@@ -108,8 +108,8 @@ function isWall(x, y, w, h) {
   if (!mazeData) return false;
 
   // ===== HITBOX KAKI =====
-  const footWidth  = w * 0.6;
-  const footHeight = h * 0.25;
+  const footWidth  = w * 0.5;
+  const footHeight = h * 0.2;
 
   const footX = x + (w - footWidth) / 2;
   const footY = y + h - footHeight;
