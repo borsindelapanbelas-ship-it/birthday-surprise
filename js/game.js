@@ -40,7 +40,7 @@ function removeLightBg(img) {
 
 /* ===== MAZE ===== */
 const mazeImg = new Image();
-mazeImg.src = "assets/images/maze.game.png";
+mazeImg.src = "../assets/images/maze.game.png";
 
 /* ===== PLAYER IMAGES ===== */
 const playerImgs = {
