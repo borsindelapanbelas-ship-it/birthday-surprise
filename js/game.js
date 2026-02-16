@@ -41,248 +41,238 @@ starImg.src = "assets/images/star.png";
 const pickupSound = new Audio("assets/sounds/pickup.mp3");
 const winSound    = new Audio("assets/sounds/win.mp3");
 
+// unlock audio for mobile
+function unlockAudio() {
+  pickupSound.play().then(()=>pickupSound.pause()).catch(()=>{});
+  winSound.play().then(()=>winSound.pause()).catch(()=>{});
+  window.removeEventListener("touchstart", unlockAudio);
+  window.removeEventListener("click", unlockAudio);
+}
+window.addEventListener("touchstart", unlockAudio);
+window.addEventListener("click", unlockAudio);
+
 /* ================= GAME OBJECTS ================= */
 let playerCanvas = {};
 let groupCanvas, coinCanvas, starCanvas;
 let mazeData = null;
 
-const player = {
-  x: 50,
-  y: 65,
-  speed: 3,
-  dir: "right",
-  w: 0,
-  h: 0
-};
-
-const group = { x: 430, y: 300, w: 0, h: 0 };
-const coin  = { x: 300, y: 90, w: 24, h: 24, taken: false, flip: 0 };
-const star  = { x: 200, y: 405, w: 24, h: 24, taken: false, flip: 0 };
+const player = { x:50, y:65, speed:3, dir:"right", w:0, h:0 };
+const group  = { x:430, y:300, w:0, h:0 };
+const coin   = { x:300, y:90, w:24, h:24, taken:false, flip:0 };
+const star   = { x:200, y:405, w:24, h:24, taken:false, flip:0 };
 
 let finished = false;
+let winAlpha = 0;
 
-/* ================= REMOVE LIGHT BG ================= */
-function removeLightBg(img) {
-  const c = document.createElement("canvas");
-  const cx = c.getContext("2d");
-
-  c.width = img.naturalWidth;
-  c.height = img.naturalHeight;
-
-  cx.drawImage(img, 0, 0);
-
-  const imgData = cx.getImageData(0, 0, c.width, c.height);
-  const data = imgData.data;
-
-  for (let i = 0; i < data.length; i += 4) {
-    const brightness = (data[i] + data[i+1] + data[i+2]) / 3;
-    if (brightness > 235) data[i+3] = 0;
+/* ================= REMOVE BG ================= */
+function removeLightBg(img){
+  const c=document.createElement("canvas");
+  const cx=c.getContext("2d");
+  c.width=img.naturalWidth;
+  c.height=img.naturalHeight;
+  cx.drawImage(img,0,0);
+  const d=cx.getImageData(0,0,c.width,c.height);
+  for(let i=0;i<d.data.length;i+=4){
+    if((d.data[i]+d.data[i+1]+d.data[i+2])/3>235) d.data[i+3]=0;
   }
-
-  cx.putImageData(imgData, 0, 0);
+  cx.putImageData(d,0,0);
   return c;
 }
 
 /* ================= PREPROCESS ================= */
-playerImgs.right.onload = () => {
-  for (let dir in playerImgs) {
-    playerCanvas[dir] = removeLightBg(playerImgs[dir]);
-  }
-  player.w = playerCanvas.right.width * PLAYER_SCALE;
-  player.h = playerCanvas.right.height * PLAYER_SCALE;
+playerImgs.right.onload=()=>{
+  for(let d in playerImgs)
+    playerCanvas[d]=removeLightBg(playerImgs[d]);
+  player.w=playerCanvas.right.width*PLAYER_SCALE;
+  player.h=playerCanvas.right.height*PLAYER_SCALE;
 };
 
-groupImg.onload = () => {
-  groupCanvas = removeLightBg(groupImg);
-  group.w = groupCanvas.width * GROUP_SCALE;
-  group.h = groupCanvas.height * GROUP_SCALE;
+groupImg.onload=()=>{
+  groupCanvas=removeLightBg(groupImg);
+  group.w=groupCanvas.width*GROUP_SCALE;
+  group.h=groupCanvas.height*GROUP_SCALE;
 };
 
-coinImg.onload = () => coinCanvas = removeLightBg(coinImg);
-starImg.onload = () => starCanvas = removeLightBg(starImg);
+coinImg.onload=()=>coinCanvas=removeLightBg(coinImg);
+starImg.onload=()=>starCanvas=removeLightBg(starImg);
 
 /* ================= MAZE ================= */
-mazeImg.onload = () => {
-  ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
-  mazeData = ctx.getImageData(0, 0, SIZE, SIZE);
+mazeImg.onload=()=>{
+  ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
+  mazeData=ctx.getImageData(0,0,SIZE,SIZE);
   loop();
 };
 
-function isWall(x, y, w, h) {
-  if (!mazeData) return false;
+function isWall(x,y,w,h){
+  if(!mazeData)return false;
+  const fw=w*0.5, fh=h*0.2;
+  const fx=x+(w-fw)/2;
+  const fy=y+h-fh;
+  const data=mazeData.data;
 
-  const footWidth  = w * 0.5;
-  const footHeight = h * 0.2;
-
-  const footX = x + (w - footWidth) / 2;
-  const footY = y + h - footHeight;
-
-  const data = mazeData.data;
-
-  for (let i = 0; i < footWidth; i++) {
-    for (let j = 0; j < footHeight; j++) {
-
-      const px = Math.floor(footX + i);
-      const py = Math.floor(footY + j);
-
-      if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
-
-      const index = (py * SIZE + px) * 4;
-      const r = data[index];
-      const g = data[index + 1];
-      const b = data[index + 2];
-
-      if (r < 40 && g < 40 && b < 40) return true;
+  for(let i=0;i<fw;i++){
+    for(let j=0;j<fh;j++){
+      const px=Math.floor(fx+i);
+      const py=Math.floor(fy+j);
+      if(px<0||py<0||px>=SIZE||py>=SIZE)continue;
+      const idx=(py*SIZE+px)*4;
+      if(data[idx]<40&&data[idx+1]<40&&data[idx+2]<40)
+        return true;
     }
   }
   return false;
 }
 
 /* ================= INPUT ================= */
-const key = { up:false, down:false, left:false, right:false };
+const key={up:false,down:false,left:false,right:false};
 
-window.addEventListener("keydown", e => {
-  if (e.key === "ArrowUp") key.up = true;
-  if (e.key === "ArrowDown") key.down = true;
-  if (e.key === "ArrowLeft") key.left = true;
-  if (e.key === "ArrowRight") key.right = true;
+window.addEventListener("keydown",e=>{
+  if(e.key==="ArrowUp")key.up=true;
+  if(e.key==="ArrowDown")key.down=true;
+  if(e.key==="ArrowLeft")key.left=true;
+  if(e.key==="ArrowRight")key.right=true;
+});
+window.addEventListener("keyup",e=>{
+  if(e.key==="ArrowUp")key.up=false;
+  if(e.key==="ArrowDown")key.down=false;
+  if(e.key==="ArrowLeft")key.left=false;
+  if(e.key==="ArrowRight")key.right=false;
 });
 
-window.addEventListener("keyup", e => {
-  if (e.key === "ArrowUp") key.up = false;
-  if (e.key === "ArrowDown") key.down = false;
-  if (e.key === "ArrowLeft") key.left = false;
-  if (e.key === "ArrowRight") key.right = false;
-});
+/* ================= MOBILE CONTROL ================= */
+function createMobileControls(){
+  if(!("ontouchstart" in window))return;
 
-/* ================= MOBILE TOUCH (HP ONLY) ================= */
-function createMobileControls() {
+  const box=document.createElement("div");
+  box.style.position="absolute";
+  box.style.bottom="20px";
+  box.style.left="50%";
+  box.style.transform="translateX(-50%)";
+  box.style.display="grid";
+  box.style.gridTemplateColumns="70px 70px 70px";
+  box.style.gap="10px";
+  box.style.zIndex="999";
 
-  if (!("ontouchstart" in window)) return;
+  function btn(txt,act){
+    const b=document.createElement("div");
+    b.innerHTML=txt;
+    b.style.background="rgba(255,255,255,0.6)";
+    b.style.padding="20px";
+    b.style.textAlign="center";
+    b.style.borderRadius="15px";
+    b.style.fontSize="22px";
+    b.style.userSelect="none";
 
-  const container = document.createElement("div");
-  container.style.position = "absolute";
-  container.style.bottom = "20px";
-  container.style.left = "50%";
-  container.style.transform = "translateX(-50%)";
-  container.style.display = "grid";
-  container.style.gridTemplateColumns = "60px 60px 60px";
-  container.style.gap = "10px";
-  container.style.zIndex = "999";
-
-  function makeBtn(label, action) {
-    const btn = document.createElement("div");
-    btn.innerHTML = label;
-    btn.style.background = "rgba(255,255,255,0.6)";
-    btn.style.textAlign = "center";
-    btn.style.padding = "15px";
-    btn.style.borderRadius = "12px";
-    btn.style.fontSize = "20px";
-    btn.style.userSelect = "none";
-
-    btn.addEventListener("touchstart", e => {
+    b.addEventListener("touchstart",e=>{
       e.preventDefault();
-      key[action] = true;
-    });
+      key[act]=true;
+    },{passive:false});
 
-    btn.addEventListener("touchend", e => {
+    b.addEventListener("touchend",e=>{
       e.preventDefault();
-      key[action] = false;
-    });
+      key[act]=false;
+    },{passive:false});
 
-    return btn;
+    return b;
   }
 
-  container.appendChild(document.createElement("div"));
-  container.appendChild(makeBtn("⬆️","up"));
-  container.appendChild(document.createElement("div"));
-  container.appendChild(makeBtn("⬅️","left"));
-  container.appendChild(makeBtn("⬇️","down"));
-  container.appendChild(makeBtn("➡️","right"));
+  box.appendChild(document.createElement("div"));
+  box.appendChild(btn("⬆️","up"));
+  box.appendChild(document.createElement("div"));
+  box.appendChild(btn("⬅️","left"));
+  box.appendChild(btn("⬇️","down"));
+  box.appendChild(btn("➡️","right"));
 
-  document.body.appendChild(container);
+  document.body.appendChild(box);
 }
-
 createMobileControls();
 
 /* ================= COLLISION ================= */
-function isColliding(a, b) {
-  return (
-    a.x < b.x + b.w &&
-    a.x + a.w > b.x &&
-    a.y < b.y + b.h &&
-    a.y + a.h > b.y
-  );
+function collide(a,b){
+  return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
 }
 
 /* ================= UPDATE ================= */
-function update() {
+function update(){
 
-  let nextX = player.x;
-  let nextY = player.y;
+  if(!finished){
+    let nx=player.x, ny=player.y;
 
-  if (key.left)  { nextX -= player.speed; player.dir = "left"; }
-  if (key.right) { nextX += player.speed; player.dir = "right"; }
-  if (key.up)    { nextY -= player.speed; player.dir = "back"; }
-  if (key.down)  { nextY += player.speed; player.dir = "front"; }
+    if(key.left){nx-=player.speed;player.dir="left";}
+    if(key.right){nx+=player.speed;player.dir="right";}
+    if(key.up){ny-=player.speed;player.dir="back";}
+    if(key.down){ny+=player.speed;player.dir="front";}
 
-  if (!isWall(nextX, player.y, player.w, player.h)) player.x = nextX;
-  if (!isWall(player.x, nextY, player.w, player.h)) player.y = nextY;
+    if(!isWall(nx,player.y,player.w,player.h))player.x=nx;
+    if(!isWall(player.x,ny,player.w,player.h))player.y=ny;
 
-  coin.flip += 0.15;
-  star.flip += 0.15;
+    coin.flip+=0.15;
+    star.flip+=0.15;
 
-  if (!coin.taken && isColliding(player, coin)) {
-    coin.taken = true;
-    pickupSound.currentTime = 0;
-    pickupSound.play();
+    if(!coin.taken&&collide(player,coin)){
+      coin.taken=true;
+      pickupSound.currentTime=0;
+      pickupSound.play();
+    }
+
+    if(!star.taken&&collide(player,star)){
+      star.taken=true;
+      pickupSound.currentTime=0;
+      pickupSound.play();
+    }
+
+    if(coin.taken&&star.taken&&collide(player,group)){
+      finished=true;
+      winSound.play();
+    }
   }
 
-  if (!star.taken && isColliding(player, star)) {
-    star.taken = true;
-    pickupSound.currentTime = 0;
-    pickupSound.play();
-  }
-
-  if (!finished && coin.taken && star.taken && isColliding(player, group)) {
-    finished = true;
-    winSound.play();
-    setTimeout(() => {
-      window.location.href = "choose.html";
-    }, 1200);
+  if(finished&&winAlpha<1)winAlpha+=0.02;
+  if(winAlpha>=1){
+    setTimeout(()=>window.location.href="choose.html",2500);
   }
 }
 
 /* ================= DRAW ================= */
-function draw() {
+function draw(){
+  ctx.clearRect(0,0,SIZE,SIZE);
+  ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
 
-  ctx.clearRect(0, 0, SIZE, SIZE);
-  ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
-
-  function drawFlip(obj, img) {
+  function flipDraw(o,img){
     ctx.save();
-    ctx.translate(obj.x + obj.w/2, obj.y + obj.h/2);
-    ctx.scale(Math.cos(obj.flip), 1);
-    ctx.drawImage(img, -obj.w/2, -obj.h/2, obj.w, obj.h);
+    ctx.translate(o.x+o.w/2,o.y+o.h/2);
+    ctx.scale(Math.cos(o.flip),1);
+    ctx.drawImage(img,-o.w/2,-o.h/2,o.w,o.h);
     ctx.restore();
   }
 
-  if (!coin.taken && coinCanvas)
-    drawFlip(coin, coinCanvas);
+  if(!coin.taken&&coinCanvas)flipDraw(coin,coinCanvas);
+  if(!star.taken&&starCanvas)flipDraw(star,starCanvas);
 
-  if (!star.taken && starCanvas)
-    drawFlip(star, starCanvas);
+  if(groupCanvas)
+    ctx.drawImage(groupCanvas,group.x,group.y,group.w,group.h);
 
-  if (groupCanvas)
-    ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
+  const img=playerCanvas[player.dir];
+  if(img)
+    ctx.drawImage(img,player.x,player.y,player.w,player.h);
 
-  const img = playerCanvas[player.dir];
-  if (img)
-    ctx.drawImage(img, player.x, player.y, player.w, player.h);
+  if(finished){
+    ctx.fillStyle="rgba(0,0,0,"+winAlpha*0.8+")";
+    ctx.fillRect(0,0,SIZE,SIZE);
+
+    ctx.fillStyle="white";
+    ctx.textAlign="center";
+
+    ctx.font="34px Arial";
+    ctx.fillText("YAY 🎉 You Found Us!",SIZE/2,SIZE/2-20);
+
+    ctx.font="22px Arial";
+    ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2+20);
+  }
 }
 
 /* ================= LOOP ================= */
-function loop() {
+function loop(){
   update();
   draw();
   requestAnimationFrame(loop);
