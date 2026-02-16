@@ -10,8 +10,8 @@ canvas.height = SIZE;
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
 
-/* ===== REMOVE WHITE BG ===== */
-function removeWhiteBg(img) {
+//remove bg coin & star//
+function removeLightBg(img) {
   const c = document.createElement("canvas");
   const cx = c.getContext("2d");
 
@@ -28,7 +28,11 @@ function removeWhiteBg(img) {
     const g = data[i + 1];
     const b = data[i + 2];
 
-    if (r > 240 && g > 240 && b > 240) {
+    // hitung tingkat terang
+    const brightness = (r + g + b) / 3;
+
+    // abu-putih terang
+    if (brightness > 235) {
       data[i + 3] = 0;
     }
   }
@@ -86,11 +90,11 @@ let coinCanvas;
 let starCanvas;
 
 coinImg.onload = () => {
-  coinCanvas = removeWhiteBg(coinImg);
+  coinCanvas = removeLightBg(coinImg);
 };
 
 starImg.onload = () => {
-  starCanvas = removeWhiteBg(starImg);
+  starCanvas = removelightBg(starImg);
 };
 
 coinImg.src = "assets/images/coin.png";
@@ -106,7 +110,7 @@ const coin = {
 
 const star = {
   x: 200,
-  y: 400,
+  y: 405,
   w: 24,
   h: 24,
   taken: false
