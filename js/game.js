@@ -10,7 +10,7 @@ canvas.height = SIZE;
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
 
-/* ===== REMOVE LIGHT BG (PUTIH / ABU TERANG) ===== */
+/* ===== REMOVE LIGHT BG ===== */
 function removeLightBg(img) {
   const c = document.createElement("canvas");
   const cx = c.getContext("2d");
@@ -27,7 +27,6 @@ function removeLightBg(img) {
     const r = data[i];
     const g = data[i + 1];
     const b = data[i + 2];
-
     const brightness = (r + g + b) / 3;
 
     if (brightness > 235) {
@@ -157,7 +156,7 @@ document.querySelectorAll(".btn").forEach(btn => {
   };
 });
 
-/* ===== COLLISION ===== */
+/* ===== COLLISION BOX ===== */
 function isColliding(a, b) {
   return (
     a.x < b.x + b.w &&
@@ -167,30 +166,60 @@ function isColliding(a, b) {
   );
 }
 
+/* ===== WALL CHECK (SLIDE) ===== */
+function isWall(x, y, w, h) {
+  const imgData = ctx.getImageData(x, y, w, h).data;
+
+  for (let i = 0; i < imgData.length; i += 4) {
+    const r = imgData[i];
+    const g = imgData[i + 1];
+    const b = imgData[i + 2];
+
+    if (r < 40 && g < 40 && b < 40) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /* ===== GAME STATE ===== */
 let finished = false;
 
 /* ===== UPDATE ===== */
 function update() {
-  if (key.up)    { player.y -= player.speed; player.dir = "back"; }
-  if (key.down)  { player.y += player.speed; player.dir = "front"; }
-  if (key.left)  { player.x -= player.speed; player.dir = "left"; }
-  if (key.right) { player.x += player.speed; player.dir = "right"; }
 
+  let nextX = player.x;
+  let nextY = player.y;
+
+  if (key.left)  { nextX -= player.speed; player.dir = "left"; }
+  if (key.right) { nextX += player.speed; player.dir = "right"; }
+  if (key.up)    { nextY -= player.speed; player.dir = "back"; }
+  if (key.down)  { nextY += player.speed; player.dir = "front"; }
+
+  // SLIDE COLLISION
+  if (!isWall(nextX, player.y, player.w, player.h)) {
+    player.x = nextX;
+  }
+
+  if (!isWall(player.x, nextY, player.w, player.h)) {
+    player.y = nextY;
+  }
+
+  // batas canvas
   player.x = Math.max(0, Math.min(SIZE - player.w, player.x));
   player.y = Math.max(0, Math.min(SIZE - player.h, player.y));
 
-  // Ambil coin
+  // coin
   if (!coin.taken && isColliding(player, coin)) {
     coin.taken = true;
   }
 
-  // Ambil star
+  // star
   if (!star.taken && isColliding(player, star)) {
     star.taken = true;
   }
 
-  // Finish hanya kalau coin & star sudah diambil
+  // finish
   if (!finished && coin.taken && star.taken && isColliding(player, group)) {
     finished = true;
     setTimeout(() => {
@@ -235,4 +264,3 @@ function loop() {
 mazeImg.onload = () => {
   loop();
 };
-
