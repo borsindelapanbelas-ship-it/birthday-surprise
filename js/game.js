@@ -155,8 +155,11 @@ window.addEventListener("keyup", e => {
   if (e.key === "ArrowRight") key.right = false;
 });
 
-/* ================= MOBILE TOUCH CONTROL ================= */
+/* ================= MOBILE TOUCH (HP ONLY) ================= */
 function createMobileControls() {
+
+  if (!("ontouchstart" in window)) return;
+
   const container = document.createElement("div");
   container.style.position = "absolute";
   container.style.bottom = "20px";
@@ -170,15 +173,22 @@ function createMobileControls() {
   function makeBtn(label, action) {
     const btn = document.createElement("div");
     btn.innerHTML = label;
-    btn.style.background = "rgba(255,255,255,0.7)";
+    btn.style.background = "rgba(255,255,255,0.6)";
     btn.style.textAlign = "center";
     btn.style.padding = "15px";
     btn.style.borderRadius = "12px";
     btn.style.fontSize = "20px";
     btn.style.userSelect = "none";
 
-    btn.addEventListener("touchstart", () => key[action] = true);
-    btn.addEventListener("touchend", () => key[action] = false);
+    btn.addEventListener("touchstart", e => {
+      e.preventDefault();
+      key[action] = true;
+    });
+
+    btn.addEventListener("touchend", e => {
+      e.preventDefault();
+      key[action] = false;
+    });
 
     return btn;
   }
@@ -219,17 +229,18 @@ function update() {
   if (!isWall(nextX, player.y, player.w, player.h)) player.x = nextX;
   if (!isWall(player.x, nextY, player.w, player.h)) player.y = nextY;
 
-  // flip animation
-  coin.flip += 0.1;
-  star.flip += 0.1;
+  coin.flip += 0.15;
+  star.flip += 0.15;
 
   if (!coin.taken && isColliding(player, coin)) {
     coin.taken = true;
+    pickupSound.currentTime = 0;
     pickupSound.play();
   }
 
   if (!star.taken && isColliding(player, star)) {
     star.taken = true;
+    pickupSound.currentTime = 0;
     pickupSound.play();
   }
 
@@ -251,10 +262,7 @@ function draw() {
   function drawFlip(obj, img) {
     ctx.save();
     ctx.translate(obj.x + obj.w/2, obj.y + obj.h/2);
-
-    const scaleX = Math.cos(obj.flip); // ← efek flip samping
-    ctx.scale(scaleX, 1);
-
+    ctx.scale(Math.cos(obj.flip), 1);
     ctx.drawImage(img, -obj.w/2, -obj.h/2, obj.w, obj.h);
     ctx.restore();
   }
