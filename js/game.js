@@ -37,9 +37,6 @@ coinImg.src = "assets/images/coin.png";
 const starImg = new Image();
 starImg.src = "assets/images/star.png";
 
-/* ================= SOUND ================= */
-const pickupSound = new Audio("assets/sounds/pickup.mp3");
-
 /* ================= GAME OBJECTS ================= */
 let playerCanvas = {};
 let groupCanvas, coinCanvas, starCanvas;
@@ -55,12 +52,10 @@ const player = {
 };
 
 const group = { x: 430, y: 300, w: 0, h: 0 };
-const coin  = { x: 300, y: 90, w: 24, h: 24, taken: false, angle: 0 };
-const star  = { x: 200, y: 405, w: 24, h: 24, taken: false, angle: 0 };
+const coin  = { x: 300, y: 90, w: 24, h: 24, taken: false };
+const star  = { x: 200, y: 405, w: 24, h: 24, taken: false };
 
-let score = 0;
 let finished = false;
-let fadeAlpha = 0;
 
 /* ================= REMOVE LIGHT BG ================= */
 function removeLightBg(img) {
@@ -85,13 +80,15 @@ function removeLightBg(img) {
 }
 
 /* ================= PREPROCESS ================= */
-playerImgs.right.onload = () => {
+function preprocessPlayer() {
   for (let dir in playerImgs) {
     playerCanvas[dir] = removeLightBg(playerImgs[dir]);
   }
   player.w = playerCanvas.right.width * PLAYER_SCALE;
   player.h = playerCanvas.right.height * PLAYER_SCALE;
-};
+}
+
+playerImgs.right.onload = preprocessPlayer;
 
 groupImg.onload = () => {
   groupCanvas = removeLightBg(groupImg);
@@ -102,7 +99,7 @@ groupImg.onload = () => {
 coinImg.onload = () => coinCanvas = removeLightBg(coinImg);
 starImg.onload = () => starCanvas = removeLightBg(starImg);
 
-/* ================= MAZE ================= */
+/* ================= MAZE WALL DATA ================= */
 mazeImg.onload = () => {
   ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
   mazeData = ctx.getImageData(0, 0, SIZE, SIZE);
@@ -169,49 +166,29 @@ function isColliding(a, b) {
 /* ================= UPDATE ================= */
 function update() {
 
-  if (!finished) {
+  let nextX = player.x;
+  let nextY = player.y;
 
-    let nextX = player.x;
-    let nextY = player.y;
+  if (key.left)  { nextX -= player.speed; player.dir = "left"; }
+  if (key.right) { nextX += player.speed; player.dir = "right"; }
+  if (key.up)    { nextY -= player.speed; player.dir = "back"; }
+  if (key.down)  { nextY += player.speed; player.dir = "front"; }
 
-    if (key.left)  { nextX -= player.speed; player.dir = "left"; }
-    if (key.right) { nextX += player.speed; player.dir = "right"; }
-    if (key.up)    { nextY -= player.speed; player.dir = "back"; }
-    if (key.down)  { nextY += player.speed; player.dir = "front"; }
+  if (!isWall(nextX, player.y, player.w, player.h)) player.x = nextX;
+  if (!isWall(player.x, nextY, player.w, player.h)) player.y = nextY;
 
-    if (!isWall(nextX, player.y, player.w, player.h)) player.x = nextX;
-    if (!isWall(player.x, nextY, player.w, player.h)) player.y = nextY;
+  player.x = Math.max(0, Math.min(SIZE - player.w, player.x));
+  player.y = Math.max(0, Math.min(SIZE - player.h, player.y));
 
-    if (!coin.taken && isColliding(player, coin)) {
-      coin.taken = true;
-      score++;
-      pickupSound.play();
-    }
+  if (!coin.taken && isColliding(player, coin)) coin.taken = true;
+  if (!star.taken && isColliding(player, star)) star.taken = true;
 
-    if (!star.taken && isColliding(player, star)) {
-      star.taken = true;
-      score++;
-      pickupSound.play();
-    }
-
-    if (score === 2 && isColliding(player, group)) {
-      finished = true;
-    }
-  }
-
-  // rotate animation
-  coin.angle += 0.05;
-  star.angle += 0.05;
-
-  // fade effect
-  if (finished && fadeAlpha < 1) {
-    fadeAlpha += 0.02;
-  }
-
-  if (fadeAlpha >= 1) {
+  if (!finished && coin.taken && star.taken && isColliding(player, group)) {
+    finished = true;
+    alert("YAY 🎉 You found us!\n\nNow, let's open the present! 🎁");
     setTimeout(() => {
       window.location.href = "choose.html";
-    }, 1000);
+    }, 800);
   }
 }
 
@@ -221,28 +198,11 @@ function draw() {
   ctx.clearRect(0, 0, SIZE, SIZE);
   ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
 
-  // score
-  ctx.fillStyle = "white";
-  ctx.font = "20px Arial";
-  ctx.fillText("⭐ Score: " + score + "/2", 20, 30);
+  if (!coin.taken && coinCanvas)
+    ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
 
-  // coin
-  if (!coin.taken && coinCanvas) {
-    ctx.save();
-    ctx.translate(coin.x + coin.w/2, coin.y + coin.h/2);
-    ctx.rotate(coin.angle);
-    ctx.drawImage(coinCanvas, -coin.w/2, -coin.h/2, coin.w, coin.h);
-    ctx.restore();
-  }
-
-  // star
-  if (!star.taken && starCanvas) {
-    ctx.save();
-    ctx.translate(star.x + star.w/2, star.y + star.h/2);
-    ctx.rotate(star.angle);
-    ctx.drawImage(starCanvas, -star.w/2, -star.h/2, star.w, star.h);
-    ctx.restore();
-  }
+  if (!star.taken && starCanvas)
+    ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
 
   if (groupCanvas)
     ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
@@ -250,16 +210,6 @@ function draw() {
   const img = playerCanvas[player.dir];
   if (img)
     ctx.drawImage(img, player.x, player.y, player.w, player.h);
-
-  // fade overlay
-  if (finished) {
-    ctx.fillStyle = "rgba(0,0,0," + fadeAlpha + ")";
-    ctx.fillRect(0, 0, SIZE, SIZE);
-
-    ctx.fillStyle = "white";
-    ctx.font = "30px Arial";
-    ctx.fillText("You Found Us! 🎉", SIZE/2 - 120, SIZE/2);
-  }
 }
 
 /* ================= LOOP ================= */
