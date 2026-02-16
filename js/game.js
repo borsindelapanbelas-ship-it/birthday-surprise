@@ -37,6 +37,9 @@ coinImg.src = "assets/images/coin.png";
 const starImg = new Image();
 starImg.src = "assets/images/star.png";
 
+/* ================= SOUND ================= */
+const pickupSound = new Audio("assets/sounds/pickup.mp3");
+
 /* ================= GAME OBJECTS ================= */
 let playerCanvas = {};
 let groupCanvas, coinCanvas, starCanvas;
@@ -52,10 +55,12 @@ const player = {
 };
 
 const group = { x: 430, y: 300, w: 0, h: 0 };
-const coin  = { x: 300, y: 90, w: 24, h: 24, taken: false };
-const star  = { x: 200, y: 405, w: 24, h: 24, taken: false };
+const coin  = { x: 300, y: 90, w: 24, h: 24, taken: false, angle: 0 };
+const star  = { x: 200, y: 405, w: 24, h: 24, taken: false, angle: 0 };
 
+let score = 0;
 let finished = false;
+let fadeAlpha = 0;
 
 /* ================= REMOVE LIGHT BG ================= */
 function removeLightBg(img) {
@@ -97,7 +102,7 @@ groupImg.onload = () => {
 coinImg.onload = () => coinCanvas = removeLightBg(coinImg);
 starImg.onload = () => starCanvas = removeLightBg(starImg);
 
-/* ================= MAZE WALL DATA ================= */
+/* ================= MAZE ================= */
 mazeImg.onload = () => {
   ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
   mazeData = ctx.getImageData(0, 0, SIZE, SIZE);
@@ -107,7 +112,6 @@ mazeImg.onload = () => {
 function isWall(x, y, w, h) {
   if (!mazeData) return false;
 
-  // ===== HITBOX KAKI =====
   const footWidth  = w * 0.5;
   const footHeight = h * 0.2;
 
@@ -125,31 +129,31 @@ function isWall(x, y, w, h) {
       if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
 
       const index = (py * SIZE + px) * 4;
-
       const r = data[index];
       const g = data[index + 1];
       const b = data[index + 2];
 
-      if (r < 40 && g < 40 && b < 40) {
-        return true;
-      }
+      if (r < 40 && g < 40 && b < 40) return true;
     }
   }
   return false;
 }
 
 /* ================= INPUT ================= */
-const key = { up:0, down:0, left:0, right:0 };
+const key = { up:false, down:false, left:false, right:false };
 
 window.addEventListener("keydown", e => {
-  if (e.key === "ArrowUp") key.up = 1;
-  if (e.key === "ArrowDown") key.down = 1;
-  if (e.key === "ArrowLeft") key.left = 1;
-  if (e.key === "ArrowRight") key.right = 1;
+  if (e.key === "ArrowUp") key.up = true;
+  if (e.key === "ArrowDown") key.down = true;
+  if (e.key === "ArrowLeft") key.left = true;
+  if (e.key === "ArrowRight") key.right = true;
 });
 
-window.addEventListener("keyup", () => {
-  key.up = key.down = key.left = key.right = 0;
+window.addEventListener("keyup", e => {
+  if (e.key === "ArrowUp") key.up = false;
+  if (e.key === "ArrowDown") key.down = false;
+  if (e.key === "ArrowLeft") key.left = false;
+  if (e.key === "ArrowRight") key.right = false;
 });
 
 /* ================= COLLISION ================= */
@@ -165,29 +169,49 @@ function isColliding(a, b) {
 /* ================= UPDATE ================= */
 function update() {
 
-  let nextX = player.x;
-  let nextY = player.y;
+  if (!finished) {
 
-  if (key.left)  { nextX -= player.speed; player.dir = "left"; }
-  if (key.right) { nextX += player.speed; player.dir = "right"; }
-  if (key.up)    { nextY -= player.speed; player.dir = "back"; }
-  if (key.down)  { nextY += player.speed; player.dir = "front"; }
+    let nextX = player.x;
+    let nextY = player.y;
 
-  if (!isWall(nextX, player.y, player.w, player.h)) player.x = nextX;
-  if (!isWall(player.x, nextY, player.w, player.h)) player.y = nextY;
+    if (key.left)  { nextX -= player.speed; player.dir = "left"; }
+    if (key.right) { nextX += player.speed; player.dir = "right"; }
+    if (key.up)    { nextY -= player.speed; player.dir = "back"; }
+    if (key.down)  { nextY += player.speed; player.dir = "front"; }
 
-  player.x = Math.max(0, Math.min(SIZE - player.w, player.x));
-  player.y = Math.max(0, Math.min(SIZE - player.h, player.y));
+    if (!isWall(nextX, player.y, player.w, player.h)) player.x = nextX;
+    if (!isWall(player.x, nextY, player.w, player.h)) player.y = nextY;
 
-  if (!coin.taken && isColliding(player, coin)) coin.taken = true;
-  if (!star.taken && isColliding(player, star)) star.taken = true;
+    if (!coin.taken && isColliding(player, coin)) {
+      coin.taken = true;
+      score++;
+      pickupSound.play();
+    }
 
-  if (!finished && coin.taken && star.taken && isColliding(player, group)) {
-    finished = true;
-   alert("YAY 🎉 You found us!\n\nNow, let's open the present! 🎁");
+    if (!star.taken && isColliding(player, star)) {
+      star.taken = true;
+      score++;
+      pickupSound.play();
+    }
+
+    if (score === 2 && isColliding(player, group)) {
+      finished = true;
+    }
+  }
+
+  // rotate animation
+  coin.angle += 0.05;
+  star.angle += 0.05;
+
+  // fade effect
+  if (finished && fadeAlpha < 1) {
+    fadeAlpha += 0.02;
+  }
+
+  if (fadeAlpha >= 1) {
     setTimeout(() => {
       window.location.href = "choose.html";
-    }, 800);
+    }, 1000);
   }
 }
 
@@ -195,14 +219,30 @@ function update() {
 function draw() {
 
   ctx.clearRect(0, 0, SIZE, SIZE);
-
   ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
 
-  if (!coin.taken && coinCanvas)
-    ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
+  // score
+  ctx.fillStyle = "white";
+  ctx.font = "20px Arial";
+  ctx.fillText("⭐ Score: " + score + "/2", 20, 30);
 
-  if (!star.taken && starCanvas)
-    ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
+  // coin
+  if (!coin.taken && coinCanvas) {
+    ctx.save();
+    ctx.translate(coin.x + coin.w/2, coin.y + coin.h/2);
+    ctx.rotate(coin.angle);
+    ctx.drawImage(coinCanvas, -coin.w/2, -coin.h/2, coin.w, coin.h);
+    ctx.restore();
+  }
+
+  // star
+  if (!star.taken && starCanvas) {
+    ctx.save();
+    ctx.translate(star.x + star.w/2, star.y + star.h/2);
+    ctx.rotate(star.angle);
+    ctx.drawImage(starCanvas, -star.w/2, -star.h/2, star.w, star.h);
+    ctx.restore();
+  }
 
   if (groupCanvas)
     ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
@@ -210,6 +250,16 @@ function draw() {
   const img = playerCanvas[player.dir];
   if (img)
     ctx.drawImage(img, player.x, player.y, player.w, player.h);
+
+  // fade overlay
+  if (finished) {
+    ctx.fillStyle = "rgba(0,0,0," + fadeAlpha + ")";
+    ctx.fillRect(0, 0, SIZE, SIZE);
+
+    ctx.fillStyle = "white";
+    ctx.font = "30px Arial";
+    ctx.fillText("You Found Us! 🎉", SIZE/2 - 120, SIZE/2);
+  }
 }
 
 /* ================= LOOP ================= */
@@ -220,3 +270,4 @@ function loop() {
 }
 
 });
+
