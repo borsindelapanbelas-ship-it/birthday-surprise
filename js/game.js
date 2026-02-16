@@ -10,7 +10,7 @@ canvas.height = SIZE;
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
 
-//remove bg coin & star//
+/* ===== REMOVE LIGHT BG (PUTIH / ABU TERANG) ===== */
 function removeLightBg(img) {
   const c = document.createElement("canvas");
   const cx = c.getContext("2d");
@@ -28,10 +28,8 @@ function removeLightBg(img) {
     const g = data[i + 1];
     const b = data[i + 2];
 
-    // hitung tingkat terang
     const brightness = (r + g + b) / 3;
 
-    // abu-putih terang
     if (brightness > 235) {
       data[i + 3] = 0;
     }
@@ -83,6 +81,7 @@ const group = {
   h: 0
 };
 
+/* ===== COIN & STAR ===== */
 const coinImg = new Image();
 const starImg = new Image();
 
@@ -94,7 +93,7 @@ coinImg.onload = () => {
 };
 
 starImg.onload = () => {
-  starCanvas = removelightBg(starImg);
+  starCanvas = removeLightBg(starImg);
 };
 
 coinImg.src = "assets/images/coin.png";
@@ -119,17 +118,17 @@ const star = {
 /* ===== PREPROCESS IMAGES ===== */
 playerImgs.right.onload = () => {
   for (let dir in playerImgs) {
-    playerCanvas[dir] = removeWhiteBg(playerImgs[dir]);
+    playerCanvas[dir] = removeLightBg(playerImgs[dir]);
   }
 
   player.w = playerCanvas.right.width * PLAYER_SCALE;
-player.h = playerCanvas.right.height * PLAYER_SCALE;
+  player.h = playerCanvas.right.height * PLAYER_SCALE;
 };
 
 groupImg.onload = () => {
-  groupCanvas = removeWhiteBg(groupImg);
+  groupCanvas = removeLightBg(groupImg);
   group.w = groupCanvas.width * GROUP_SCALE;
-group.h = groupCanvas.height * GROUP_SCALE;
+  group.h = groupCanvas.height * GROUP_SCALE;
 };
 
 /* ===== INPUT ===== */
@@ -181,19 +180,23 @@ function update() {
   player.x = Math.max(0, Math.min(SIZE - player.w, player.x));
   player.y = Math.max(0, Math.min(SIZE - player.h, player.y));
 
-  if (!finished && isColliding(player, group)) {
+  // Ambil coin
+  if (!coin.taken && isColliding(player, coin)) {
+    coin.taken = true;
+  }
+
+  // Ambil star
+  if (!star.taken && isColliding(player, star)) {
+    star.taken = true;
+  }
+
+  // Finish hanya kalau coin & star sudah diambil
+  if (!finished && coin.taken && star.taken && isColliding(player, group)) {
     finished = true;
     setTimeout(() => {
       window.location.href = "gift.html";
     }, 1200);
   }
-  if (!coin.taken && isColliding(player, coin)) {
-  coin.taken = true;
-}
-
-if (!star.taken && isColliding(player, star)) {
-  star.taken = true;
-}
 }
 
 /* ===== DRAW ===== */
@@ -203,13 +206,14 @@ function draw() {
   if (mazeImg.complete) {
     ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
   }
-if (!coin.taken && coinCanvas) {
-  ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
-}
 
-if (!star.taken && starCanvas) {
-  ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
-}
+  if (!coin.taken && coinCanvas) {
+    ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
+  }
+
+  if (!star.taken && starCanvas) {
+    ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
+  }
 
   if (groupCanvas) {
     ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
@@ -231,3 +235,4 @@ function loop() {
 mazeImg.onload = () => {
   loop();
 };
+
