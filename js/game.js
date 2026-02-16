@@ -1,4 +1,5 @@
-console.log("JS kebaca");
+window.addEventListener("DOMContentLoaded", () => {
+
 /* ================= CANVAS ================= */
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -10,28 +11,6 @@ canvas.height = SIZE;
 /* ================= SCALE ================= */
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
-
-/* ================= REMOVE LIGHT BG ================= */
-function removeLightBg(img) {
-  const c = document.createElement("canvas");
-  const cx = c.getContext("2d");
-
-  c.width = img.naturalWidth;
-  c.height = img.naturalHeight;
-
-  cx.drawImage(img, 0, 0);
-
-  const imgData = cx.getImageData(0, 0, c.width, c.height);
-  const data = imgData.data;
-
-  for (let i = 0; i < data.length; i += 4) {
-    const brightness = (data[i] + data[i+1] + data[i+2]) / 3;
-    if (brightness > 235) data[i+3] = 0;
-  }
-
-  cx.putImageData(imgData, 0, 0);
-  return c;
-}
 
 /* ================= LOAD IMAGES ================= */
 const mazeImg = new Image();
@@ -61,6 +40,7 @@ starImg.src = "assets/images/star.png";
 /* ================= GAME OBJECTS ================= */
 let playerCanvas = {};
 let groupCanvas, coinCanvas, starCanvas;
+let mazeData = null;
 
 const player = {
   x: 50,
@@ -77,7 +57,29 @@ const star  = { x: 200, y: 405, w: 24, h: 24, taken: false };
 
 let finished = false;
 
-/* ================= IMAGE PREPROCESS ================= */
+/* ================= REMOVE LIGHT BG ================= */
+function removeLightBg(img) {
+  const c = document.createElement("canvas");
+  const cx = c.getContext("2d");
+
+  c.width = img.naturalWidth;
+  c.height = img.naturalHeight;
+
+  cx.drawImage(img, 0, 0);
+
+  const imgData = cx.getImageData(0, 0, c.width, c.height);
+  const data = imgData.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    const brightness = (data[i] + data[i+1] + data[i+2]) / 3;
+    if (brightness > 235) data[i+3] = 0;
+  }
+
+  cx.putImageData(imgData, 0, 0);
+  return c;
+}
+
+/* ================= PREPROCESS ================= */
 playerImgs.right.onload = () => {
   for (let dir in playerImgs) {
     playerCanvas[dir] = removeLightBg(playerImgs[dir]);
@@ -94,6 +96,40 @@ groupImg.onload = () => {
 
 coinImg.onload = () => coinCanvas = removeLightBg(coinImg);
 starImg.onload = () => starCanvas = removeLightBg(starImg);
+
+/* ================= MAZE WALL DATA ================= */
+mazeImg.onload = () => {
+  ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
+  mazeData = ctx.getImageData(0, 0, SIZE, SIZE);
+  loop();
+};
+
+function isWall(x, y, w, h) {
+  if (!mazeData) return false;
+
+  const data = mazeData.data;
+
+  for (let i = 0; i < w; i++) {
+    for (let j = 0; j < h; j++) {
+
+      const px = Math.floor(x + i);
+      const py = Math.floor(y + j);
+
+      if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
+
+      const index = (py * SIZE + px) * 4;
+
+      const r = data[index];
+      const g = data[index + 1];
+      const b = data[index + 2];
+
+      if (r < 40 && g < 40 && b < 40) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
 
 /* ================= INPUT ================= */
 const key = { up:0, down:0, left:0, right:0 };
@@ -119,19 +155,9 @@ function isColliding(a, b) {
   );
 }
 
-function isWall(x, y, w, h) {
-  const imgData = ctx.getImageData(x, y, w, h).data;
-
-  for (let i = 0; i < imgData.length; i += 4) {
-    if (imgData[i] < 40 && imgData[i+1] < 40 && imgData[i+2] < 40) {
-      return true;
-    }
-  }
-  return false;
-}
-
 /* ================= UPDATE ================= */
 function update() {
+
   let nextX = player.x;
   let nextY = player.y;
 
@@ -151,23 +177,32 @@ function update() {
 
   if (!finished && coin.taken && star.taken && isColliding(player, group)) {
     finished = true;
+    alert("YAY 🎉 You found us!");
     setTimeout(() => {
       window.location.href = "choose.html";
-    }, 1000);
+    }, 800);
   }
 }
 
 /* ================= DRAW ================= */
 function draw() {
+
   ctx.clearRect(0, 0, SIZE, SIZE);
 
-  if (mazeImg.complete) ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
-  if (!coin.taken && coinCanvas) ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
-  if (!star.taken && starCanvas) ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
-  if (groupCanvas) ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
+  ctx.drawImage(mazeImg, 0, 0, SIZE, SIZE);
+
+  if (!coin.taken && coinCanvas)
+    ctx.drawImage(coinCanvas, coin.x, coin.y, coin.w, coin.h);
+
+  if (!star.taken && starCanvas)
+    ctx.drawImage(starCanvas, star.x, star.y, star.w, star.h);
+
+  if (groupCanvas)
+    ctx.drawImage(groupCanvas, group.x, group.y, group.w, group.h);
 
   const img = playerCanvas[player.dir];
-  if (img) ctx.drawImage(img, player.x, player.y, player.w, player.h);
+  if (img)
+    ctx.drawImage(img, player.x, player.y, player.w, player.h);
 }
 
 /* ================= LOOP ================= */
@@ -177,6 +212,4 @@ function loop() {
   requestAnimationFrame(loop);
 }
 
-mazeImg.onload = () => {
-  loop();
-};
+});
