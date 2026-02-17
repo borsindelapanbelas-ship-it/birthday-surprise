@@ -325,10 +325,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.25), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.2), transparent 40%),
-    linear-gradient(135deg, #6fa8ff, #8fbaff, #a6c8ff);
+  background-color: #7da7e8; /* samain dengan page sebelumnya */
 }
 
 .choose-page {
@@ -380,4 +377,21 @@ body {
 .choice-item p {
   margin-top: 15px;
   font-weight: 600;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.25), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.2), transparent 40%);
+
+  pointer-events: none;
+  z-index: 0;
+}
+.choose-page {
+  position: relative;
+  z-index: 1;
 }
