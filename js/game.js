@@ -38,18 +38,33 @@ const starImg = new Image();
 starImg.src = "assets/images/star.png";
 
 /* ================= SOUND ================= */
-const pickupSound = new Audio("assets/sounds/pickup.mp3");
-const winSound    = new Audio("assets/sounds/win.mp3");
+const coinSound = new Audio("assets/sounds/coin.mp3");
+const starSound = new Audio("assets/sounds/star.mp3");
+const winSound  = new Audio("assets/sounds/win.mp3");
 
-// unlock audio for mobile
+coinSound.volume = 1;
+starSound.volume = 1;
+winSound.volume  = 1;
+
+coinSound.load();
+starSound.load();
+winSound.load();
+
+// 🔓 unlock audio for mobile
 function unlockAudio() {
-  pickupSound.play().then(()=>pickupSound.pause()).catch(()=>{});
-  winSound.play().then(()=>winSound.pause()).catch(()=>{});
+  [coinSound, starSound, winSound].forEach(sound => {
+    sound.play().then(() => {
+      sound.pause();
+      sound.currentTime = 0;
+    }).catch(()=>{});
+  });
+
   window.removeEventListener("touchstart", unlockAudio);
   window.removeEventListener("click", unlockAudio);
 }
-window.addEventListener("touchstart", unlockAudio);
-window.addEventListener("click", unlockAudio);
+
+window.addEventListener("touchstart", unlockAudio, { once:true });
+window.addEventListener("click", unlockAudio, { once:true });
 
 /* ================= GAME OBJECTS ================= */
 let playerCanvas = {};
@@ -145,7 +160,7 @@ function createMobileControls(){
 
   const box=document.createElement("div");
   box.style.position="absolute";
-  box.style.bottom="20px";
+  box.style.bottom="5px"; // 🔥 lebih ke bawah
   box.style.left="50%";
   box.style.transform="translateX(-50%)";
   box.style.display="grid";
@@ -156,10 +171,10 @@ function createMobileControls(){
   function btn(txt,act){
     const b=document.createElement("div");
     b.innerHTML=txt;
-    b.style.background="rgba(255,255,255,0.6)";
+    b.style.background="rgba(255,192,203,0.8)";
     b.style.padding="20px";
     b.style.textAlign="center";
-    b.style.borderRadius="15px";
+    b.style.borderRadius="18px";
     b.style.fontSize="22px";
     b.style.userSelect="none";
 
@@ -211,18 +226,19 @@ function update(){
 
     if(!coin.taken&&collide(player,coin)){
       coin.taken=true;
-      pickupSound.currentTime=0;
-      pickupSound.play();
+      coinSound.currentTime=0;
+      coinSound.play();
     }
 
     if(!star.taken&&collide(player,star)){
       star.taken=true;
-      pickupSound.currentTime=0;
-      pickupSound.play();
+      starSound.currentTime=0;
+      starSound.play();
     }
 
     if(coin.taken&&star.taken&&collide(player,group)){
       finished=true;
+      winSound.currentTime=0;
       winSound.play();
     }
   }
@@ -257,7 +273,7 @@ function draw(){
     ctx.drawImage(img,player.x,player.y,player.w,player.h);
 
   if(finished){
-    ctx.fillStyle="rgba(0,0,0,"+winAlpha*0.8+")";
+    ctx.fillStyle="rgba(255,105,180,"+winAlpha*0.8+")"; // 💗 PINK FADE
     ctx.fillRect(0,0,SIZE,SIZE);
 
     ctx.fillStyle="white";
@@ -279,3 +295,4 @@ function loop(){
 }
 
 });
+
