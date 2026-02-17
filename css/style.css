@@ -315,17 +315,18 @@ body.game-page {
 
 }
 
+/*page 3 yee*/
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   min-height: 100vh;
 
-  background: linear-gradient(135deg, #6fa8ff, #a6c8ff);
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
+  background: linear-gradient(135deg, #6fa8ff, #a6c8ff);
+}
 
 .choose-page {
   text-align: center;
@@ -345,10 +346,10 @@ body {
 
 .choice-container {
   display: flex;
+  justify-content: center;
   gap: 60px;
   margin-top: 50px;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .choice-item {
@@ -370,17 +371,10 @@ body {
   width: 200px;
   height: auto;
   image-rendering: pixelated;
+  background: transparent;
 }
 
 .choice-item p {
   margin-top: 15px;
   font-weight: 600;
-}
-
-
-.choice-item img {
-  width: 200px;
-  height: auto;
-  image-rendering: pixelated;
-  background: transparent;
 }
