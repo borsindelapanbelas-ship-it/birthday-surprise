@@ -95,13 +95,24 @@ function removeLightBg(img){
 }
 
 /* ================= PREPROCESS ================= */
-playerImgs.right.onload=()=>{
-  for(let d in playerImgs)
-    playerCanvas[d]=removeLightBg(playerImgs[d]);
-  player.w=playerCanvas.right.width*PLAYER_SCALE;
-  player.h=playerCanvas.right.height*PLAYER_SCALE;
-};
+let loadedCount = 0;
 
+function checkAllLoaded(){
+  loadedCount++;
+  if(loadedCount === 4){
+    for(let d in playerImgs){
+      playerCanvas[d] = removeLightBg(playerImgs[d]);
+    }
+    player.w = playerCanvas.right.width * PLAYER_SCALE;
+    player.h = playerCanvas.right.height * PLAYER_SCALE;
+  }
+}
+
+playerImgs.front.onload = checkAllLoaded;
+playerImgs.back.onload  = checkAllLoaded;
+playerImgs.left.onload  = checkAllLoaded;
+playerImgs.right.onload = checkAllLoaded;
+  
 groupImg.onload=()=>{
   groupCanvas=removeLightBg(groupImg);
   group.w=groupCanvas.width*GROUP_SCALE;
