@@ -273,7 +273,7 @@ function draw(){
     ctx.drawImage(img,player.x,player.y,player.w,player.h);
 
   if(finished){
-    ctx.fillStyle="rgba(255,105,180,"+winAlpha*0.8+")"; // 💗 PINK FADE
+    ctx.fillStyle="rgba(255,214,231,"+winAlpha*0.8+")";
     ctx.fillRect(0,0,SIZE,SIZE);
 
     ctx.fillStyle="white";
