@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choose Your Gift!</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="game-page-container choose-page">
+
+    <h1>Yay! You found them 👀✨</h1>
+    <p>Which one do you want to open first?</p>
+
+    <div class="choice-container">
+
+      <div class="choice-item" id="coinChoice">
+        <img src="assets/images/coin.png" alt="Coin">
+        <p>Open Coin Gift</p>
+      </div>
+
+      <div class="choice-item" id="starChoice">
+        <img src="assets/images/star.png" alt="Star">
+        <p>Open Star Gift</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById("coinChoice").onclick = function() {
+      window.location.href = "gift.html";
+    };
+
+    document.getElementById("starChoice").onclick = function() {
+      window.location.href = "letters.html";
+    };
+  </script>
+
+</body>
+</html>
 
