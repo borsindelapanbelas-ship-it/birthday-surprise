@@ -315,28 +315,67 @@ body.game-page {
 
 }
 
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
 .choose-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+}
+
+.choose-page h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.choose-page p {
+  font-size: 1.1rem;
+  opacity: 0.8;
 }
 
 .choice-container {
   display: flex;
-  justify-content: center;
   gap: 60px;
-  margin-top: 40px;
+  margin-top: 50px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .choice-item {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.choice-item img {
-  width: 180px; /* bikin GEDEE */
-  height: auto;
+  transition: all 0.3s ease;
 }
 
 .choice-item:hover {
-  transform: scale(1.1);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.choice-item img {
+  width: 200px;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.choice-item p {
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+
+.choice-item img {
+  width: 200px;
+  height: auto;
+  image-rendering: pixelated;
+  background: transparent;
 }
