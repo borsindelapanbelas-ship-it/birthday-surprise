@@ -15,7 +15,7 @@ canvas.style.maxHeight = SIZE + "px";
 canvas.style.display = "block";
 canvas.style.margin = "0 auto";
 
-/* ================= SCALE ================= */
+/* ================= SETTINGS ================= */
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
 const isMobile = "ontouchstart" in window;
@@ -56,10 +56,12 @@ let groupCanvas, coinCanvas, starCanvas;
 let mazeData = null;
 
 const player = { 
-  x:50, y:65,
+  x:50,
+  y:65,
   speed: isMobile ? 4 : 3,
   dir:"right",
-  w:0, h:0
+  w:0,
+  h:0
 };
 
 const group  = { x:430, y:300, w:0, h:0 };
@@ -71,7 +73,7 @@ let winAlpha = 0;
 let showButton = false;
 let endButton = null;
 
-/* ================= REMOVE BG ================= */
+/* ================= REMOVE LIGHT BG ================= */
 function removeLightBg(img){
   const c=document.createElement("canvas");
   const cx=c.getContext("2d");
@@ -80,7 +82,8 @@ function removeLightBg(img){
   cx.drawImage(img,0,0);
   const d=cx.getImageData(0,0,c.width,c.height);
   for(let i=0;i<d.data.length;i+=4){
-    if((d.data[i]+d.data[i+1]+d.data[i+2])/3>235) d.data[i+3]=0;
+    if((d.data[i]+d.data[i+1]+d.data[i+2])/3>235)
+      d.data[i+3]=0;
   }
   cx.putImageData(d,0,0);
   return c;
@@ -123,7 +126,9 @@ mazeImg.onload=()=>{
 
 function isWall(x,y,w,h){
   if(!mazeData) return false;
-  const fw=w*0.5, fh=h*0.2;
+
+  const fw=w*0.5;
+  const fh=h*0.2;
   const fx=x+(w-fw)/2;
   const fy=y+h-fh;
   const data=mazeData.data;
@@ -157,9 +162,61 @@ window.addEventListener("keyup",e=>{
   if(e.key==="ArrowRight")key.right=false;
 });
 
+/* ================= MOBILE CONTROL ================= */
+function createMobileControls(){
+  if(!isMobile) return;
+
+  const box=document.createElement("div");
+  box.style.position="fixed";
+  box.style.bottom="calc(env(safe-area-inset-bottom) + 20px)";
+  box.style.left="50%";
+  box.style.transform="translateX(-50%)";
+  box.style.display="grid";
+  box.style.gridTemplateColumns="70px 70px 70px";
+  box.style.gap="12px";
+  box.style.zIndex="9999";
+
+  function btn(txt,act){
+    const b=document.createElement("div");
+    b.innerHTML=txt;
+    b.style.background="rgba(255,192,203,0.95)";
+    b.style.padding="18px";
+    b.style.textAlign="center";
+    b.style.borderRadius="20px";
+    b.style.fontSize="22px";
+    b.style.boxShadow="0 4px 10px rgba(0,0,0,0.25)";
+    b.style.userSelect="none";
+
+    b.addEventListener("touchstart",e=>{
+      e.preventDefault();
+      key[act]=true;
+    },{passive:false});
+
+    b.addEventListener("touchend",e=>{
+      e.preventDefault();
+      key[act]=false;
+    },{passive:false});
+
+    return b;
+  }
+
+  box.appendChild(document.createElement("div"));
+  box.appendChild(btn("⬆️","up"));
+  box.appendChild(document.createElement("div"));
+  box.appendChild(btn("⬅️","left"));
+  box.appendChild(btn("⬇️","down"));
+  box.appendChild(btn("➡️","right"));
+
+  document.body.appendChild(box);
+}
+createMobileControls();
+
 /* ================= COLLISION ================= */
 function collide(a,b){
-  return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
+  return a.x<b.x+b.w&&
+         a.x+a.w>b.x&&
+         a.y<b.y+b.h&&
+         a.y+a.h>b.y;
 }
 
 /* ================= UPDATE ================= */
@@ -169,13 +226,13 @@ function update(){
 
     let dx=0, dy=0;
 
-    if(key.left){ dx -= 1; player.dir="left"; }
-    if(key.right){ dx += 1; player.dir="right"; }
-    if(key.up){ dy -= 1; player.dir="back"; }
-    if(key.down){ dy += 1; player.dir="front"; }
+    if(key.left){ dx-=1; player.dir="left"; }
+    if(key.right){ dx+=1; player.dir="right"; }
+    if(key.up){ dy-=1; player.dir="back"; }
+    if(key.down){ dy+=1; player.dir="front"; }
 
-    let nx = player.x + dx*player.speed;
-    let ny = player.y + dy*player.speed;
+    const nx=player.x+dx*player.speed;
+    const ny=player.y+dy*player.speed;
 
     if(!isWall(nx,player.y,player.w,player.h)) player.x=nx;
     if(!isWall(player.x,ny,player.w,player.h)) player.y=ny;
@@ -183,29 +240,24 @@ function update(){
     coin.flip+=0.15;
     star.flip+=0.15;
 
-    if(!coin.taken && collide(player,coin)){
+    if(!coin.taken&&collide(player,coin)){
       coin.taken=true;
       coinSound.play();
     }
 
-    if(!star.taken && collide(player,star)){
+    if(!star.taken&&collide(player,star)){
       star.taken=true;
       starSound.play();
     }
 
-    if(coin.taken && star.taken && collide(player,group)){
+    if(coin.taken&&star.taken&&collide(player,group)){
       finished=true;
       winSound.play();
     }
   }
 
-  if(finished && winAlpha < 1){
-    winAlpha += 0.02;
-  }
-
-  if(finished && winAlpha >= 1){
-    showButton = true;
-  }
+  if(finished && winAlpha<1) winAlpha+=0.02;
+  if(winAlpha>=1) showButton=true;
 }
 
 /* ================= DRAW ================= */
@@ -282,7 +334,7 @@ function roundRect(ctx,x,y,w,h,r){
   ctx.closePath();
 }
 
-/* ================= CLICK ================= */
+/* ================= BUTTON CLICK ================= */
 canvas.addEventListener("click",(e)=>{
   if(!showButton||!endButton) return;
 
@@ -290,8 +342,8 @@ canvas.addEventListener("click",(e)=>{
   const mx=(e.clientX-rect.left)*(SIZE/rect.width);
   const my=(e.clientY-rect.top)*(SIZE/rect.height);
 
-  if(mx>endButton.x && mx<endButton.x+endButton.w &&
-     my>endButton.y && my<endButton.y+endButton.h){
+  if(mx>endButton.x&&mx<endButton.x+endButton.w &&
+     my>endButton.y&&my<endButton.y+endButton.h){
     window.location.href="choose.html";
   }
 });
