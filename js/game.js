@@ -16,7 +16,6 @@ canvas.style.display = "block";
 canvas.style.margin = "0 auto";
 
 document.body.style.margin = "0";
-document.body.style.overflow = "hidden";
 
 /* ================= SETTINGS ================= */
 const PLAYER_SCALE = 0.12;
@@ -73,7 +72,6 @@ const star   = { x:200, y:405, w:24, h:24, taken:false, flip:0 };
 
 let finished = false;
 let winAlpha = 0;
-let showButton = false;
 let endButton = null;
 
 /* ================= REMOVE LIGHT BG ================= */
@@ -163,20 +161,20 @@ window.addEventListener("keyup",e=>{
   if(e.key==="ArrowRight")key.right=false;
 });
 
-/* ================= MOBILE CONTROL FIXED ================= */
+/* ================= MOBILE CONTROL ================= */
 function createMobileControls(){
   if(!isMobile) return;
 
   const box=document.createElement("div");
   box.style.position="fixed";
-  box.style.bottom="30px";
+  box.style.bottom="10px"; 
   box.style.left="50%";
   box.style.transform="translateX(-50%)";
   box.style.display="grid";
   box.style.gridTemplateColumns="70px 70px 70px";
   box.style.gap="15px";
-  box.style.zIndex="10000";
-  box.style.touchAction="none";
+  box.style.zIndex="9999";
+  box.style.pointerEvents="auto";
 
   function btn(txt,act){
     const b=document.createElement("div");
@@ -189,18 +187,19 @@ function createMobileControls(){
     b.style.boxShadow="0 4px 12px rgba(0,0,0,0.25)";
     b.style.userSelect="none";
     b.style.color="#000";
+    b.style.touchAction="none";
 
-    b.addEventListener("pointerdown",(e)=>{
+    b.addEventListener("touchstart",(e)=>{
       e.preventDefault();
       key[act]=true;
-    });
+    },{passive:false});
 
-    b.addEventListener("pointerup",(e)=>{
+    b.addEventListener("touchend",(e)=>{
       e.preventDefault();
       key[act]=false;
-    });
+    },{passive:false});
 
-    b.addEventListener("pointerleave",()=>{
+    b.addEventListener("touchcancel",()=>{
       key[act]=false;
     });
 
@@ -216,7 +215,6 @@ function createMobileControls(){
 
   document.body.appendChild(box);
 }
-
 createMobileControls();
 
 /* ================= COLLISION ================= */
@@ -265,11 +263,11 @@ function update(){
   }
 
   if(finished && winAlpha<1) winAlpha+=0.02;
-  if(winAlpha>=1) showButton=true;
 }
 
 /* ================= DRAW ================= */
 function draw(){
+
   ctx.clearRect(0,0,SIZE,SIZE);
   ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
 
@@ -302,8 +300,53 @@ function draw(){
 
     ctx.font="22px Arial";
     ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
+
+    if(winAlpha>=1){
+      const btnW=240, btnH=60;
+      const btnX=SIZE/2-btnW/2;
+      const btnY=SIZE/2+50;
+
+      ctx.fillStyle="#ff8fcf";
+      roundRect(ctx,btnX,btnY,btnW,btnH,25);
+      ctx.fill();
+
+      ctx.fillStyle="black";
+      ctx.font="bold 20px Arial";
+      ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+38);
+
+      endButton={x:btnX,y:btnY,w:btnW,h:btnH};
+    }
   }
 }
+
+/* ================= ROUND RECT ================= */
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+
+/* ================= BUTTON CLICK ================= */
+canvas.addEventListener("click",(e)=>{
+  if(!endButton) return;
+
+  const rect=canvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left)*(SIZE/rect.width);
+  const my=(e.clientY-rect.top)*(SIZE/rect.height);
+
+  if(mx>endButton.x&&mx<endButton.x+endButton.w &&
+     my>endButton.y&&my<endButton.y+endButton.h){
+    window.location.href="choose.html";
+  }
+});
 
 /* ================= LOOP ================= */
 function loop(){
