@@ -299,22 +299,30 @@ function draw(){
     ctx.font="22px Arial";
     ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
 
-    if(showButton){
-      const btnW = 200;
-      const btnH = 50;
-      const btnX = SIZE/2 - btnW/2;
-      const btnY = SIZE/2 + 40;
+  if(showButton){
+  const btnW = 240;
+  const btnH = 60;
+  const btnX = SIZE/2 - btnW/2;
+  const btnY = SIZE/2 + 50;
 
-      ctx.fillStyle="black";
-      ctx.fillRect(btnX,btnY,btnW,btnH);
+  // shadow glow
+  ctx.shadowColor = "rgba(255,105,180,0.6)";
+  ctx.shadowBlur = 20;
 
-      ctx.fillStyle="white";
-      ctx.font="20px Arial";
-      ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+32);
+  // rounded rectangle
+  ctx.fillStyle = "#ff69b4";
+  roundRect(ctx, btnX, btnY, btnW, btnH, 25);
+  ctx.fill();
 
-      endButton = {x:btnX,y:btnY,w:btnW,h:btnH};
-    }
-  }
+  // reset shadow
+  ctx.shadowBlur = 0;
+
+  // text
+  ctx.fillStyle = "white";
+  ctx.font = "bold 22px Arial";
+  ctx.fillText("OPEN PRESENT 🎁", SIZE/2, btnY + 38);
+
+  endButton = {x:btnX,y:btnY,w:btnW,h:btnH};
 }
 
 /* ================= BUTTON CLICK ================= */
