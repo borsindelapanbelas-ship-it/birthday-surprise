@@ -9,9 +9,10 @@ canvas.width = SIZE;
 canvas.height = SIZE;
 
 /* ================= RESPONSIVE ================= */
-canvas.style.width = "100%";
+canvas.style.width = "95vmin";
+canvas.style.height = "95vmin";
 canvas.style.maxWidth = SIZE + "px";
-canvas.style.height = "auto";
+canvas.style.maxHeight = SIZE + "px";
 canvas.style.display = "block";
 canvas.style.margin = "0 auto";
 
@@ -43,7 +44,6 @@ groupImg.src = "assets/images/group.png";
 
 const coinImg = new Image();
 coinImg.src = "assets/images/coin.png";
-
 const starImg = new Image();
 starImg.src = "assets/images/star.png";
 
@@ -51,23 +51,6 @@ starImg.src = "assets/images/star.png";
 const coinSound = new Audio("assets/sounds/coin.mp3");
 const starSound = new Audio("assets/sounds/star.mp3");
 const winSound  = new Audio("assets/sounds/win.mp3");
-
-[coinSound, starSound, winSound].forEach(s=>{
-  s.volume = 1;
-  s.load();
-});
-
-/* Unlock mobile audio */
-function unlockAudio() {
-  [coinSound, starSound, winSound].forEach(sound => {
-    sound.play().then(() => {
-      sound.pause();
-      sound.currentTime = 0;
-    }).catch(()=>{});
-  });
-}
-window.addEventListener("touchstart", unlockAudio, { once:true });
-window.addEventListener("click", unlockAudio, { once:true });
 
 /* ================= GAME OBJECTS ================= */
 let playerCanvas = {};
@@ -90,6 +73,7 @@ const star   = { x:200, y:405, w:24, h:24, taken:false, flip:0 };
 let finished = false;
 let winAlpha = 0;
 let showButton = false;
+let endButton = null;
 
 /* ================= REMOVE BG ================= */
 function removeLightBg(img){
@@ -106,7 +90,7 @@ function removeLightBg(img){
   return c;
 }
 
-/* ================= PREPROCESS PLAYER ================= */
+/* ================= LOAD PLAYER ================= */
 let loadedCount = 0;
 
 function checkAllLoaded(){
@@ -143,6 +127,7 @@ mazeImg.onload=()=>{
 
 function isWall(x,y,w,h){
   if(!mazeData)return false;
+
   const fw=w*0.5, fh=h*0.2;
   const fx=x+(w-fw)/2;
   const fy=y+h-fh;
@@ -183,7 +168,7 @@ function createMobileControls(){
 
   const box=document.createElement("div");
   box.style.position="fixed";
-  box.style.bottom="calc(env(safe-area-inset-bottom) + 5px)";
+  box.style.bottom="30px";
   box.style.left="50%";
   box.style.transform="translateX(-50%)";
   box.style.display="grid";
@@ -194,13 +179,11 @@ function createMobileControls(){
   function btn(txt,act){
     const b=document.createElement("div");
     b.innerHTML=txt;
-    b.style.background="rgba(255,192,203,0.85)";
+    b.style.background="rgba(255,192,203,0.9)";
     b.style.padding="18px";
     b.style.textAlign="center";
     b.style.borderRadius="20px";
     b.style.fontSize="22px";
-    b.style.userSelect="none";
-    b.style.boxShadow="0 4px 10px rgba(0,0,0,0.2)";
 
     b.addEventListener("touchstart",e=>{
       e.preventDefault();
@@ -257,19 +240,16 @@ function update(){
 
     if(!coin.taken&&collide(player,coin)){
       coin.taken=true;
-      coinSound.currentTime=0;
       coinSound.play();
     }
 
     if(!star.taken&&collide(player,star)){
       star.taken=true;
-      starSound.currentTime=0;
       starSound.play();
     }
 
     if(coin.taken&&star.taken&&collide(player,group)){
       finished=true;
-      winSound.currentTime=0;
       winSound.play();
     }
   }
@@ -277,9 +257,10 @@ function update(){
   if(finished && winAlpha < 1){
     winAlpha += 0.02;
   }
+
   if(finished && winAlpha >= 1){
-  showButton = true;
-}
+    showButton = true;
+  }
 }
 
 /* ================= DRAW ================= */
@@ -304,39 +285,41 @@ function draw(){
   const img=playerCanvas[player.dir];
   if(img)
     ctx.drawImage(img,player.x,player.y,player.w,player.h);
-if(finished){
-  ctx.fillStyle="rgba(255,214,231,"+winAlpha*0.8+")";
-  ctx.fillRect(0,0,SIZE,SIZE);
 
-  ctx.fillStyle="black"; // 🔥 semua font hitam
-  ctx.textAlign="center";
-
-  ctx.font="bold 36px Arial";
-  ctx.fillText("YAY 🎉 You Found Us!",SIZE/2,SIZE/2-40);
-
-  ctx.font="22px Arial";
-  ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
-
-  if(showButton){
-    const btnW = 200;
-    const btnH = 50;
-    const btnX = SIZE/2 - btnW/2;
-    const btnY = SIZE/2 + 40;
+  if(finished){
+    ctx.fillStyle="rgba(255,214,231,"+winAlpha*0.8+")";
+    ctx.fillRect(0,0,SIZE,SIZE);
 
     ctx.fillStyle="black";
-    ctx.fillRect(btnX,btnY,btnW,btnH);
+    ctx.textAlign="center";
 
-    ctx.fillStyle="white";
-    ctx.font="20px Arial";
-    ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+32);
+    ctx.font="bold 36px Arial";
+    ctx.fillText("YAY 🎉 You Found Us!",SIZE/2,SIZE/2-40);
 
-    // Save button area for click detection
-    window.endButton = {x:btnX,y:btnY,w:btnW,h:btnH};
+    ctx.font="22px Arial";
+    ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
+
+    if(showButton){
+      const btnW = 200;
+      const btnH = 50;
+      const btnX = SIZE/2 - btnW/2;
+      const btnY = SIZE/2 + 40;
+
+      ctx.fillStyle="black";
+      ctx.fillRect(btnX,btnY,btnW,btnH);
+
+      ctx.fillStyle="white";
+      ctx.font="20px Arial";
+      ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+32);
+
+      endButton = {x:btnX,y:btnY,w:btnW,h:btnH};
+    }
   }
 }
 
-  canvas.addEventListener("click", (e)=>{
-  if(!showButton) return;
+/* ================= BUTTON CLICK ================= */
+canvas.addEventListener("click", (e)=>{
+  if(!showButton || !endButton) return;
 
   const rect = canvas.getBoundingClientRect();
   const scaleX = SIZE / rect.width;
@@ -345,12 +328,11 @@ if(finished){
   const mx = (e.clientX - rect.left) * scaleX;
   const my = (e.clientY - rect.top) * scaleY;
 
-  const b = window.endButton;
-  if(b && mx > b.x && mx < b.x + b.w && my > b.y && my < b.y + b.h){
+  if(mx > endButton.x && mx < endButton.x + endButton.w &&
+     my > endButton.y && my < endButton.y + endButton.h){
     window.location.href = "choose.html";
   }
 });
-
 
 /* ================= LOOP ================= */
 function loop(){
@@ -360,3 +342,4 @@ function loop(){
 }
 
 });
+
