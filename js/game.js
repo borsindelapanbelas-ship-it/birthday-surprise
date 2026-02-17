@@ -89,7 +89,7 @@ const star   = { x:200, y:405, w:24, h:24, taken:false, flip:0 };
 
 let finished = false;
 let winAlpha = 0;
-let redirected = false;
+let showButton = false;
 
 /* ================= REMOVE BG ================= */
 function removeLightBg(img){
@@ -277,11 +277,9 @@ function update(){
   if(finished && winAlpha < 1){
     winAlpha += 0.02;
   }
-
-  if(finished && winAlpha >= 1 && !redirected){
-    redirected = true;
-    window.location.replace("choose.html");
-  }
+  if(finished && winAlpha >= 1){
+  showButton = true;
+}
 }
 
 /* ================= DRAW ================= */
@@ -306,21 +304,53 @@ function draw(){
   const img=playerCanvas[player.dir];
   if(img)
     ctx.drawImage(img,player.x,player.y,player.w,player.h);
+if(finished){
+  ctx.fillStyle="rgba(255,214,231,"+winAlpha*0.8+")";
+  ctx.fillRect(0,0,SIZE,SIZE);
 
-  if(finished){
-    ctx.fillStyle="rgba(255,214,231,"+winAlpha*0.8+")";
-    ctx.fillRect(0,0,SIZE,SIZE);
+  ctx.fillStyle="black"; // 🔥 semua font hitam
+  ctx.textAlign="center";
+
+  ctx.font="bold 36px Arial";
+  ctx.fillText("YAY 🎉 You Found Us!",SIZE/2,SIZE/2-40);
+
+  ctx.font="22px Arial";
+  ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
+
+  if(showButton){
+    const btnW = 200;
+    const btnH = 50;
+    const btnX = SIZE/2 - btnW/2;
+    const btnY = SIZE/2 + 40;
+
+    ctx.fillStyle="black";
+    ctx.fillRect(btnX,btnY,btnW,btnH);
 
     ctx.fillStyle="white";
-    ctx.textAlign="center";
+    ctx.font="20px Arial";
+    ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+32);
 
-    ctx.font="34px Arial";
-    ctx.fillText("YAY 🎉 You Found Us!",SIZE/2,SIZE/2-20);
-
-    ctx.font="22px Arial";
-    ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2+20);
+    // Save button area for click detection
+    window.endButton = {x:btnX,y:btnY,w:btnW,h:btnH};
   }
 }
+
+  canvas.addEventListener("click", (e)=>{
+  if(!showButton) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = SIZE / rect.width;
+  const scaleY = SIZE / rect.height;
+
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top) * scaleY;
+
+  const b = window.endButton;
+  if(b && mx > b.x && mx < b.x + b.w && my > b.y && my < b.y + b.h){
+    window.location.href = "choose.html";
+  }
+});
+
 
 /* ================= LOOP ================= */
 function loop(){
