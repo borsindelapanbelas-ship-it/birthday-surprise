@@ -15,10 +15,13 @@ canvas.style.maxHeight = SIZE + "px";
 canvas.style.display = "block";
 canvas.style.margin = "0 auto";
 
+document.body.style.margin = "0";
+document.body.style.overflow = "hidden";
+
 /* ================= SETTINGS ================= */
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
-const isMobile = "ontouchstart" in window;
+const isMobile = window.matchMedia("(pointer: coarse)").matches;
 
 /* ================= IMAGES ================= */
 const mazeImg = new Image();
@@ -58,7 +61,7 @@ let mazeData = null;
 const player = { 
   x:50,
   y:65,
-  speed: isMobile ? 4 : 3,
+  speed: isMobile ? 4.5 : 3,
   dir:"right",
   w:0,
   h:0
@@ -91,7 +94,6 @@ function removeLightBg(img){
 
 /* ================= LOAD PLAYER ================= */
 let loadedCount = 0;
-
 function checkAllLoaded(){
   loadedCount++;
   if(loadedCount === 4){
@@ -126,7 +128,6 @@ mazeImg.onload=()=>{
 
 function isWall(x,y,w,h){
   if(!mazeData) return false;
-
   const fw=w*0.5;
   const fh=h*0.2;
   const fx=x+(w-fw)/2;
@@ -162,40 +163,46 @@ window.addEventListener("keyup",e=>{
   if(e.key==="ArrowRight")key.right=false;
 });
 
-/* ================= MOBILE CONTROL ================= */
+/* ================= MOBILE CONTROL FIXED ================= */
 function createMobileControls(){
   if(!isMobile) return;
 
   const box=document.createElement("div");
   box.style.position="fixed";
-  box.style.bottom="calc(env(safe-area-inset-bottom) + 20px)";
+  box.style.bottom="30px";
   box.style.left="50%";
   box.style.transform="translateX(-50%)";
   box.style.display="grid";
   box.style.gridTemplateColumns="70px 70px 70px";
-  box.style.gap="12px";
-  box.style.zIndex="9999";
+  box.style.gap="15px";
+  box.style.zIndex="10000";
+  box.style.touchAction="none";
 
   function btn(txt,act){
     const b=document.createElement("div");
     b.innerHTML=txt;
-    b.style.background="rgba(255,192,203,0.95)";
+    b.style.background="#ffb6d9";
     b.style.padding="18px";
     b.style.textAlign="center";
-    b.style.borderRadius="20px";
-    b.style.fontSize="22px";
-    b.style.boxShadow="0 4px 10px rgba(0,0,0,0.25)";
+    b.style.borderRadius="22px";
+    b.style.fontSize="24px";
+    b.style.boxShadow="0 4px 12px rgba(0,0,0,0.25)";
     b.style.userSelect="none";
+    b.style.color="#000";
 
-    b.addEventListener("touchstart",e=>{
+    b.addEventListener("pointerdown",(e)=>{
       e.preventDefault();
       key[act]=true;
-    },{passive:false});
+    });
 
-    b.addEventListener("touchend",e=>{
+    b.addEventListener("pointerup",(e)=>{
       e.preventDefault();
       key[act]=false;
-    },{passive:false});
+    });
+
+    b.addEventListener("pointerleave",()=>{
+      key[act]=false;
+    });
 
     return b;
   }
@@ -209,6 +216,7 @@ function createMobileControls(){
 
   document.body.appendChild(box);
 }
+
 createMobileControls();
 
 /* ================= COLLISION ================= */
@@ -262,7 +270,6 @@ function update(){
 
 /* ================= DRAW ================= */
 function draw(){
-
   ctx.clearRect(0,0,SIZE,SIZE);
   ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
 
@@ -295,58 +302,8 @@ function draw(){
 
     ctx.font="22px Arial";
     ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
-
-    if(showButton){
-      const btnW=240, btnH=60;
-      const btnX=SIZE/2-btnW/2;
-      const btnY=SIZE/2+50;
-
-      ctx.shadowColor="rgba(255,105,180,0.6)";
-      ctx.shadowBlur=20;
-
-      roundRect(ctx,btnX,btnY,btnW,btnH,25);
-      ctx.fillStyle="#ff8fcf";
-      ctx.fill();
-
-      ctx.shadowBlur=0;
-
-      ctx.fillStyle="white";
-      ctx.font="bold 22px Arial";
-      ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+38);
-
-      endButton={x:btnX,y:btnY,w:btnW,h:btnH};
-    }
   }
 }
-
-/* ================= ROUND RECT ================= */
-function roundRect(ctx,x,y,w,h,r){
-  ctx.beginPath();
-  ctx.moveTo(x+r,y);
-  ctx.lineTo(x+w-r,y);
-  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h-r);
-  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-  ctx.lineTo(x+r,y+h);
-  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-  ctx.lineTo(x,y+r);
-  ctx.quadraticCurveTo(x,y,x+r,y);
-  ctx.closePath();
-}
-
-/* ================= BUTTON CLICK ================= */
-canvas.addEventListener("click",(e)=>{
-  if(!showButton||!endButton) return;
-
-  const rect=canvas.getBoundingClientRect();
-  const mx=(e.clientX-rect.left)*(SIZE/rect.width);
-  const my=(e.clientY-rect.top)*(SIZE/rect.height);
-
-  if(mx>endButton.x&&mx<endButton.x+endButton.w &&
-     my>endButton.y&&my<endButton.y+endButton.h){
-    window.location.href="choose.html";
-  }
-});
 
 /* ================= LOOP ================= */
 function loop(){
@@ -356,4 +313,3 @@ function loop(){
 }
 
 });
-
