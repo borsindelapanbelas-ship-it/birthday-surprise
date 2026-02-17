@@ -1,4 +1,30 @@
 window.addEventListener("DOMContentLoaded", () => {
+  
+let audioUnlocked = false;
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+
+  coinSound.play().then(() => {
+    coinSound.pause();
+    coinSound.currentTime = 0;
+  }).catch(()=>{});
+
+  starSound.play().then(() => {
+    starSound.pause();
+    starSound.currentTime = 0;
+  }).catch(()=>{});
+
+  winSound.play().then(() => {
+    winSound.pause();
+    winSound.currentTime = 0;
+  }).catch(()=>{});
+
+  audioUnlocked = true;
+}
+
+document.addEventListener("touchstart", unlockAudio, { once: true });
+document.addEventListener("click", unlockAudio, { once: true });
 
 /* ================= CANVAS ================= */
 const canvas = document.getElementById("gameCanvas");
