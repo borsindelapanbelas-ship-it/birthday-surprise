@@ -8,9 +8,19 @@ const SIZE = 520;
 canvas.width = SIZE;
 canvas.height = SIZE;
 
+/* ================= RESPONSIVE ================= */
+canvas.style.width = "100%";
+canvas.style.maxWidth = SIZE + "px";
+canvas.style.height = "auto";
+canvas.style.display = "block";
+canvas.style.margin = "0 auto";
+
 /* ================= SCALE ================= */
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
+
+/* ================= DEVICE ================= */
+const isMobile = "ontouchstart" in window;
 
 /* ================= LOAD IMAGES ================= */
 const mazeImg = new Image();
@@ -42,15 +52,12 @@ const coinSound = new Audio("assets/sounds/coin.mp3");
 const starSound = new Audio("assets/sounds/star.mp3");
 const winSound  = new Audio("assets/sounds/win.mp3");
 
-coinSound.volume = 1;
-starSound.volume = 1;
-winSound.volume  = 1;
+[coinSound, starSound, winSound].forEach(s=>{
+  s.volume = 1;
+  s.load();
+});
 
-coinSound.load();
-starSound.load();
-winSound.load();
-
-// 🔓 unlock audio for mobile
+/* Unlock mobile audio */
 function unlockAudio() {
   [coinSound, starSound, winSound].forEach(sound => {
     sound.play().then(() => {
@@ -58,11 +65,7 @@ function unlockAudio() {
       sound.currentTime = 0;
     }).catch(()=>{});
   });
-
-  window.removeEventListener("touchstart", unlockAudio);
-  window.removeEventListener("click", unlockAudio);
 }
-
 window.addEventListener("touchstart", unlockAudio, { once:true });
 window.addEventListener("click", unlockAudio, { once:true });
 
@@ -71,7 +74,15 @@ let playerCanvas = {};
 let groupCanvas, coinCanvas, starCanvas;
 let mazeData = null;
 
-const player = { x:50, y:65, speed:3, dir:"right", w:0, h:0 };
+const player = { 
+  x:50, 
+  y:65, 
+  speed: isMobile ? 4 : 3,
+  dir:"right", 
+  w:0, 
+  h:0 
+};
+
 const group  = { x:430, y:300, w:0, h:0 };
 const coin   = { x:300, y:90, w:24, h:24, taken:false, flip:0 };
 const star   = { x:200, y:405, w:24, h:24, taken:false, flip:0 };
@@ -94,7 +105,7 @@ function removeLightBg(img){
   return c;
 }
 
-/* ================= PREPROCESS ================= */
+/* ================= PREPROCESS PLAYER ================= */
 let loadedCount = 0;
 
 function checkAllLoaded(){
@@ -112,7 +123,7 @@ playerImgs.front.onload = checkAllLoaded;
 playerImgs.back.onload  = checkAllLoaded;
 playerImgs.left.onload  = checkAllLoaded;
 playerImgs.right.onload = checkAllLoaded;
-  
+
 groupImg.onload=()=>{
   groupCanvas=removeLightBg(groupImg);
   group.w=groupCanvas.width*GROUP_SCALE;
@@ -167,27 +178,28 @@ window.addEventListener("keyup",e=>{
 
 /* ================= MOBILE CONTROL ================= */
 function createMobileControls(){
-  if(!("ontouchstart" in window))return;
+  if(!isMobile) return;
 
   const box=document.createElement("div");
-  box.style.position="absolute";
-  box.style.bottom="5px"; // 🔥 lebih ke bawah
+  box.style.position="fixed";
+  box.style.bottom="calc(env(safe-area-inset-bottom) + 5px)";
   box.style.left="50%";
   box.style.transform="translateX(-50%)";
   box.style.display="grid";
   box.style.gridTemplateColumns="70px 70px 70px";
-  box.style.gap="10px";
-  box.style.zIndex="999";
+  box.style.gap="12px";
+  box.style.zIndex="9999";
 
   function btn(txt,act){
     const b=document.createElement("div");
     b.innerHTML=txt;
-    b.style.background="rgba(255,192,203,0.8)";
-    b.style.padding="20px";
+    b.style.background="rgba(255,192,203,0.85)";
+    b.style.padding="18px";
     b.style.textAlign="center";
-    b.style.borderRadius="18px";
+    b.style.borderRadius="20px";
     b.style.fontSize="22px";
     b.style.userSelect="none";
+    b.style.boxShadow="0 4px 10px rgba(0,0,0,0.2)";
 
     b.addEventListener("touchstart",e=>{
       e.preventDefault();
@@ -222,12 +234,19 @@ function collide(a,b){
 function update(){
 
   if(!finished){
-    let nx=player.x, ny=player.y;
 
-    if(key.left){nx-=player.speed;player.dir="left";}
-    if(key.right){nx+=player.speed;player.dir="right";}
-    if(key.up){ny-=player.speed;player.dir="back";}
-    if(key.down){ny+=player.speed;player.dir="front";}
+    let nx=player.x;
+    let ny=player.y;
+
+    let dx=0, dy=0;
+
+    if(key.left){ dx -= 1; player.dir="left"; }
+    if(key.right){ dx += 1; player.dir="right"; }
+    if(key.up){ dy -= 1; player.dir="back"; }
+    if(key.down){ dy += 1; player.dir="front"; }
+
+    nx += dx * player.speed;
+    ny += dy * player.speed;
 
     if(!isWall(nx,player.y,player.w,player.h))player.x=nx;
     if(!isWall(player.x,ny,player.w,player.h))player.y=ny;
@@ -306,4 +325,3 @@ function loop(){
 }
 
 });
-
