@@ -89,6 +89,7 @@ const star   = { x:200, y:405, w:24, h:24, taken:false, flip:0 };
 
 let finished = false;
 let winAlpha = 0;
+let redirected = false;
 
 /* ================= REMOVE BG ================= */
 function removeLightBg(img){
@@ -248,8 +249,8 @@ function update(){
     nx += dx * player.speed;
     ny += dy * player.speed;
 
-    if(!isWall(nx,player.y,player.w,player.h))player.x=nx;
-    if(!isWall(player.x,ny,player.w,player.h))player.y=ny;
+    if(!isWall(nx,player.y,player.w,player.h)) player.x=nx;
+    if(!isWall(player.x,ny,player.w,player.h)) player.y=ny;
 
     coin.flip+=0.15;
     star.flip+=0.15;
@@ -273,9 +274,13 @@ function update(){
     }
   }
 
-  if(finished&&winAlpha<1)winAlpha+=0.02;
-  if(winAlpha>=1){
-    setTimeout(()=>window.location.href="choose.html",2500);
+  if(finished && winAlpha < 1){
+    winAlpha += 0.02;
+  }
+
+  if(finished && winAlpha >= 1 && !redirected){
+    redirected = true;
+    window.location.replace("choose.html");
   }
 }
 
