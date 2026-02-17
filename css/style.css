@@ -314,3 +314,29 @@ body.game-page {
   }
 
 }
+
+.choose-page {
+  text-align: center;
+}
+
+.choice-container {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.choice-item {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.choice-item img {
+  width: 180px; /* bikin GEDEE */
+  height: auto;
+}
+
+.choice-item:hover {
+  transform: scale(1.1);
+}
