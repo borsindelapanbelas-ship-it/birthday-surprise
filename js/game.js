@@ -8,7 +8,6 @@ const SIZE = 520;
 canvas.width = SIZE;
 canvas.height = SIZE;
 
-/* ================= RESPONSIVE ================= */
 canvas.style.width = "95vmin";
 canvas.style.height = "95vmin";
 canvas.style.maxWidth = SIZE + "px";
@@ -19,11 +18,9 @@ canvas.style.margin = "0 auto";
 /* ================= SCALE ================= */
 const PLAYER_SCALE = 0.12;
 const GROUP_SCALE  = 0.09;
-
-/* ================= DEVICE ================= */
 const isMobile = "ontouchstart" in window;
 
-/* ================= LOAD IMAGES ================= */
+/* ================= IMAGES ================= */
 const mazeImg = new Image();
 mazeImg.src = "assets/images/maze.game.png";
 
@@ -44,6 +41,7 @@ groupImg.src = "assets/images/group.png";
 
 const coinImg = new Image();
 coinImg.src = "assets/images/coin.png";
+
 const starImg = new Image();
 starImg.src = "assets/images/star.png";
 
@@ -52,18 +50,16 @@ const coinSound = new Audio("assets/sounds/coin.mp3");
 const starSound = new Audio("assets/sounds/star.mp3");
 const winSound  = new Audio("assets/sounds/win.mp3");
 
-/* ================= GAME OBJECTS ================= */
+/* ================= OBJECTS ================= */
 let playerCanvas = {};
 let groupCanvas, coinCanvas, starCanvas;
 let mazeData = null;
 
 const player = { 
-  x:50, 
-  y:65, 
+  x:50, y:65,
   speed: isMobile ? 4 : 3,
-  dir:"right", 
-  w:0, 
-  h:0 
+  dir:"right",
+  w:0, h:0
 };
 
 const group  = { x:430, y:300, w:0, h:0 };
@@ -126,8 +122,7 @@ mazeImg.onload=()=>{
 };
 
 function isWall(x,y,w,h){
-  if(!mazeData)return false;
-
+  if(!mazeData) return false;
   const fw=w*0.5, fh=h*0.2;
   const fx=x+(w-fw)/2;
   const fy=y+h-fh;
@@ -137,7 +132,7 @@ function isWall(x,y,w,h){
     for(let j=0;j<fh;j++){
       const px=Math.floor(fx+i);
       const py=Math.floor(fy+j);
-      if(px<0||py<0||px>=SIZE||py>=SIZE)continue;
+      if(px<0||py<0||px>=SIZE||py>=SIZE) continue;
       const idx=(py*SIZE+px)*4;
       if(data[idx]<40&&data[idx+1]<40&&data[idx+2]<40)
         return true;
@@ -162,53 +157,6 @@ window.addEventListener("keyup",e=>{
   if(e.key==="ArrowRight")key.right=false;
 });
 
-/* ================= MOBILE CONTROL ================= */
-function createMobileControls(){
-  if(!isMobile) return;
-
-  const box=document.createElement("div");
-  box.style.position="fixed";
-  box.style.bottom="30px";
-  box.style.left="50%";
-  box.style.transform="translateX(-50%)";
-  box.style.display="grid";
-  box.style.gridTemplateColumns="70px 70px 70px";
-  box.style.gap="12px";
-  box.style.zIndex="9999";
-
-  function btn(txt,act){
-    const b=document.createElement("div");
-    b.innerHTML=txt;
-    b.style.background="rgba(255,192,203,0.9)";
-    b.style.padding="18px";
-    b.style.textAlign="center";
-    b.style.borderRadius="20px";
-    b.style.fontSize="22px";
-
-    b.addEventListener("touchstart",e=>{
-      e.preventDefault();
-      key[act]=true;
-    },{passive:false});
-
-    b.addEventListener("touchend",e=>{
-      e.preventDefault();
-      key[act]=false;
-    },{passive:false});
-
-    return b;
-  }
-
-  box.appendChild(document.createElement("div"));
-  box.appendChild(btn("⬆️","up"));
-  box.appendChild(document.createElement("div"));
-  box.appendChild(btn("⬅️","left"));
-  box.appendChild(btn("⬇️","down"));
-  box.appendChild(btn("➡️","right"));
-
-  document.body.appendChild(box);
-}
-createMobileControls();
-
 /* ================= COLLISION ================= */
 function collide(a,b){
   return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
@@ -219,9 +167,6 @@ function update(){
 
   if(!finished){
 
-    let nx=player.x;
-    let ny=player.y;
-
     let dx=0, dy=0;
 
     if(key.left){ dx -= 1; player.dir="left"; }
@@ -229,8 +174,8 @@ function update(){
     if(key.up){ dy -= 1; player.dir="back"; }
     if(key.down){ dy += 1; player.dir="front"; }
 
-    nx += dx * player.speed;
-    ny += dy * player.speed;
+    let nx = player.x + dx*player.speed;
+    let ny = player.y + dy*player.speed;
 
     if(!isWall(nx,player.y,player.w,player.h)) player.x=nx;
     if(!isWall(player.x,ny,player.w,player.h)) player.y=ny;
@@ -238,17 +183,17 @@ function update(){
     coin.flip+=0.15;
     star.flip+=0.15;
 
-    if(!coin.taken&&collide(player,coin)){
+    if(!coin.taken && collide(player,coin)){
       coin.taken=true;
       coinSound.play();
     }
 
-    if(!star.taken&&collide(player,star)){
+    if(!star.taken && collide(player,star)){
       star.taken=true;
       starSound.play();
     }
 
-    if(coin.taken&&star.taken&&collide(player,group)){
+    if(coin.taken && star.taken && collide(player,group)){
       finished=true;
       winSound.play();
     }
@@ -265,6 +210,7 @@ function update(){
 
 /* ================= DRAW ================= */
 function draw(){
+
   ctx.clearRect(0,0,SIZE,SIZE);
   ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
 
@@ -276,8 +222,8 @@ function draw(){
     ctx.restore();
   }
 
-  if(!coin.taken&&coinCanvas)flipDraw(coin,coinCanvas);
-  if(!star.taken&&starCanvas)flipDraw(star,starCanvas);
+  if(!coin.taken&&coinCanvas) flipDraw(coin,coinCanvas);
+  if(!star.taken&&starCanvas) flipDraw(star,starCanvas);
 
   if(groupCanvas)
     ctx.drawImage(groupCanvas,group.x,group.y,group.w,group.h);
@@ -292,67 +238,61 @@ function draw(){
 
     ctx.fillStyle="black";
     ctx.textAlign="center";
-
     ctx.font="bold 36px Arial";
     ctx.fillText("YAY 🎉 You Found Us!",SIZE/2,SIZE/2-40);
 
     ctx.font="22px Arial";
     ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
 
-  if(showButton){
-  const btnW = 240;
-  const btnH = 60;
-  const btnX = SIZE/2 - btnW/2;
-  const btnY = SIZE/2 + 50;
+    if(showButton){
+      const btnW=240, btnH=60;
+      const btnX=SIZE/2-btnW/2;
+      const btnY=SIZE/2+50;
 
-  // shadow glow
-  ctx.shadowColor = "rgba(255,105,180,0.6)";
-  ctx.shadowBlur = 20;
+      ctx.shadowColor="rgba(255,105,180,0.6)";
+      ctx.shadowBlur=20;
 
-  // rounded rectangle
-  ctx.fillStyle = "#ff69b4";
-  roundRect(ctx, btnX, btnY, btnW, btnH, 25);
-  ctx.fill();
+      roundRect(ctx,btnX,btnY,btnW,btnH,25);
+      ctx.fillStyle="#ff8fcf";
+      ctx.fill();
 
-  // reset shadow
-  ctx.shadowBlur = 0;
+      ctx.shadowBlur=0;
 
-  // text
-  ctx.fillStyle = "white";
-  ctx.font = "bold 22px Arial";
-  ctx.fillText("OPEN PRESENT 🎁", SIZE/2, btnY + 38);
+      ctx.fillStyle="white";
+      ctx.font="bold 22px Arial";
+      ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+38);
 
-  endButton = {x:btnX,y:btnY,w:btnW,h:btnH};
+      endButton={x:btnX,y:btnY,w:btnW,h:btnH};
+    }
+  }
 }
-    
-function roundRect(ctx, x, y, width, height, radius) {
+
+/* ================= ROUND RECT ================= */
+function roundRect(ctx,x,y,w,h,r){
   ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.lineTo(x + width - radius, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-  ctx.lineTo(x + width, y + height - radius);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-  ctx.lineTo(x, y + radius);
-  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
   ctx.closePath();
 }
 
-/* ================= BUTTON CLICK ================= */
-canvas.addEventListener("click", (e)=>{
-  if(!showButton || !endButton) return;
+/* ================= CLICK ================= */
+canvas.addEventListener("click",(e)=>{
+  if(!showButton||!endButton) return;
 
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = SIZE / rect.width;
-  const scaleY = SIZE / rect.height;
+  const rect=canvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left)*(SIZE/rect.width);
+  const my=(e.clientY-rect.top)*(SIZE/rect.height);
 
-  const mx = (e.clientX - rect.left) * scaleX;
-  const my = (e.clientY - rect.top) * scaleY;
-
-  if(mx > endButton.x && mx < endButton.x + endButton.w &&
-     my > endButton.y && my < endButton.y + endButton.h){
-    window.location.href = "choose.html";
+  if(mx>endButton.x && mx<endButton.x+endButton.w &&
+     my>endButton.y && my<endButton.y+endButton.h){
+    window.location.href="choose.html";
   }
 });
 
