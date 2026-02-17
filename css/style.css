@@ -318,15 +318,19 @@ body.game-page {
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-}
-
-.choose-page {
   min-height: 100vh;
+
+  background: linear-gradient(135deg, #6fa8ff, #a6c8ff);
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+
+.choose-page {
   text-align: center;
+  width: 100%;
+  max-width: 1000px;
 }
 
 .choose-page h1 {
@@ -348,17 +352,18 @@ body {
 }
 
 .choice-item {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .choice-item:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
 }
 
 .choice-item img {
