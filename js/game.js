@@ -412,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openBox.addEventListener("click", function () {
       openBox.style.display = "none";
       openText.style.display = "none";
-      memoryWall.style.display = "grid";
+      memoryWall.classList.add("show");
     });
   }
 
