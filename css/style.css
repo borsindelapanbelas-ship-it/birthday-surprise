@@ -441,118 +441,6 @@ body::before {
 
 }
 
-/*page 4 ges*/
-/* TEXTURE WALL */
-.memory-page {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(0,0,0,0.02) 1px, transparent 1px),
-    radial-gradient(circle at 80% 80%, rgba(0,0,0,0.02) 1px, transparent 1px),
-    #f3efe7;
-  background-size: 40px 40px;
-}
-
-/* OPEN TEXT */
-.open-text {
-  position: absolute;
-  top: 32%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 30px;
-  font-weight: 500;
-  opacity: 0.85;
-  letter-spacing: 1px;
-  pointer-events: none;
-}
-
-/* BOX */
-.box-container {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  transition: transform 0.4s ease;
-  z-index: 5;
-  opacity: 1;
-}
-
-.box-container:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-}
-
-.box-img {
-  width: 180px;
-}
-
-/* MEMORY WALL */
-.memory-wall {
-  position: absolute;
-  inset: 0;
-  display: none;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-
-.memory-wall.show {
-  display: block;
-  opacity: 1;
-}
-
-/* FRAME STYLE */
-.frame {
-  position: absolute;
-  width: 200px;
-  height: 140px;
-  background: white;
-  padding: 10px;
-  border-radius: 12px;
-  box-shadow:
-    0 15px 30px rgba(0,0,0,0.12),
-    0 5px 10px rgba(0,0,0,0.08);
-  overflow: hidden;
-}
-
-/* SLIDES */
-.frame img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 1.6s ease-in-out;
-}
-
-.slide.active {
-  opacity: 1;
-}
-
-/* POSITIONS */
-.frame1 { top: 10%; left: 8%; transform: rotate(-5deg); }
-.frame2 { top: 38%; left: 5%; transform: rotate(3deg); }
-.frame3 { top: 68%; left: 12%; transform: rotate(-2deg); }
-
-.frame4 { top: 15%; right: 8%; transform: rotate(4deg); }
-.frame5 { top: 45%; right: 5%; transform: rotate(-3deg); }
-.frame6 { top: 72%; right: 12%; transform: rotate(2deg); }
-
-/* CENTER TEXT */
-.center-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Playfair Display', serif;
-  font-size: 34px;
-  line-height: 1.6;
-  text-align: center;
-  width: 60%;
-  opacity: 0;
-  transition: opacity 2s ease;
-}
-
 /* ===== PAGE 1 ===== */
 .page-home {
   background: linear-gradient(to bottom, #5fa8ff, #eef6ff);
@@ -654,6 +542,26 @@ html, body {
   font-size: 15px;
   color: #2b6cb0;
   line-height: 1.6;
+}
+
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 8px 14px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #2b6cb0;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  z-index: 1000;
+  transition: 0.3s ease;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
 }
 
 /* Responsive tweak untuk HP kecil */
