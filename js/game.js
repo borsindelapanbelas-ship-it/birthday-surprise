@@ -417,3 +417,47 @@ window.onload = function () {
   }
 
 };
+
+window.addEventListener("DOMContentLoaded", function () {
+
+  const letters = [
+`From Kayla
+
+hai kaa, aku kaylaa. happiest birthday to you 🫶
+semoga sehat sehat terus yaa.
+mungkin kaka blom kenal aku karna baru join pas natal hehe.
+but glad to know u kaa. God bless uu 🫶🫶`
+];
+const letters = [
+`From Calvin
+
+Happy birthday kak Virgin 🥳🥳🥳
+sori jarang dateng ke ga 😅😅,
+semoga panjang umur sehat selalu dan hepi everydayyyyy. 🎉🎉🎉`
+];
+
+  const grid = document.getElementById("lettersGrid");
+  const modal = document.getElementById("letterModal");
+  const content = document.getElementById("letterContent");
+
+  if (!grid) return; // supaya tidak error di page lain
+
+  letters.forEach((text) => {
+    const div = document.createElement("div");
+    div.classList.add("envelope");
+
+    div.innerHTML = `<img src="assets/images/envelope.png">`;
+
+    div.addEventListener("click", () => {
+      content.innerHTML = text;
+      modal.classList.add("show");
+    });
+
+    grid.appendChild(div);
+  });
+
+  modal.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+
+});
