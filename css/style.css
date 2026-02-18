@@ -316,19 +316,6 @@ body.game-page {
 }
 
 /*page 3 yee*/
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #7da7e8;
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* subtle glow background */
 body::before {
   content: "";
   position: fixed;
@@ -455,14 +442,6 @@ body::before {
 }
 
 /*page 4 ges*/
-/* ===== PAGE 4 MEMORY ===== */
-
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: #f3efe7;
-}
-
 /* TEXTURE WALL */
 .memory-page {
   position: relative;
@@ -572,4 +551,35 @@ body {
   width: 60%;
   opacity: 0;
   transition: opacity 2s ease;
+}
+
+/* ===== PAGE 1 ===== */
+.page-home {
+  background: linear-gradient(to bottom, #5fa8ff, #eef6ff);
+}
+
+/* ===== PAGE 3 ===== */
+.page-choose {
+  background-color: #7da7e8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* subtle glow */
+.page-choose::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.25), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.2), transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== PAGE 4 ===== */
+.page-memory {
+  background: #f3efe7;
 }
