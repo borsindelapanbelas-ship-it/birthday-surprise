@@ -423,30 +423,24 @@ body::before {
 /*buat di hp*/
 @media (max-width: 768px) {
 
-  .choose-page {
-    padding: 25px 20px;
-  }
-
-  .choose-page h1 {
-    font-size: 1.9rem;
-  }
-
-  .choose-page p {
-    font-size: 1rem;
-  }
-
-  .choice-container {
-    flex-direction: column;
-    gap: 25px;
-    margin-top: 35px;
+  .choices-container {
+    gap: 20px;
   }
 
   .choice-item {
-    width: 135px;
-    padding: 25px 15px;
+    width: 85%;
+    padding: 20px 12px;
+    border-radius: 20px;
   }
 
   .choice-item img {
-    width: 180px; /* ini yang kita kecilin */
+    width: 110px;
+    height: auto;
+    margin-bottom: 15px;
   }
+
+  .choice-item h2 {
+    font-size: 18px;
+  }
+
 }
