@@ -666,6 +666,14 @@ happy birthday kak virgin! sehat selalu dan panjang umur ya`,
 
 Blessed Birthday Kak Virgin!!! Panjang umur and sehat selalu, Surely goodness and mercy will follow you for the rest of your life. Praying for more open doors and new opportunities and experiences this year! Have a happy birthday 🥳🥳🥳🥳🔥🔥🔥🔥`,
 
+`From Sandra
+
+Today, the sun shines a bit brighter, as if God wants to celebrate the peace you bring to this world. Every shadow feels lighter because of you, and every silence feels like a soft prayer. I often wonder how you carry so much warmth; you truly show us what it means to be the 'salt and light' in our daily lives.
+
+You’ve taught me that strength doesn’t have to be loud. Sometimes, it’s a quiet trust in Him—a gentle spirit that shapes everything around it. I hope today you see yourself the way God sees you: precious, chosen, and deeply loved. Thank you for showing me that love doesn't always need to be grand; sometimes it is calm and steady, just like Christ’s love for us.
+
+I pray for a life that brings you so much happiness and laughter that feels like sunshine in your soul. Remember, even when the world feels heavy, the Lord is just one prayer away. Simply call His name, and He will reach you faster than the light, wrapping you in His everlasting arms. Happy birthday, Kak Virgin. 🤍`,
+     
 `From Shalom
 
 Haii kak Virginnn 👋👋
