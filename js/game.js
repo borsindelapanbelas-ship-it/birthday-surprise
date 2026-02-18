@@ -402,18 +402,18 @@ if (canvas) {
 }
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+window.onload = function () {
 
   const openBox = document.getElementById("openBox");
   const memoryWall = document.getElementById("memoryWall");
   const openText = document.querySelector(".open-text");
 
   if (openBox && memoryWall) {
-    openBox.addEventListener("click", function () {
+    openBox.onclick = function () {
       openBox.style.display = "none";
       openText.style.display = "none";
-      memoryWall.classList.add("show");
-    });
+      memoryWall.style.display = "grid";
+    };
   }
 
-});
+};
