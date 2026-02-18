@@ -144,7 +144,7 @@ if (canvas) {
   const data = mazeData.data;
 
   // cek hanya bagian kaki bawah (foot area)
-  const footHeight = h * 0.25;        // 25% bawah
+  const footHeight = h * 0.2;        // 20% bawah
   const footWidth  = w * 0.6;         // tengah badan
   const startX = x + (w - footWidth) / 2;
   const startY = y + h - footHeight;
