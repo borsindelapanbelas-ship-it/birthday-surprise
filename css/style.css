@@ -423,24 +423,24 @@ body::before {
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
 
+  .choose-page {
+    padding: 20px;
+  }
+
   .choose-page h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   .choose-page p {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .choice-container {
+    flex-direction: column;
     gap: 30px;
     margin-top: 40px;
   }
 
   .choice-item {
-    padding: 30px;
-  }
-
-  .choice-item img {
-    width: 170px;
-  }
-}
+    width: 100%;
+    padding: 35px 2
