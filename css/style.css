@@ -584,24 +584,22 @@ html, body {
 }
 
 /*page 4*/
-/* ===== PAGE 4 ===== */
 .page-memory {
   margin: 0;
-  padding: 0;
   font-family: 'Inter', sans-serif;
-
   background: linear-gradient(to bottom, #dbeeff, #ffffff);
-
   min-height: 100vh;
   display: flex;
   justify-content: center;
 }
+
 .memory-page {
   width: 100%;
-  max-width: 430px;
+  max-width: 900px; /* supaya di laptop gak terlalu sempit */
   padding: 20px;
   text-align: center;
 }
+
 .open-text {
   font-size: 14px;
   color: #2b6cb0;
@@ -611,8 +609,8 @@ html, body {
 .box-container {
   display: flex;
   justify-content: center;
-  cursor: pointer;
   margin-bottom: 30px;
+  cursor: pointer;
 }
 
 .box-img {
@@ -623,36 +621,45 @@ html, body {
 .box-img:hover {
   transform: scale(1.05);
 }
+
+/* MEMORY WALL */
+
 .memory-wall {
-  display: none; /* nanti muncul setelah box diklik */
+  display: none;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-top: 20px;
+  gap: 20px;
 }
+
 .frame {
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 15px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  position: relative;
 }
 
 .frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: none;
 }
 
-.frame img.active {
-  display: block;
-}
 .center-text {
   grid-column: span 2;
+  margin-top: 20px;
   font-family: 'Playfair Display', serif;
-  font-size: 14px;
+  font-size: 15px;
   color: #2b6cb0;
-  margin-top: 15px;
   line-height: 1.6;
+}
+
+/* Responsive tweak untuk HP kecil */
+@media (max-width: 480px) {
+  .memory-page {
+    padding: 15px;
+  }
+
+  .box-img {
+    width: 100px;
+  }
 }
