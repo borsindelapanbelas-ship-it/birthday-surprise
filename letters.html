@@ -1,6 +1,39 @@
-<div class="letters-container">
-  <div id="letterBox" class="letter-box">
-    Click to open our letters 💌
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Our Letters 💌</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body style="background: linear-gradient(to bottom, #dbeeff, #ffffff); min-height:100vh; font-family:'Inter', sans-serif;">
+
+  <!-- Title -->
+  <div style="text-align:center; padding-top:40px;">
+    <h2 style="font-family:'Playfair Display', serif; color:#2b6cb0;">
+      Letters for You 💙
+    </h2>
+    <p style="color:#2b6cb0;">Click an envelope to read 💌</p>
   </div>
-</div>
+
+  <!-- Grid Letters -->
+  <div class="letters-grid" id="lettersGrid"></div>
+
+  <!-- Modal -->
+  <div class="letter-modal" id="letterModal">
+    <div class="letter-content" id="letterContent"></div>
+  </div>
+
+  <!-- JS -->
+  <script src="js/game.js"></script>
+
+</body>
+</html>
+
 
