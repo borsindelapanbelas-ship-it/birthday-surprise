@@ -455,7 +455,7 @@ is just right.`,
 `From Angel
 
 Happy birthdaay kaa Virgin, i wish u all the happiness in the world!!
-Thank youu soo much yaa uda tmnin aku, bimbing aku selama di gereja,
+Thankyouu soo much yaa uda tmnin aku, bimbing aku selama di gereja,
 smoga apa yg km harepin bisa terkabul di birthday km thun nii 😚😚,
 God bless u always loaavv 🤍🎂`,
 
@@ -478,7 +478,100 @@ Happy birthday kak, May you always be blessed with wisdom and happiness from God
 
 Selamat ulang tahun kak Virgin, semoga sehat selalu dan panjang umur, dan kerjaannya lancar, Tuhan Yesus memberkati.`,
 
-     
+`From Calvin
+
+Happy birthday kak Virgin 🥳🥳🥳 sori jarang dateng ke ga😅😅, semooga panjang umur sehat selalu
+dan hepi everydayyyyy. 🎉🎉🎉`,
+
+`From Celine
+
+Happy birthday ka Virgin!! Wyatb for what's to come, live long and prosper and God bless u 💕💕🎉🎉`,
+
+`From Celine Liana
+
+Haii ka virginn inii dari Celinee happyy birthday  kaa thankyouu bangett kakk dari awal pertama nyoba² ikut camp 
+ditemenin sama mima andd kak virginn yang welcome bangett ke semua orangg, i wish ka virginn bisa selalu
+jadi orang yang sabarr, ramah sama kita semuaa and orang lain, semoga kak virgin juga makinn cantikk
+dan bisa menjalani hidup kak virgin dengan lancarr dan damai Aminn, Puji Tuhan aku seneng bangett tiap 
+ngobrol sama ka virgin walaupun baru nyoba² ikut mima tapi tiba tiba udah ada yang nyambut aku sebaik inii 
+thankyouu kaa virginn wyatb 🫂🤩🥳`,
+
+`From Clarina
+
+Happy birthdayy ka Virgin God bless u wish you all the best, may this year brings you lots of joy, peace,
+and strength 🤍🤍`,
+
+`From Darlane kecil
+
+Blessed Birthday Kak Virgin, semoga kerjanya lancar selalu dan sehat senantiasa ❤️
+(ga gitu tau sih mau bilang ap wkwkwk sbb... serius bingung klo mau ngucapin hbd sama org lain...)`,
+
+`From Darrel
+
+Blessed Birthday kak Virgin! I declare that God's grace surround you always and guiding and strengthening you
+every day and lead you closer to His purpose.`,
+
+`From Devon
+
+Hai ci Virgin, Happy Birthday ya 🥳🥳. Semogaa cici selalu sehat, apa yang cici lakukan selalu dilancarkan, semua keinginan
+terkabul, dan selalu diberkati melimpah sama Tuhan. Thankyou ya ci udah jadi kakak sekaligus pembimbing yang baik ke kita semua`,
+
+`From Dylan
+
+Happy Birthday kak Virgin, kiranya Kasih Karunia Tuhan dan damai sejahtera tetap menyertai kak Virgin, semoga panjang umur 
+dan sehat selalu. God Bless You 🙏`,
+
+`From El
+
+Happy birthdayy kak Virgin i hope u have a blessed birthday, also i want to tell that Jesus loves u
+soo much He will always provide for u, He set up good plans for u, He will give miracles for u, His love for u 
+is overflowing, He's there for your highs and lows. God bless you kak Virgin have a blessed birthdayy! 😇😇`,
+
+`From Estelle
+
+Happy birthday, Ka Virgin! 🎉🤍
+Di hari yang spesial ini, kiranya kasih dan penyertaan Tuhan selalu memenuhi setiap langkah kakak. Terima kasih sudah
+menjadi kakak yang menguatkan dan membawa banyak berkat bagi orang-orang di sekitar.
+"TUHAN memberkati engkau dan melindungi engkau; TUHAN menyinari engkau dengan wajah-Nya dan memberi engkau kasih karunia; 
+TUHAN menghadapkan wajah-Nya kepadamu dan memberi engkau damai sejahtera." — Bilangan 6:24-26
+Tetap jadi terang di mana pun Kakak berada, dan terus berjalan dalam rencana TUhan yang indah. Tuhan Yesus memberkati selalu ✨`,
+
+`From Eto
+
+Happy Birthday Kak Virgin, semoga semakin sehat dan sukses selalu and don't forget that God always bless you.`,
+
+`From Feifei
+
+Happiest bday, kaa Virgin! wishing you good health, peace of mind, and all the good things u deserve in this
+new year of urlife. May everything u're working toward slowly fall into place, and may ur days ahead feel
+lighter and kinder. Enjoy ur special day kaakk! Jbu 🤍`,
+
+`From Fidele
+
+Happy Birthday Ka Virgin ‼️🎂 Aku doain di usia yang baru ini, semua harapan baik bisa tercapai dan selalu dilimpahi
+sukacita. GBU Kakk ✨💕`,
+
+`From Gloria
+
+happyy birthdayyy ka Virginnn!! Wishing you a blessed year aheaad. May God continue to strengthen you, guide you in
+every step, and fill your life with His peace and joy. Thank you for being such an inspiration and a blessing
+to many people. God bless you always kaa Virginn 🤍`,
+
+`From Gracelene
+
+Happy birthday kak Virgin! I pray all your wishes come true this year. I hope your day goes well! You deserve
+a joyful and special birthday 🎂❤️`,
+
+`From Jason
+
+Happy birthday kak Virgin dalam nama Tuhan Yesus kakak diberkati Tuhan dan panjang umur`,
+
+`From Jedi
+
+Hi kakk Virgin, Blessed birthday 🥳🥳🥳. Thank you for being good leader terutama buat aku. Declaring 29:11 for u
+[11] Sebab Aku ini mengetahui rancangan-rancangan apa yang ada pada-Ku mengenai kamu, demikianlah firman TUHAN,
+yaitu rancangan damai sejahtera dan bukan rancangan kecelakaan, untuk memberikan kepadamu hari depan yang penuh harapan.`,
+
 ];
 
   const grid = document.getElementById("lettersGrid");
