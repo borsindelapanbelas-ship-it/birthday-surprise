@@ -1,4 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
+console.log("GAME JS LOADED");
 
 /* =================================================
    ================== PAGE GAME ====================
