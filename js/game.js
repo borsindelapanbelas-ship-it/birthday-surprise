@@ -95,7 +95,7 @@ if (canvas) {
   type:"player"
 };
   const group  = { x:430, y:300, w:0, h:0 };
-  const coin   = { x:300, y:90, w:28, h:28, taken:false, flip:0 };
+  const coin   = { x: 270, y:90, w:28, h:28, taken:false, flip:0 };
   const star   = { x:200, y:405, w:28, h:28, taken:false, flip:0 };
 
   let finished = false;
