@@ -20,6 +20,8 @@ if (canvas) {
   canvas.style.maxHeight = SIZE + "px";
   canvas.style.display = "block";
   canvas.style.margin = "0 auto";
+  canvas.style.position = "relative";
+  canvas.style.zIndex = "2";
 
   document.body.style.margin = "0";
 
@@ -63,9 +65,9 @@ if (canvas) {
 
   function unlockAudio() {
     if (audioUnlocked) return;
-    coinSound.play().then(()=>{coinSound.pause();coinSound.currentTime=0;}).catch(()=>{});
-    starSound.play().then(()=>{starSound.pause();starSound.currentTime=0;}).catch(()=>{});
-    winSound.play().then(()=>{winSound.pause();winSound.currentTime=0;}).catch(()=>{});
+    [coinSound, starSound, winSound].forEach(s=>{
+      s.play().then(()=>{s.pause();s.currentTime=0;}).catch(()=>{});
+    });
     audioUnlocked = true;
   }
 
@@ -78,10 +80,10 @@ if (canvas) {
   let groupCanvas, coinCanvas, starCanvas;
   let mazeData = null;
 
-  const player = { x:50, y:65, speed: isMobile ? 4.5 : 3, dir:"right", w:0, h:0 };
+  const player = { x:50, y:65, speed: isMobile ? 4 : 3, dir:"right", w:0, h:0 };
   const group  = { x:430, y:300, w:0, h:0 };
-  const coin   = { x:300, y:90, w:24, h:24, taken:false, flip:0 };
-  const star   = { x:200, y:405, w:24, h:24, taken:false, flip:0 };
+  const coin   = { x:300, y:90, w:28, h:28, taken:false, flip:0 };
+  const star   = { x:200, y:405, w:28, h:28, taken:false, flip:0 };
 
   let finished = false;
   let winAlpha = 0;
@@ -114,10 +116,7 @@ if (canvas) {
     }
   }
 
-  playerImgs.front.onload = checkAllLoaded;
-  playerImgs.back.onload  = checkAllLoaded;
-  playerImgs.left.onload  = checkAllLoaded;
-  playerImgs.right.onload = checkAllLoaded;
+  Object.values(playerImgs).forEach(img=>img.onload=checkAllLoaded);
 
   groupImg.onload=()=>{
     groupCanvas=removeLightBg(groupImg);
@@ -136,15 +135,11 @@ if (canvas) {
 
   function isWall(x,y,w,h){
     if(!mazeData) return false;
-    const fw=w*0.5;
-    const fh=h*0.2;
-    const fx=x+(w-fw)/2;
-    const fy=y+h-fh;
     const data=mazeData.data;
-    for(let i=0;i<fw;i++){
-      for(let j=0;j<fh;j++){
-        const px=Math.floor(fx+i);
-        const py=Math.floor(fy+j);
+    for(let i=0;i<w;i+=4){
+      for(let j=0;j<h;j+=4){
+        const px=Math.floor(x+i);
+        const py=Math.floor(y+j);
         if(px<0||py<0||px>=SIZE||py>=SIZE) continue;
         const idx=(py*SIZE+px)*4;
         if(data[idx]<40&&data[idx+1]<40&&data[idx+2]<40)
@@ -175,22 +170,25 @@ if (canvas) {
   if(isMobile){
     const controls=document.createElement("div");
     controls.style.position="fixed";
-    controls.style.bottom="15px";
+    controls.style.bottom="20px";
     controls.style.left="50%";
     controls.style.transform="translateX(-50%)";
     controls.style.display="grid";
-    controls.style.gridTemplateColumns="60px 60px 60px";
+    controls.style.gridTemplateColumns="70px 70px 70px";
     controls.style.gap="12px";
     controls.style.zIndex="9999";
+    controls.style.pointerEvents="auto";
 
     function btn(txt,dir){
       const b=document.createElement("div");
       b.innerHTML=txt;
       b.style.background="#ffb6d9";
-      b.style.padding="15px";
+      b.style.padding="18px";
       b.style.textAlign="center";
-      b.style.borderRadius="18px";
-      b.style.fontSize="20px";
+      b.style.borderRadius="22px";
+      b.style.fontSize="22px";
+      b.style.userSelect="none";
+      b.style.touchAction="none";
       b.addEventListener("touchstart",()=>key[dir]=true);
       b.addEventListener("touchend",()=>key[dir]=false);
       return b;
@@ -215,11 +213,13 @@ if (canvas) {
 
   function update(){
     if(!finished){
+
       let dx=0, dy=0;
-      if(key.left){ dx-=1; player.dir="left"; }
-      if(key.right){ dx+=1; player.dir="right"; }
-      if(key.up){ dy-=1; player.dir="back"; }
-      if(key.down){ dy+=1; player.dir="front"; }
+
+      if(key.left){ dx=-1; player.dir="left"; }
+      else if(key.right){ dx=1; player.dir="right"; }
+      else if(key.up){ dy=-1; player.dir="back"; }
+      else if(key.down){ dy=1; player.dir="front"; }
 
       const nx=player.x+dx*player.speed;
       const ny=player.y+dy*player.speed;
@@ -248,25 +248,24 @@ if (canvas) {
 
     if(groupCanvas)
       ctx.drawImage(groupCanvas,group.x,group.y,group.w,group.h);
-// DRAW COIN
-if(!coin.taken && coinCanvas){
-  const scaleX = Math.abs(Math.cos(coin.flip));
-  ctx.save();
-  ctx.translate(coin.x + coin.w/2, coin.y + coin.h/2);
-  ctx.scale(scaleX, 1);
-  ctx.drawImage(coinCanvas, -coin.w/2, -coin.h/2, coin.w, coin.h);
-  ctx.restore();
-}
 
-// DRAW STAR
-if(!star.taken && starCanvas){
-  const scaleX = Math.abs(Math.cos(star.flip));
-  ctx.save();
-  ctx.translate(star.x + star.w/2, star.y + star.h/2);
-  ctx.scale(scaleX, 1);
-  ctx.drawImage(starCanvas, -star.w/2, -star.h/2, star.w, star.h);
-  ctx.restore();
-}
+    if(!coin.taken && coinCanvas){
+      const s=Math.abs(Math.cos(coin.flip));
+      ctx.save();
+      ctx.translate(coin.x+coin.w/2,coin.y+coin.h/2);
+      ctx.scale(s,1);
+      ctx.drawImage(coinCanvas,-coin.w/2,-coin.h/2,coin.w,coin.h);
+      ctx.restore();
+    }
+
+    if(!star.taken && starCanvas){
+      const s=Math.abs(Math.cos(star.flip));
+      ctx.save();
+      ctx.translate(star.x+star.w/2,star.y+star.h/2);
+      ctx.scale(s,1);
+      ctx.drawImage(starCanvas,-star.w/2,-star.h/2,star.w,star.h);
+      ctx.restore();
+    }
 
     const img=playerCanvas[player.dir];
     if(img)
@@ -278,23 +277,25 @@ if(!star.taken && starCanvas){
 
       ctx.fillStyle="black";
       ctx.textAlign="center";
-      ctx.font="bold 36px Arial";
+      ctx.font="bold 34px Arial";
       ctx.fillText("YAY 🎉 You Found Us!",SIZE/2,SIZE/2-40);
 
-      ctx.font="22px Arial";
+      ctx.font="20px Arial";
       ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
 
       if(winAlpha>=1){
-        const btnW=240, btnH=60;
+        const btnW=250, btnH=65;
         const btnX=SIZE/2-btnW/2;
         const btnY=SIZE/2+50;
 
         ctx.fillStyle="#ff8fcf";
-        ctx.fillRect(btnX,btnY,btnW,btnH);
+        ctx.beginPath();
+        ctx.roundRect(btnX,btnY,btnW,btnH,20);
+        ctx.fill();
 
         ctx.fillStyle="black";
         ctx.font="bold 20px Arial";
-        ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+38);
+        ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+42);
 
         endButton={x:btnX,y:btnY,w:btnW,h:btnH};
       }
