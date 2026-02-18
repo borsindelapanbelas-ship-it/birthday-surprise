@@ -420,3 +420,27 @@ body::before {
   z-index: 0;
 }
 
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+
+  .choose-page h1 {
+    font-size: 1.8rem;
+  }
+
+  .choose-page p {
+    font-size: 1rem;
+  }
+
+  .choice-container {
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  .choice-item {
+    padding: 30px;
+  }
+
+  .choice-item img {
+    width: 170px;
+  }
+}
