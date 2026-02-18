@@ -63,22 +63,9 @@ if (canvas) {
 
   function unlockAudio() {
     if (audioUnlocked) return;
-
-    coinSound.play().then(() => {
-      coinSound.pause();
-      coinSound.currentTime = 0;
-    }).catch(()=>{});
-
-    starSound.play().then(() => {
-      starSound.pause();
-      starSound.currentTime = 0;
-    }).catch(()=>{});
-
-    winSound.play().then(() => {
-      winSound.pause();
-      winSound.currentTime = 0;
-    }).catch(()=>{});
-
+    coinSound.play().then(()=>{coinSound.pause();coinSound.currentTime=0;}).catch(()=>{});
+    starSound.play().then(()=>{starSound.pause();starSound.currentTime=0;}).catch(()=>{});
+    winSound.play().then(()=>{winSound.pause();winSound.currentTime=0;}).catch(()=>{});
     audioUnlocked = true;
   }
 
@@ -98,6 +85,7 @@ if (canvas) {
 
   let finished = false;
   let winAlpha = 0;
+  let endButton = null;
 
   function removeLightBg(img){
     const c=document.createElement("canvas");
@@ -153,7 +141,6 @@ if (canvas) {
     const fx=x+(w-fw)/2;
     const fy=y+h-fh;
     const data=mazeData.data;
-
     for(let i=0;i<fw;i++){
       for(let j=0;j<fh;j++){
         const px=Math.floor(fx+i);
@@ -182,6 +169,42 @@ if (canvas) {
     if(e.key==="ArrowLeft")key.left=false;
     if(e.key==="ArrowRight")key.right=false;
   });
+
+  /* ================= MOBILE CONTROL ================= */
+
+  if(isMobile){
+    const controls=document.createElement("div");
+    controls.style.position="fixed";
+    controls.style.bottom="15px";
+    controls.style.left="50%";
+    controls.style.transform="translateX(-50%)";
+    controls.style.display="grid";
+    controls.style.gridTemplateColumns="60px 60px 60px";
+    controls.style.gap="12px";
+    controls.style.zIndex="9999";
+
+    function btn(txt,dir){
+      const b=document.createElement("div");
+      b.innerHTML=txt;
+      b.style.background="#ffb6d9";
+      b.style.padding="15px";
+      b.style.textAlign="center";
+      b.style.borderRadius="18px";
+      b.style.fontSize="20px";
+      b.addEventListener("touchstart",()=>key[dir]=true);
+      b.addEventListener("touchend",()=>key[dir]=false);
+      return b;
+    }
+
+    controls.appendChild(document.createElement("div"));
+    controls.appendChild(btn("⬆️","up"));
+    controls.appendChild(document.createElement("div"));
+    controls.appendChild(btn("⬅️","left"));
+    controls.appendChild(btn("⬇️","down"));
+    controls.appendChild(btn("➡️","right"));
+
+    document.body.appendChild(controls);
+  }
 
   function collide(a,b){
     return a.x<b.x+b.w &&
@@ -223,22 +246,6 @@ if (canvas) {
     ctx.clearRect(0,0,SIZE,SIZE);
     ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
 
-    if(!coin.taken&&coinCanvas){
-      ctx.save();
-      ctx.translate(coin.x+coin.w/2,coin.y+coin.h/2);
-      ctx.scale(Math.cos(coin.flip),1);
-      ctx.drawImage(coinCanvas,-coin.w/2,-coin.h/2,coin.w,coin.h);
-      ctx.restore();
-    }
-
-    if(!star.taken&&starCanvas){
-      ctx.save();
-      ctx.translate(star.x+star.w/2,star.y+star.h/2);
-      ctx.scale(Math.cos(star.flip),1);
-      ctx.drawImage(starCanvas,-star.w/2,-star.h/2,star.w,star.h);
-      ctx.restore();
-    }
-
     if(groupCanvas)
       ctx.drawImage(groupCanvas,group.x,group.y,group.w,group.h);
 
@@ -257,14 +264,42 @@ if (canvas) {
 
       ctx.font="22px Arial";
       ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
+
+      if(winAlpha>=1){
+        const btnW=240, btnH=60;
+        const btnX=SIZE/2-btnW/2;
+        const btnY=SIZE/2+50;
+
+        ctx.fillStyle="#ff8fcf";
+        ctx.fillRect(btnX,btnY,btnW,btnH);
+
+        ctx.fillStyle="black";
+        ctx.font="bold 20px Arial";
+        ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+38);
+
+        endButton={x:btnX,y:btnY,w:btnW,h:btnH};
+      }
     }
   }
+
+  canvas.addEventListener("click",(e)=>{
+    if(!endButton) return;
+    const rect=canvas.getBoundingClientRect();
+    const mx=(e.clientX-rect.left)*(SIZE/rect.width);
+    const my=(e.clientY-rect.top)*(SIZE/rect.height);
+
+    if(mx>endButton.x&&mx<endButton.x+endButton.w &&
+       my>endButton.y&&my<endButton.y+endButton.h){
+      window.location.href="choose.html";
+    }
+  });
 
   function loop(){
     update();
     draw();
     requestAnimationFrame(loop);
   }
+
 }
 
 /* =================================================
