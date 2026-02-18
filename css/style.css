@@ -666,3 +666,27 @@ html, body {
     width: 100px;
   }
 }
+
+/*page 5 di sini*/
+.letters-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.letter-box {
+  width: 300px;
+  min-height: 200px;
+  padding: 20px;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.letter-box:hover {
+  transform: scale(1.03);
+}
