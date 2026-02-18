@@ -401,3 +401,14 @@ if (canvas) {
   loop();
 }
 });
+
+const openBox = document.getElementById("openBox");
+const memoryWall = document.getElementById("memoryWall");
+
+if(openBox){
+  openBox.addEventListener("click", function(){
+    openBox.style.display = "none";
+    document.querySelector(".open-text").style.display = "none";
+    memoryWall.style.display = "grid";
+  });
+}
