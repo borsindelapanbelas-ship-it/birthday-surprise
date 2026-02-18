@@ -7,6 +7,9 @@ window.addEventListener("DOMContentLoaded", () => {
 const canvas = document.getElementById("gameCanvas");
 
 if (canvas) {
+window.addEventListener("gesturestart", e => e.preventDefault());
+window.addEventListener("gesturechange", e => e.preventDefault());
+window.addEventListener("gestureend", e => e.preventDefault());
 
   /* ===== LOCK SCROLL (MOBILE FIX) ===== */
   document.documentElement.style.overflow = "hidden";
@@ -191,55 +194,64 @@ if (canvas) {
 
   /* ================= MOBILE CONTROLS ================= */
 
-  if(isMobile){
+ if (isMobile) {
 
-    const controls=document.createElement("div");
-    controls.style.position="fixed";
-    controls.style.bottom="20px";
-    controls.style.left="50%";
-    controls.style.transform="translateX(-50%)";
-    controls.style.display="grid";
-    controls.style.gridTemplateColumns="70px 70px 70px";
-    controls.style.gap="12px";
-    controls.style.zIndex="9999";
-    controls.style.userSelect="none";
-    controls.style.touchAction="none";
+  const controls = document.createElement("div");
+  controls.style.position = "fixed";
+  controls.style.bottom = "20px";
+  controls.style.left = "50%";
+  controls.style.transform = "translateX(-50%)";
+  controls.style.display = "grid";
+  controls.style.gridTemplateColumns = "80px 80px 80px";
+  controls.style.gap = "14px";
+  controls.style.zIndex = "9999";
+  controls.style.userSelect = "none";
+  controls.style.webkitUserSelect = "none";
+  controls.style.touchAction = "none";
 
-    function btn(txt,dir){
-      const b=document.createElement("div");
-      b.innerHTML=txt;
-      b.style.background="#ffb6d9";
-      b.style.padding="20px";
-      b.style.textAlign="center";
-      b.style.borderRadius="24px";
-      b.style.fontSize="22px";
-      b.style.touchAction="none";
+  function btn(symbol, dir) {
 
-      b.addEventListener("pointerdown",(e)=>{
-        e.preventDefault();
-        key[dir]=true;
-      });
+    const b = document.createElement("div");
+    b.innerHTML = symbol;
 
-      b.addEventListener("pointerup",(e)=>{
-        e.preventDefault();
-        key[dir]=false;
-      });
+    b.style.background = "#ffb6d9";
+    b.style.padding = "22px";
+    b.style.textAlign = "center";
+    b.style.borderRadius = "26px";
+    b.style.fontSize = "24px";
+    b.style.userSelect = "none";
+    b.style.webkitUserSelect = "none";
+    b.style.touchAction = "none";
 
-      b.addEventListener("pointercancel",()=>{
-        key[dir]=false;
-      });
+    b.oncontextmenu = e => e.preventDefault(); // stop long press menu
 
-      return b;
-    }
+    b.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      key[dir] = true;
+    }, { passive: false });
 
-    controls.appendChild(document.createElement("div"));
-    controls.appendChild(btn("⬆️","up"));
-    controls.appendChild(document.createElement("div"));
-    controls.appendChild(btn("⬅️","left"));
-    controls.appendChild(btn("⬇️","down"));
-    controls.appendChild(btn("➡️","right"));
+    b.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      key[dir] = false;
+    }, { passive: false });
 
-    document.body.appendChild(controls);
+    b.addEventListener("touchcancel", () => {
+      key[dir] = false;
+    });
+
+    return b;
+  }
+
+  controls.appendChild(document.createElement("div"));
+  controls.appendChild(btn("⬆️", "up"));
+  controls.appendChild(document.createElement("div"));
+  controls.appendChild(btn("⬅️", "left"));
+  controls.appendChild(btn("⬇️", "down"));
+  controls.appendChild(btn("➡️", "right"));
+
+  document.body.appendChild(controls);
+}
+
   }
 
   function collide(a,b){
