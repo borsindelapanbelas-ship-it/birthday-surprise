@@ -429,10 +429,10 @@ pewahyuan kasih karunia Tuhan yang penuh dan sempurna. Bukan oleh usaha sendiri,
 melainkan oleh anugerah-Nya yang memampukan kakak setiap hari.
 
 "Cukuplah kasih karunia-Ku bagimu,
-sebab justru dalam kelemahanlah kuasa-KU menjadi sempurna."
+sebab justru dalam kelemahanlah kuasa-Ku menjadi sempurna."
 (2 Korintus 12:9)
 
-Kiranya kak virgin semakin menyadari bahwa kak Virgin sangat dikasihi Tuhan,
+Kiranya kak Virgin semakin menyadari bahwa kak Virgin sangat dikasihi Tuhan,
 diterima sepenuhnya di dalam Kristus, dan hidup dalam damai sejahtera-Nya.
 Semoga hidup kakak dipenuhi sukacita, kesehatan, dan kemenangan karena 
 anugerah Tuhan yang berlimpah. God bless you 🤍
@@ -444,7 +444,41 @@ Blessed Birthday ka!! Declaring that everything that you do you shall prosper!
 In every single step that you take there will be extrace wisdom,
 grace and favour from Daddy God for you.
 His blessings shall hunt you down for the rest of your life.
-Love you from the moon to back 🫶`
+Love you from the moon to back 🫶`,
+
+`From Alexa
+
+Happy birthday, kak Virgin. You are a kind person who makes everyone around you comfortable.
+I wish you a good birthday and hope that the next time you take a shower, the water temperature
+is just right.`,
+
+`From Angel
+
+Happy birthdaay kaa Virgin, i wish u all the happiness in the world!!
+Thank youu soo much yaa uda tmnin aku, bimbing aku selama di gereja,
+smoga apa yg km harepin bisa terkabul di birthday km thun nii 😚😚,
+God bless u always loaavv 🤍🎂`,
+
+`From Angela
+
+Happy birthday, kak Virgin! 🎉✨ I hope this new chapter brings u bigger dreams, louder laughs, and endless
+wins in everything you do. May life treat u gently, success chase u nonstop, and happiness stick
+with u like your favorite playlist on repeat. Enjoy ur day to the fullest—u truly deserve all the love and good 
+things coming your way! God bless u 💖🔥`,
+
+`From Anna
+
+Happieee Birthday Kak Virgin!! 🎉✨`,
+
+`From Bara
+
+Happy birthday kak, May you always be blessed with wisdom and happiness from God.`,
+
+`From Bryan
+
+Selamat ulang tahun kak Virgin, semoga sehat selalu dan panjang umur, dan kerjaannya lancar, Tuhan Yesus memberkati.`,
+
+     
 ];
 
   const grid = document.getElementById("lettersGrid");
