@@ -578,11 +578,81 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
-
-/* ===== PAGE 4 ===== */
-.page-memory {
-  background: #f3efe7;
 }
 html, body {
   overscroll-behavior: none;
+}
+
+/*page 4*/
+/* ===== PAGE 4 ===== */
+.page-memory {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+
+  background: linear-gradient(to bottom, #dbeeff, #ffffff);
+
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+.memory-page {
+  width: 100%;
+  max-width: 430px;
+  padding: 20px;
+  text-align: center;
+}
+.open-text {
+  font-size: 14px;
+  color: #2b6cb0;
+  margin-bottom: 15px;
+}
+
+.box-container {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.box-img {
+  width: 120px;
+  transition: 0.3s;
+}
+
+.box-img:hover {
+  transform: scale(1.05);
+}
+.memory-wall {
+  display: none; /* nanti muncul setelah box diklik */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+.frame {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.frame img.active {
+  display: block;
+}
+.center-text {
+  grid-column: span 2;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: #2b6cb0;
+  margin-top: 15px;
+  line-height: 1.6;
 }
