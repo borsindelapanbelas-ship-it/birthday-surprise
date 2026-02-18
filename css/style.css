@@ -424,23 +424,34 @@ body::before {
 @media (max-width: 768px) {
 
   .choices-container {
-    gap: 20px;
+    gap: 18px;
   }
 
   .choice-item {
-    width: 85%;
-    padding: 20px 12px;
-    border-radius: 20px;
+    width: 82%;
+    padding: 18px 10px;
+    border-radius: 18px;
   }
 
   .choice-item img {
-    width: 110px;
+    width: 85px;
     height: auto;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   .choice-item h2 {
-    font-size: 18px;
+    font-size: 16px;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    margin-bottom: 25px;
   }
 
 }
