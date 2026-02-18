@@ -248,6 +248,25 @@ if (canvas) {
 
     if(groupCanvas)
       ctx.drawImage(groupCanvas,group.x,group.y,group.w,group.h);
+// DRAW COIN
+if(!coin.taken && coinCanvas){
+  const scaleX = Math.abs(Math.cos(coin.flip));
+  ctx.save();
+  ctx.translate(coin.x + coin.w/2, coin.y + coin.h/2);
+  ctx.scale(scaleX, 1);
+  ctx.drawImage(coinCanvas, -coin.w/2, -coin.h/2, coin.w, coin.h);
+  ctx.restore();
+}
+
+// DRAW STAR
+if(!star.taken && starCanvas){
+  const scaleX = Math.abs(Math.cos(star.flip));
+  ctx.save();
+  ctx.translate(star.x + star.w/2, star.y + star.h/2);
+  ctx.scale(scaleX, 1);
+  ctx.drawImage(starCanvas, -star.w/2, -star.h/2, star.w, star.h);
+  ctx.restore();
+}
 
     const img=playerCanvas[player.dir];
     if(img)
