@@ -88,7 +88,7 @@ if (canvas) {
  const player = { 
   x:50, 
   y:65, 
-  speed: isMobile ? BASE_SPEED * MOBILE_FACTOR : BASE_SPEED, 
+  speed: isMobile ? 2.8 : 3, 
   dir:"right", 
   w:40, 
   h:60,
