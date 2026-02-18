@@ -421,19 +421,30 @@ window.onload = function () {
 window.addEventListener("DOMContentLoaded", function () {
 
   const letters = [
-`From Kayla
+`From Adeva
 
-hai kaa, aku kaylaa. happiest birthday to you 🫶
-semoga sehat sehat terus yaa.
-mungkin kaka blom kenal aku karna baru join pas natal hehe.
-but glad to know u kaa. God bless uu 🫶🫶`
-];
-const letters = [
-`From Calvin
+Happy birthday, kak Virgin 🤍
+Di usia yang baru ini, kiranya kakak semakin hidup dalam
+pewahyuan kasih karunia Tuhan yang penuh dan sempurna. Bukan oleh usaha sendiri,
+melainkan oleh anugerah-Nya yang memampukan kakak setiap hari.
 
-Happy birthday kak Virgin 🥳🥳🥳
-sori jarang dateng ke ga 😅😅,
-semoga panjang umur sehat selalu dan hepi everydayyyyy. 🎉🎉🎉`
+"Cukuplah kasih karunia-Ku bagimu,
+sebab justru dalam kelemahanlah kuasa-KU menjadi sempurna."
+(2 Korintus 12:9)
+
+Kiranya kak virgin semakin menyadari bahwa kak Virgin sangat dikasihi Tuhan,
+diterima sepenuhnya di dalam Kristus, dan hidup dalam damai sejahtera-Nya.
+Semoga hidup kakak dipenuhi sukacita, kesehatan, dan kemenangan karena 
+anugerah Tuhan yang berlimpah. God bless you 🤍
+✨생일 축하해요! :v`,
+
+`From Alene
+
+Blessed Birthday ka!! Declaring that everything that you do you shall prosper!
+In every single step that you take there will be extrace wisdom,
+grace and favour from Daddy God for you.
+His blessings shall hunt you down for the rest of your life.
+Love you from the moon to back 🫶`
 ];
 
   const grid = document.getElementById("lettersGrid");
@@ -449,9 +460,13 @@ semoga panjang umur sehat selalu dan hepi everydayyyyy. 🎉🎉🎉`
     div.innerHTML = `<img src="assets/images/envelope.png">`;
 
     div.addEventListener("click", () => {
-      content.innerHTML = text;
-      modal.classList.add("show");
-    });
+  content.innerHTML = text.replace(
+    /^(.+?)\n/,
+    "<strong>$1</strong><br><br>"
+  );
+  modal.classList.add("show");
+});
+
 
     grid.appendChild(div);
   });
