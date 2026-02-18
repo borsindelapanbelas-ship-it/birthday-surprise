@@ -382,3 +382,33 @@ function loop(){
 }
 
 });
+
+const box = document.getElementById("openBox");
+const wall = document.getElementById("memoryWall");
+const text = document.getElementById("centerText");
+
+box.addEventListener("click", () => {
+  box.style.display = "none";
+  wall.style.display = "block";
+
+  setTimeout(() => {
+    text.style.opacity = "1";
+  }, 4000);
+
+  startSlides();
+});
+
+function startSlides() {
+  const frames = document.querySelectorAll(".frame");
+
+  frames.forEach((frame, index) => {
+    const slides = frame.querySelectorAll(".slide");
+    let current = 0;
+
+    setInterval(() => {
+      slides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("active");
+    }, 3000 + (index * 500)); // beda delay biar natural
+  });
+}
