@@ -7,30 +7,28 @@ window.addEventListener("DOMContentLoaded", () => {
 const canvas = document.getElementById("gameCanvas");
 
 if (canvas) {
-window.addEventListener("gesturestart", e => e.preventDefault());
-window.addEventListener("gesturechange", e => e.preventDefault());
-window.addEventListener("gestureend", e => e.preventDefault());
 
-  /* ===== LOCK SCROLL (MOBILE FIX) ===== */
+  /* ===== STOP SCROLL & GESTURE ===== */
   document.documentElement.style.overflow = "hidden";
   document.body.style.overflow = "hidden";
   document.body.style.height = "100vh";
   document.body.style.touchAction = "none";
+
+  window.addEventListener("gesturestart", e => e.preventDefault());
+  window.addEventListener("gesturechange", e => e.preventDefault());
+  window.addEventListener("gestureend", e => e.preventDefault());
 
   const ctx = canvas.getContext("2d");
 
   const SIZE = 520;
   canvas.width = SIZE;
   canvas.height = SIZE;
-
   canvas.style.width = "95vmin";
   canvas.style.height = "95vmin";
   canvas.style.maxWidth = SIZE + "px";
   canvas.style.maxHeight = SIZE + "px";
   canvas.style.display = "block";
   canvas.style.margin = "0 auto";
-  canvas.style.position = "relative";
-  canvas.style.zIndex = "2";
   canvas.style.touchAction = "none";
 
   const PLAYER_SCALE = 0.12;
@@ -70,7 +68,6 @@ window.addEventListener("gestureend", e => e.preventDefault());
   const winSound  = new Audio("assets/sounds/win.mp3");
 
   let audioUnlocked = false;
-
   function unlockAudio() {
     if (audioUnlocked) return;
     [coinSound, starSound, winSound].forEach(s=>{
@@ -141,40 +138,31 @@ window.addEventListener("gestureend", e => e.preventDefault());
     loop();
   };
 
- function isWall(x, y, w, h) {
-  if (!mazeData) return false;
+  function isWall(x, y, w, h) {
+    if (!mazeData) return false;
+    const data = mazeData.data;
 
-  const data = mazeData.data;
+    const footHeight = h * 0.2;
+    const footWidth  = w * 0.6;
+    const startX = x + (w - footWidth) / 2;
+    const startY = y + h - footHeight;
 
-  // cek hanya bagian kaki bawah (foot area)
-  const footHeight = h * 0.2;        // 20% bawah
-  const footWidth  = w * 0.6;         // tengah badan
-  const startX = x + (w - footWidth) / 2;
-  const startY = y + h - footHeight;
+    for (let i = 0; i < footWidth; i += 4) {
+      for (let j = 0; j < footHeight; j += 4) {
 
-  for (let i = 0; i < footWidth; i += 4) {
-    for (let j = 0; j < footHeight; j += 4) {
+        const px = Math.floor(startX + i);
+        const py = Math.floor(startY + j);
 
-      const px = Math.floor(startX + i);
-      const py = Math.floor(startY + j);
+        if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
 
-      if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
+        const idx = (py * SIZE + px) * 4;
 
-      const idx = (py * SIZE + px) * 4;
-
-      // warna hitam = tembok
-      if (
-        data[idx] < 40 &&
-        data[idx + 1] < 40 &&
-        data[idx + 2] < 40
-      ) {
-        return true;
+        if (data[idx] < 40 && data[idx+1] < 40 && data[idx+2] < 40)
+          return true;
       }
     }
+    return false;
   }
-
-  return false;
-}
 
   const key={up:false,down:false,left:false,right:false};
 
@@ -192,66 +180,55 @@ window.addEventListener("gestureend", e => e.preventDefault());
     if(e.key==="ArrowRight")key.right=false;
   });
 
-  /* ================= MOBILE CONTROLS ================= */
+  /* ================= MOBILE CONTROL ================= */
 
- if (isMobile) {
+  if (isMobile) {
 
-  const controls = document.createElement("div");
-  controls.style.position = "fixed";
-  controls.style.bottom = "20px";
-  controls.style.left = "50%";
-  controls.style.transform = "translateX(-50%)";
-  controls.style.display = "grid";
-  controls.style.gridTemplateColumns = "80px 80px 80px";
-  controls.style.gap = "14px";
-  controls.style.zIndex = "9999";
-  controls.style.userSelect = "none";
-  controls.style.webkitUserSelect = "none";
-  controls.style.touchAction = "none";
+    const controls = document.createElement("div");
+    controls.style.position = "fixed";
+    controls.style.bottom = "20px";
+    controls.style.left = "50%";
+    controls.style.transform = "translateX(-50%)";
+    controls.style.display = "grid";
+    controls.style.gridTemplateColumns = "80px 80px 80px";
+    controls.style.gap = "14px";
+    controls.style.zIndex = "9999";
+    controls.style.touchAction = "none";
 
-  function btn(symbol, dir) {
+    function btn(symbol, dir) {
+      const b = document.createElement("div");
+      b.innerHTML = symbol;
+      b.style.background = "#ffb6d9";
+      b.style.padding = "22px";
+      b.style.textAlign = "center";
+      b.style.borderRadius = "26px";
+      b.style.fontSize = "24px";
+      b.style.touchAction = "none";
+      b.oncontextmenu = e => e.preventDefault();
 
-    const b = document.createElement("div");
-    b.innerHTML = symbol;
+      b.addEventListener("touchstart", (e)=>{
+        e.preventDefault();
+        key[dir]=true;
+      }, { passive:false });
 
-    b.style.background = "#ffb6d9";
-    b.style.padding = "22px";
-    b.style.textAlign = "center";
-    b.style.borderRadius = "26px";
-    b.style.fontSize = "24px";
-    b.style.userSelect = "none";
-    b.style.webkitUserSelect = "none";
-    b.style.touchAction = "none";
+      b.addEventListener("touchend", (e)=>{
+        e.preventDefault();
+        key[dir]=false;
+      }, { passive:false });
 
-    b.oncontextmenu = e => e.preventDefault(); // stop long press menu
+      b.addEventListener("touchcancel", ()=> key[dir]=false);
 
-    b.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      key[dir] = true;
-    }, { passive: false });
+      return b;
+    }
 
-    b.addEventListener("touchend", (e) => {
-      e.preventDefault();
-      key[dir] = false;
-    }, { passive: false });
+    controls.appendChild(document.createElement("div"));
+    controls.appendChild(btn("⬆️","up"));
+    controls.appendChild(document.createElement("div"));
+    controls.appendChild(btn("⬅️","left"));
+    controls.appendChild(btn("⬇️","down"));
+    controls.appendChild(btn("➡️","right"));
 
-    b.addEventListener("touchcancel", () => {
-      key[dir] = false;
-    });
-
-    return b;
-  }
-
-  controls.appendChild(document.createElement("div"));
-  controls.appendChild(btn("⬆️", "up"));
-  controls.appendChild(document.createElement("div"));
-  controls.appendChild(btn("⬅️", "left"));
-  controls.appendChild(btn("⬇️", "down"));
-  controls.appendChild(btn("➡️", "right"));
-
-  document.body.appendChild(controls);
-}
-
+    document.body.appendChild(controls);
   }
 
   function collide(a,b){
@@ -296,9 +273,6 @@ window.addEventListener("gestureend", e => e.preventDefault());
     ctx.clearRect(0,0,SIZE,SIZE);
     ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
 
-    if(groupCanvas)
-      ctx.drawImage(groupCanvas,group.x,group.y,group.w,group.h);
-
     if(!coin.taken && coinCanvas){
       const s=Math.abs(Math.cos(coin.flip));
       ctx.save();
@@ -316,6 +290,9 @@ window.addEventListener("gestureend", e => e.preventDefault());
       ctx.drawImage(starCanvas,-star.w/2,-star.h/2,star.w,star.h);
       ctx.restore();
     }
+
+    if(groupCanvas)
+      ctx.drawImage(groupCanvas,group.x,group.y,group.w,group.h);
 
     const img=playerCanvas[player.dir];
     if(img)
@@ -339,9 +316,7 @@ window.addEventListener("gestureend", e => e.preventDefault());
         const btnY=SIZE/2+50;
 
         ctx.fillStyle="#ff8fcf";
-        ctx.beginPath();
-        ctx.roundRect(btnX,btnY,btnW,btnH,20);
-        ctx.fill();
+        ctx.fillRect(btnX,btnY,btnW,btnH);
 
         ctx.fillStyle="black";
         ctx.font="bold 20px Arial";
