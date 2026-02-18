@@ -429,19 +429,23 @@ body::before {
 
   .choice-container {
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 16px;
+    align-items: stretch;
+    gap: 12px;
     margin-top: 40px;
   }
 
   .choice-item {
-    width: 45%;
-    padding: 20px 12px;
+    flex: 1;              /* lebih stabil dari width 48% */
+    max-width: 48%;
+    padding: 18px 10px;
     border-radius: 20px;
   }
 
   .choice-item img {
-    width: 75px;
+    width: 70px;
   }
 
   .choice-item p {
@@ -449,3 +453,4 @@ body::before {
   }
 
 }
+
