@@ -85,7 +85,15 @@ if (canvas) {
   let groupCanvas, coinCanvas, starCanvas;
   let mazeData = null;
 
-  const player = { x:50, y:65, speed: isMobile ? 4 : 3, dir:"right", w:40, h:60 };
+ const player = { 
+  x:50, 
+  y:65, 
+  speed: isMobile ? BASE_SPEED * MOBILE_FACTOR : BASE_SPEED, 
+  dir:"right", 
+  w:40, 
+  h:60,
+  type:"player"
+};
   const group  = { x:430, y:300, w:0, h:0 };
   const coin   = { x:300, y:90, w:28, h:28, taken:false, flip:0 };
   const star   = { x:200, y:405, w:28, h:28, taken:false, flip:0 };
@@ -238,12 +246,31 @@ if (canvas) {
     document.body.appendChild(controls);
   }
 
-  function collide(a,b){
-    return a.x<b.x+b.w &&
-           a.x+a.w>b.x &&
-           a.y<b.y+b.h &&
-           a.y+a.h>b.y;
+ function collide(a, b) {
+
+  if (a.type === "player") {
+
+    const footWidth = a.w * 0.4;
+    const footHeight = a.h * 0.25;
+
+    const foot = {
+      x: a.x + (a.w - footWidth) / 2,
+      y: a.y + a.h - footHeight,
+      w: footWidth,
+      h: footHeight
+    };
+
+    return foot.x < b.x + b.w &&
+           foot.x + foot.w > b.x &&
+           foot.y < b.y + b.h &&
+           foot.y + foot.h > b.y;
   }
+
+  return a.x < b.x + b.w &&
+         a.x + a.w > b.x &&
+         a.y < b.y + b.h &&
+         a.y + a.h > b.y;
+}
 
   function update(){
     if(!finished){
@@ -370,6 +397,4 @@ if (canvas) {
 
   loop();
 }
-
-/* PAGE 4 TIDAK DIUBAH SAMA SEKALI */
 });
