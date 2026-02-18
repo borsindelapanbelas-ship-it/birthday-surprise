@@ -86,7 +86,7 @@ if (canvas) {
   let mazeData = null;
 
  const player = { 
-  x:55, 
+  x:50, 
   y:65, 
   speed: isMobile ? 2.8 : 3, 
   dir:"right", 
