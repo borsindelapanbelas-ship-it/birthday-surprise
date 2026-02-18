@@ -411,8 +411,10 @@ window.onload = function () {
   if (openBox && memoryWall) {
     openBox.onclick = function () {
       openBox.style.display = "none";
-      openText.style.display = "none";
+      if (openText) openText.style.display = "none";
+
       memoryWall.classList.add("show");
+
       startSlides();
     };
   }
@@ -420,18 +422,27 @@ window.onload = function () {
   function startSlides() {
     const frames = document.querySelectorAll(".frame");
 
-    frames.forEach(frame => {
+    frames.forEach((frame, i) => {
       const slides = frame.querySelectorAll(".slide");
 
-      if (slides.length <= 1) return; // kalau cuma 1 gambar, skip
+      if (slides.length <= 1) return;
 
       let index = 0;
 
+      // Durasi beda tiap frame
+      const durations = [2000, 3000, 2500, 3500, 2800, 3200];
+      const duration = durations[i] || 2500;
+
+      // Pastikan slide pertama aktif
+      slides[0].classList.add("active");
+
       setInterval(() => {
         slides[index].classList.remove("active");
+
         index = (index + 1) % slides.length;
+
         slides[index].classList.add("active");
-      }, 2500);
+      }, duration);
     });
   }
 
