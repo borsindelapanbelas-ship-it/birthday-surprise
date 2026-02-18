@@ -622,12 +622,16 @@ html, body {
 }
 
 /* MEMORY WALL */
-
 .memory-wall {
   display: none;
+}
+
+.memory-wall.show {
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
+
 
 .frame {
   width: 100%;
