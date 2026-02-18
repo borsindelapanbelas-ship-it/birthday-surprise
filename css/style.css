@@ -442,8 +442,8 @@ body::before {
   }
 
   .choice-item {
-    width: 90%;
-    padding: 30px 20px;
+    width: 135px;
+    padding: 25px 15px;
   }
 
   .choice-item img {
