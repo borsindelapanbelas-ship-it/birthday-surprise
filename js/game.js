@@ -8,6 +8,12 @@ const canvas = document.getElementById("gameCanvas");
 
 if (canvas) {
 
+  /* ===== LOCK SCROLL (MOBILE FIX) ===== */
+  document.documentElement.style.overflow = "hidden";
+  document.body.style.overflow = "hidden";
+  document.body.style.height = "100vh";
+  document.body.style.touchAction = "none";
+
   const ctx = canvas.getContext("2d");
 
   const SIZE = 520;
@@ -22,8 +28,7 @@ if (canvas) {
   canvas.style.margin = "0 auto";
   canvas.style.position = "relative";
   canvas.style.zIndex = "2";
-
-  document.body.style.margin = "0";
+  canvas.style.touchAction = "none";
 
   const PLAYER_SCALE = 0.12;
   const GROUP_SCALE  = 0.09;
@@ -136,13 +141,14 @@ if (canvas) {
   function isWall(x,y,w,h){
     if(!mazeData) return false;
     const data=mazeData.data;
-    for(let i=0;i<w;i+=4){
-      for(let j=0;j<h;j+=4){
+
+    for(let i=4;i<w-4;i+=6){
+      for(let j=4;j<h-4;j+=6){
         const px=Math.floor(x+i);
         const py=Math.floor(y+j);
         if(px<0||py<0||px>=SIZE||py>=SIZE) continue;
         const idx=(py*SIZE+px)*4;
-        if(data[idx]<40&&data[idx+1]<40&&data[idx+2]<40)
+        if(data[idx]<30&&data[idx+1]<30&&data[idx+2]<30)
           return true;
       }
     }
@@ -165,9 +171,10 @@ if (canvas) {
     if(e.key==="ArrowRight")key.right=false;
   });
 
-  /* ================= MOBILE CONTROL ================= */
+  /* ================= MOBILE CONTROLS ================= */
 
   if(isMobile){
+
     const controls=document.createElement("div");
     controls.style.position="fixed";
     controls.style.bottom="20px";
@@ -177,20 +184,33 @@ if (canvas) {
     controls.style.gridTemplateColumns="70px 70px 70px";
     controls.style.gap="12px";
     controls.style.zIndex="9999";
-    controls.style.pointerEvents="auto";
+    controls.style.userSelect="none";
+    controls.style.touchAction="none";
 
     function btn(txt,dir){
       const b=document.createElement("div");
       b.innerHTML=txt;
       b.style.background="#ffb6d9";
-      b.style.padding="18px";
+      b.style.padding="20px";
       b.style.textAlign="center";
-      b.style.borderRadius="22px";
+      b.style.borderRadius="24px";
       b.style.fontSize="22px";
-      b.style.userSelect="none";
       b.style.touchAction="none";
-      b.addEventListener("touchstart",()=>key[dir]=true);
-      b.addEventListener("touchend",()=>key[dir]=false);
+
+      b.addEventListener("pointerdown",(e)=>{
+        e.preventDefault();
+        key[dir]=true;
+      });
+
+      b.addEventListener("pointerup",(e)=>{
+        e.preventDefault();
+        key[dir]=false;
+      });
+
+      b.addEventListener("pointercancel",()=>{
+        key[dir]=false;
+      });
+
       return b;
     }
 
