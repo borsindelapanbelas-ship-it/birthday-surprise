@@ -583,3 +583,6 @@ body::before {
 .page-memory {
   background: #f3efe7;
 }
+html, body {
+  overscroll-behavior: none;
+}
