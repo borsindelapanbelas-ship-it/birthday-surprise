@@ -541,7 +541,7 @@ html, body {
 .frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 3 / 2; /* INI YANG BENAR */
   background: white;
   border-radius: 20px;
   padding: 12px;
