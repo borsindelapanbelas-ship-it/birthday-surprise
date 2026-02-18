@@ -29,15 +29,24 @@
   </div>
 
   <script>
-    document.getElementById("coinChoice").onclick = function() {
-      window.location.href = "gift.html";
-    };
+  const popSound = new Audio("assets/sounds/pop-sound.mp3");
 
-    document.getElementById("starChoice").onclick = function() {
+  document.getElementById("coinChoice").onclick = function() {
+    popSound.currentTime = 0;
+    popSound.play();
+    setTimeout(() => {
+      window.location.href = "gift.html";
+    }, 300);
+  };
+
+  document.getElementById("starChoice").onclick = function() {
+    popSound.currentTime = 0;
+    popSound.play();
+    setTimeout(() => {
       window.location.href = "letters.html";
-    };
-  </script>
+    }, 300);
+  };
+</script>
 
 </body>
 </html>
-
