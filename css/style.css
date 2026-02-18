@@ -744,3 +744,22 @@ html, body {
   text-align: left;
   line-height: 1.6;
 }
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: white;
+  color: #2b6cb0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background: #2b6cb0;
+  color: white;
+}
