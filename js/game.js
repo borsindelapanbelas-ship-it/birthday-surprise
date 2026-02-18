@@ -138,22 +138,40 @@ if (canvas) {
     loop();
   };
 
-  function isWall(x,y,w,h){
-    if(!mazeData) return false;
-    const data=mazeData.data;
+ function isWall(x, y, w, h) {
+  if (!mazeData) return false;
 
-    for(let i=4;i<w-4;i+=6){
-      for(let j=4;j<h-4;j+=6){
-        const px=Math.floor(x+i);
-        const py=Math.floor(y+j);
-        if(px<0||py<0||px>=SIZE||py>=SIZE) continue;
-        const idx=(py*SIZE+px)*4;
-        if(data[idx]<30&&data[idx+1]<30&&data[idx+2]<30)
-          return true;
+  const data = mazeData.data;
+
+  // cek hanya bagian kaki bawah (foot area)
+  const footHeight = h * 0.25;        // 25% bawah
+  const footWidth  = w * 0.6;         // tengah badan
+  const startX = x + (w - footWidth) / 2;
+  const startY = y + h - footHeight;
+
+  for (let i = 0; i < footWidth; i += 4) {
+    for (let j = 0; j < footHeight; j += 4) {
+
+      const px = Math.floor(startX + i);
+      const py = Math.floor(startY + j);
+
+      if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
+
+      const idx = (py * SIZE + px) * 4;
+
+      // warna hitam = tembok
+      if (
+        data[idx] < 40 &&
+        data[idx + 1] < 40 &&
+        data[idx + 2] < 40
+      ) {
+        return true;
       }
     }
-    return false;
   }
+
+  return false;
+}
 
   const key={up:false,down:false,left:false,right:false};
 
