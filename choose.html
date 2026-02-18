@@ -6,8 +6,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-<div class="bg-blob"></div>
+
+  <div class="bg-blob"></div>
+
   <div class="game-page-container choose-page">
     <h1>Yay! You found them 👀✨</h1>
     <p>Which one do you want to open first? ☺️</p>
@@ -25,28 +28,27 @@
       </div>
 
     </div>
-
   </div>
 
   <script>
-  const popSound = new Audio("assets/sounds/pop-sound.mp3");
+    const popSound = new Audio("assets/sounds/pop-sound.mp3");
 
-  document.getElementById("coinChoice").onclick = function() {
-    popSound.currentTime = 0;
-    popSound.play();
-    setTimeout(() => {
-      window.location.href = "gift.html";
-    }, 300);
-  };
+    document.getElementById("coinChoice").addEventListener("click", function() {
+      popSound.currentTime = 0;
+      popSound.play();
+      setTimeout(function() {
+        window.location.href = "gift.html";
+      }, 300);
+    });
 
-  document.getElementById("starChoice").onclick = function() {
-    popSound.currentTime = 0;
-    popSound.play();
-    setTimeout(() => {
-      window.location.href = "letters.html";
-    }, 300);
-  };
-</script>
+    document.getElementById("starChoice").addEventListener("click", function() {
+      popSound.currentTime = 0;
+      popSound.play();
+      setTimeout(function() {
+        window.location.href = "letters.html";
+      }, 300);
+    });
+  </script>
 
 </body>
 </html>
