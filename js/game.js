@@ -412,8 +412,27 @@ window.onload = function () {
     openBox.onclick = function () {
       openBox.style.display = "none";
       openText.style.display = "none";
-      memoryWall.style.display = "grid";
+      memoryWall.classList.add("show");
+      startSlides();
     };
+  }
+
+  function startSlides() {
+    const frames = document.querySelectorAll(".frame");
+
+    frames.forEach(frame => {
+      const slides = frame.querySelectorAll(".slide");
+
+      if (slides.length <= 1) return; // kalau cuma 1 gambar, skip
+
+      let index = 0;
+
+      setInterval(() => {
+        slides[index].classList.remove("active");
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("active");
+      }, 2500);
+    });
   }
 
 };
