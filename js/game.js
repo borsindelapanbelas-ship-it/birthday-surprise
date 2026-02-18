@@ -148,31 +148,34 @@ if (canvas) {
     mazeData = ctx.getImageData(0,0,SIZE,SIZE);
   };
 
-  function isWall(x, y, w, h) {
-    if (!mazeData) return false;
-    const data = mazeData.data;
+ function isWall(x, y, w, h) {
+  if (!mazeData) return false;
 
-    const footHeight = a.h * 0.18;
-    const footWidth  = a.w * 0.25;
-    const startX = x + (w - footWidth) / 2;
-    const startY = y + h - footHeight;
+  const data = mazeData.data;
 
-    for (let i = 0; i < footWidth; i += 3) {
-      for (let j = 0; j < footHeight; j += 3) {
+  const footHeight = h * 0.18;
+  const footWidth  = w * 0.25;
 
-        const px = Math.floor(startX + i);
-        const py = Math.floor(startY + j);
+  const startX = x + (w - footWidth) / 2;
+  const startY = y + h - footHeight;
 
-        if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
+  for (let i = 0; i < footWidth; i += 3) {
+    for (let j = 0; j < footHeight; j += 3) {
 
-        const idx = (py * SIZE + px) * 4;
+      const px = Math.floor(startX + i);
+      const py = Math.floor(startY + j);
 
-        if (data[idx] < 40 && data[idx+1] < 40 && data[idx+2] < 40)
-          return true;
-      }
+      if (px < 0 || py < 0 || px >= SIZE || py >= SIZE) continue;
+
+      const idx = (py * SIZE + px) * 4;
+
+      if (data[idx] < 40 && data[idx+1] < 40 && data[idx+2] < 40)
+        return true;
     }
-    return false;
   }
+
+  return false;
+}
 
   const key={up:false,down:false,left:false,right:false};
 
