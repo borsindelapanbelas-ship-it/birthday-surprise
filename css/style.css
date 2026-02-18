@@ -455,10 +455,13 @@ body::before {
 }
 
 /*page 4 ges*/
+/* ===== PAGE 4 MEMORY WALL ===== */
+
 .memory-page {
   position: relative;
+  width: 100%;
   height: 100vh;
-  background: linear-gradient(to bottom, #cfe8f7, #eaf6ff);
+  background: linear-gradient(to bottom, #dff1ff, #f6fbff);
   overflow: hidden;
 }
 
@@ -469,41 +472,42 @@ body::before {
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.box-container:hover {
-  transform: translate(-50%, -50%) scale(1.05);
+  z-index: 10;
 }
 
 .box-img {
-  width: 180px;
+  width: 160px;
+  display: block;
 }
 
 /* MEMORY WALL */
 .memory-wall {
   display: none;
-  position: relative;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
-/* FRAME STYLE */
+/* FRAME BASE */
 .frame {
   position: absolute;
-  width: 180px;
+  width: 170px;
   height: 120px;
-  background: white;
-  padding: 8px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  transition: opacity 1s ease;
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  overflow: hidden;
 }
 
+/* IMAGE SLIDES */
 .frame img {
+  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 0;
   transition: opacity 1s ease;
 }
@@ -512,14 +516,15 @@ body::before {
   opacity: 1;
 }
 
-/* NATURAL POSITIONS */
-.frame1 { top: 15%; left: 8%; transform: rotate(-3deg); }
-.frame2 { top: 40%; left: 5%; transform: rotate(2deg); }
+/* LEFT SIDE */
+.frame1 { top: 12%; left: 8%; transform: rotate(-4deg); }
+.frame2 { top: 38%; left: 5%; transform: rotate(3deg); }
 .frame3 { top: 65%; left: 10%; transform: rotate(-2deg); }
 
-.frame4 { top: 20%; right: 8%; transform: rotate(3deg); }
-.frame5 { top: 45%; right: 5%; transform: rotate(-2deg); }
-.frame6 { top: 70%; right: 10%; transform: rotate(2deg); }
+/* RIGHT SIDE */
+.frame4 { top: 15%; right: 8%; transform: rotate(4deg); }
+.frame5 { top: 42%; right: 5%; transform: rotate(-3deg); }
+.frame6 { top: 68%; right: 10%; transform: rotate(2deg); }
 
 /* CENTER TEXT */
 .center-text {
@@ -527,10 +532,10 @@ body::before {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 28px;
-  font-weight: 500;
-  color: #444;
+  font-size: 26px;
+  color: #333;
+  text-align: center;
   opacity: 0;
   transition: opacity 2s ease;
-  text-align: center;
+  width: 60%;
 }
