@@ -384,54 +384,45 @@ function loop(){
 });
 
 /*page 4 code*/
-  const box = document.getElementById("openBox");
+   const box = document.getElementById("openBox");
   const wall = document.getElementById("memoryWall");
   const text = document.getElementById("centerText");
   const openText = document.querySelector(".open-text");
 
-  // Kalau bukan di page gift, stop di sini biar nggak error
   if (!box || !wall) return;
 
-  box.addEventListener("click", () => {
+  box.addEventListener("click", function () {
 
-    // Fade out box + text
-    box.style.transition = "opacity 0.6s ease";
+    // Fade out box & text
     box.style.opacity = "0";
+    if (openText) openText.style.opacity = "0";
 
-    if (openText) {
-      openText.style.transition = "opacity 0.6s ease";
-      openText.style.opacity = "0";
-    }
-
-    // Setelah fade, sembunyikan & tampilkan memory wall
-    setTimeout(() => {
+    setTimeout(function () {
       box.style.display = "none";
       if (openText) openText.style.display = "none";
       wall.classList.add("show");
     }, 600);
 
-    // Text tengah muncul lebih lambat (cinematic)
-    setTimeout(() => {
+    // Show center text later
+    setTimeout(function () {
       if (text) text.style.opacity = "1";
     }, 4500);
 
     startSlides();
   });
 
-
   function startSlides() {
     const frames = document.querySelectorAll(".frame");
 
-    frames.forEach((frame, index) => {
+    frames.forEach(function (frame, index) {
       const slides = frame.querySelectorAll(".slide");
       let current = 0;
 
-      setInterval(() => {
+      setInterval(function () {
         slides[current].classList.remove("active");
         current = (current + 1) % slides.length;
         slides[current].classList.add("active");
-      }, 4000 + (index * 600)); 
-      // Lebih smooth & beda timing tiap frame
+      }, 4500 + (index * 700));
     });
   }
 
