@@ -395,3 +395,15 @@ body::before {
   position: relative;
   z-index: 1;
 }
+
+.bg-blob {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  filter: blur(100px);
+  top: -100px;
+  right: -100px;
+  z-index: -1;
+}
