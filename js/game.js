@@ -1,36 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
 
 /* =================================================
-   ================== AUDIO UNLOCK =================
-================================================= */
-
-let audioUnlocked = false;
-
-function unlockAudio() {
-  if (audioUnlocked) return;
-
-  coinSound.play().then(() => {
-    coinSound.pause();
-    coinSound.currentTime = 0;
-  }).catch(()=>{});
-
-  starSound.play().then(() => {
-    starSound.pause();
-    starSound.currentTime = 0;
-  }).catch(()=>{});
-
-  winSound.play().then(() => {
-    winSound.pause();
-    winSound.currentTime = 0;
-  }).catch(()=>{});
-
-  audioUnlocked = true;
-}
-
-document.addEventListener("touchstart", unlockAudio, { once: true });
-document.addEventListener("click", unlockAudio, { once: true });
-
-/* =================================================
    ================== PAGE GAME ====================
 ================================================= */
 
@@ -57,6 +27,8 @@ if (canvas) {
   const GROUP_SCALE  = 0.09;
   const isMobile = window.matchMedia("(pointer: coarse)").matches;
 
+  /* ================= IMAGES ================= */
+
   const mazeImg = new Image();
   mazeImg.src = "assets/images/maze.game.png";
 
@@ -81,9 +53,39 @@ if (canvas) {
   const starImg = new Image();
   starImg.src = "assets/images/star.png";
 
+  /* ================= SOUND ================= */
+
   const coinSound = new Audio("assets/sounds/coin.mp3");
   const starSound = new Audio("assets/sounds/star.mp3");
   const winSound  = new Audio("assets/sounds/win.mp3");
+
+  let audioUnlocked = false;
+
+  function unlockAudio() {
+    if (audioUnlocked) return;
+
+    coinSound.play().then(() => {
+      coinSound.pause();
+      coinSound.currentTime = 0;
+    }).catch(()=>{});
+
+    starSound.play().then(() => {
+      starSound.pause();
+      starSound.currentTime = 0;
+    }).catch(()=>{});
+
+    winSound.play().then(() => {
+      winSound.pause();
+      winSound.currentTime = 0;
+    }).catch(()=>{});
+
+    audioUnlocked = true;
+  }
+
+  document.addEventListener("touchstart", unlockAudio, { once: true });
+  document.addEventListener("click", unlockAudio, { once: true });
+
+  /* ================= OBJECTS ================= */
 
   let playerCanvas = {};
   let groupCanvas, coinCanvas, starCanvas;
@@ -96,7 +98,6 @@ if (canvas) {
 
   let finished = false;
   let winAlpha = 0;
-  let endButton = null;
 
   function removeLightBg(img){
     const c=document.createElement("canvas");
