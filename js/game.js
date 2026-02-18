@@ -132,11 +132,17 @@ if (canvas) {
   coinImg.onload=()=>coinCanvas=removeLightBg(coinImg);
   starImg.onload=()=>starCanvas=removeLightBg(starImg);
 
-  mazeImg.onload=()=>{
-    ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
-    mazeData=ctx.getImageData(0,0,SIZE,SIZE);
-    loop();
-  };
+ mazeImg.onload = () => {
+  ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
+  mazeData = ctx.getImageData(0,0,SIZE,SIZE);
+};
+
+mazeImg.onerror = () => {
+  console.error("Maze image failed to load.");
+};
+
+loop(); // JALANKAN LOOP TANPA MENUNGGU MAZE
+
 
   function isWall(x, y, w, h) {
     if (!mazeData) return false;
@@ -271,7 +277,12 @@ if (canvas) {
 
   function draw(){
     ctx.clearRect(0,0,SIZE,SIZE);
-    ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
+    if (mazeImg.complete && mazeImg.naturalWidth !== 0) {
+  ctx.drawImage(mazeImg,0,0,SIZE,SIZE);
+} else {
+  ctx.fillStyle = "#dff6ff";
+  ctx.fillRect(0,0,SIZE,SIZE);
+}
 
     if(!coin.taken && coinCanvas){
       const s=Math.abs(Math.cos(coin.flip));
@@ -311,19 +322,26 @@ if (canvas) {
       ctx.fillText("Now let's open the present 🎁",SIZE/2,SIZE/2);
 
       if(winAlpha>=1){
-        const btnW=250, btnH=65;
-        const btnX=SIZE/2-btnW/2;
-        const btnY=SIZE/2+50;
+     const radius = 60;
+const btnX = SIZE / 2;
+const btnY = SIZE / 2 + 90;
 
-        ctx.fillStyle="#ff8fcf";
-        ctx.fillRect(btnX,btnY,btnW,btnH);
+ctx.fillStyle = "#ff8fcf";
+ctx.beginPath();
+ctx.arc(btnX, btnY, radius, 0, Math.PI * 2);
+ctx.fill();
 
-        ctx.fillStyle="black";
-        ctx.font="bold 20px Arial";
-        ctx.fillText("OPEN PRESENT 🎁",SIZE/2,btnY+42);
+ctx.fillStyle = "black";
+ctx.font = "bold 16px Arial";
+ctx.textAlign = "center";
+ctx.fillText("OPEN 🎁", btnX, btnY + 5);
 
-        endButton={x:btnX,y:btnY,w:btnW,h:btnH};
-      }
+endButton = {
+  x: btnX - radius,
+  y: btnY - radius,
+  w: radius * 2,
+  h: radius * 2
+};
     }
   }
 
@@ -333,8 +351,9 @@ if (canvas) {
     const mx=(e.clientX-rect.left)*(SIZE/rect.width);
     const my=(e.clientY-rect.top)*(SIZE/rect.height);
 
-    if(mx>endButton.x&&mx<endButton.x+endButton.w &&
-       my>endButton.y&&my<endButton.y+endButton.h){
+    const dx = mx - (endButton.x + endButton.w/2);
+const dy = my - (endButton.y + endButton.h/2);
+if (Math.sqrt(dx*dx + dy*dy) <= endButton.w/2)
       window.location.href="choose.html";
     }
   });
