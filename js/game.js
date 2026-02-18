@@ -383,32 +383,56 @@ function loop(){
 
 });
 
-const box = document.getElementById("openBox");
-const wall = document.getElementById("memoryWall");
-const text = document.getElementById("centerText");
+/*page 4 code*/
+  const box = document.getElementById("openBox");
+  const wall = document.getElementById("memoryWall");
+  const text = document.getElementById("centerText");
+  const openText = document.querySelector(".open-text");
 
-box.addEventListener("click", () => {
-  box.style.display = "none";
-  wall.style.display = "block";
+  // Kalau bukan di page gift, stop di sini biar nggak error
+  if (!box || !wall) return;
 
-  setTimeout(() => {
-    text.style.opacity = "1";
-  }, 4000);
+  box.addEventListener("click", () => {
 
-  startSlides();
-});
+    // Fade out box + text
+    box.style.transition = "opacity 0.6s ease";
+    box.style.opacity = "0";
 
-function startSlides() {
-  const frames = document.querySelectorAll(".frame");
+    if (openText) {
+      openText.style.transition = "opacity 0.6s ease";
+      openText.style.opacity = "0";
+    }
 
-  frames.forEach((frame, index) => {
-    const slides = frame.querySelectorAll(".slide");
-    let current = 0;
+    // Setelah fade, sembunyikan & tampilkan memory wall
+    setTimeout(() => {
+      box.style.display = "none";
+      if (openText) openText.style.display = "none";
+      wall.classList.add("show");
+    }, 600);
 
-    setInterval(() => {
-      slides[current].classList.remove("active");
-      current = (current + 1) % slides.length;
-      slides[current].classList.add("active");
-    }, 3000 + (index * 500)); // beda delay biar natural
+    // Text tengah muncul lebih lambat (cinematic)
+    setTimeout(() => {
+      if (text) text.style.opacity = "1";
+    }, 4500);
+
+    startSlides();
   });
-}
+
+
+  function startSlides() {
+    const frames = document.querySelectorAll(".frame");
+
+    frames.forEach((frame, index) => {
+      const slides = frame.querySelectorAll(".slide");
+      let current = 0;
+
+      setInterval(() => {
+        slides[current].classList.remove("active");
+        current = (current + 1) % slides.length;
+        slides[current].classList.add("active");
+      }, 4000 + (index * 600)); 
+      // Lebih smooth & beda timing tiap frame
+    });
+  }
+
+});
