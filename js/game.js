@@ -152,8 +152,8 @@ if (canvas) {
     if (!mazeData) return false;
     const data = mazeData.data;
 
-    const footHeight = h * 0.25;
-    const footWidth  = w * 0.6;
+    const footHeight = a.h * 0.18;
+    const footWidth  = a.w * 0.25;
     const startX = x + (w - footWidth) / 2;
     const startY = y + h - footHeight;
 
