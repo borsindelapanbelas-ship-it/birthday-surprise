@@ -384,7 +384,9 @@ function loop(){
 });
 
 /*page 4 code*/
-   const box = document.getElementById("openBox");
+(function(){
+
+  const box = document.getElementById("openBox");
   const wall = document.getElementById("memoryWall");
   const text = document.getElementById("centerText");
   const openText = document.querySelector(".open-text");
@@ -393,7 +395,6 @@ function loop(){
 
   box.addEventListener("click", function () {
 
-    // Fade out box & text
     box.style.opacity = "0";
     if (openText) openText.style.opacity = "0";
 
@@ -403,7 +404,6 @@ function loop(){
       wall.classList.add("show");
     }, 600);
 
-    // Show center text later
     setTimeout(function () {
       if (text) text.style.opacity = "1";
     }, 4500);
@@ -426,4 +426,4 @@ function loop(){
     });
   }
 
-});
+})();
