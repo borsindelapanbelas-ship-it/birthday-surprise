@@ -402,13 +402,18 @@ if (canvas) {
 }
 });
 
-const openBox = document.getElementById("openBox");
-const memoryWall = document.getElementById("memoryWall");
+document.addEventListener("DOMContentLoaded", function () {
 
-if(openBox){
-  openBox.addEventListener("click", function(){
-    openBox.style.display = "none";
-    document.querySelector(".open-text").style.display = "none";
-    memoryWall.style.display = "grid";
-  });
-}
+  const openBox = document.getElementById("openBox");
+  const memoryWall = document.getElementById("memoryWall");
+  const openText = document.querySelector(".open-text");
+
+  if (openBox && memoryWall) {
+    openBox.addEventListener("click", function () {
+      openBox.style.display = "none";
+      openText.style.display = "none";
+      memoryWall.style.display = "grid";
+    });
+  }
+
+});
