@@ -510,16 +510,24 @@ html, body {
 }
 
 /* MEMORY WALL */
-.memory-wall {
-  display: none;
-}
-
 .memory-wall.show {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 40px;
   max-width: 1000px;
   margin: 60px auto 0;
+}
+
+/* Sembunyikan frame & text dulu */
+.frame,
+.center-text {
+  display: none;
+}
+
+/* Muncul setelah box diklik */
+.memory-wall.show .frame,
+.memory-wall.show .center-text {
+  display: block;
 }
 
 /* FRAME */
